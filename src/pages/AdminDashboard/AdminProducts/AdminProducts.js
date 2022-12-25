@@ -9,8 +9,15 @@ const AdminProducts = () => {
 	const { data: products, isLoading } = useQuery({
 		queryKey: ['adminProducts', user?.uid],
 		queryFn: async () => {
-			const res = await fetch(
-				`${process.env.REACT_APP_API_URL}/admin-products/${user?.uid}`
+            const res = await fetch(
+				`${process.env.REACT_APP_API_URL}/admin-products/${user?.uid}`,
+				{
+					headers: {
+						authorization: `Bearer ${JSON.parse(
+							localStorage.getItem('token')
+						)}`,
+					},
+				}
 			);
             const data = await res.json();
 			return data;

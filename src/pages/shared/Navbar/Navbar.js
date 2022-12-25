@@ -16,7 +16,7 @@ const Navbar = () => {
     return (
 		<div className='navbar bg-base-100'>
 			<div className='flex-1'>
-				<a className='btn btn-ghost normal-case text-xl'>daisyUI</a>
+				<Link to='/' className='btn btn-ghost normal-case text-xl'>daisyUI</Link>
 			</div>
 			<div className='flex-none'>
 				<div className='dropdown dropdown-end'>
@@ -89,7 +89,7 @@ const Navbar = () => {
 						</ul>
 					</div>
 				)}
-				{!user?.uid && <a className='btn'>Get started</a>}
+				{!user?.uid && <Link to='/login' className='btn'>Login</Link>}
 			</div>
 		</div>
 	);

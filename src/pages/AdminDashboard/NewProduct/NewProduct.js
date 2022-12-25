@@ -46,7 +46,7 @@ const NewProduct = () => {
 		)
 			.then((res) => res.json())
 			.then((imgData) => {
-				product.product_image = imgData.data.url;
+				product.product_info.product_image = imgData.data.url;
 				console.log('Img Saved');
 				handleSaveProduct(product);
 			});
@@ -54,10 +54,13 @@ const NewProduct = () => {
 
 	const handleSaveProduct = (productData) => {
 		console.log('inside save pd');
-		fetch(`${process.env.REACT_APP_API_URL}/product`, {
+		fetch(`${process.env.REACT_APP_API_URL}/product?uid=${user?.uid}`, {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
+				authorization: `Bearer ${JSON.parse(
+					localStorage.getItem('token')
+				)}`,
 			},
 			body: JSON.stringify(productData),
 		})

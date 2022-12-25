@@ -19,7 +19,7 @@ const Login = () => {
 				console.log(data.user);
 				toast.success('Welcome, Login Successfully');
 				navigate(from, { replace: true });
-				getJwtToken(data.uid);
+				getJwtToken(data.user?.uid);
 			})
 			.catch((err) => {
 				console.log(err);

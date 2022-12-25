@@ -7,6 +7,7 @@ import NewProduct from '../pages/AdminDashboard/NewProduct/NewProduct';
 import Login from '../pages/AuthManager/Login';
 import Register from '../pages/AuthManager/Register';
 import Home from '../pages/Home/Home/Home';
+import ProductView from '../pages/ProductView/ProductView';
 import AdminRoute from './AdminRoute';
 import PrivateRoute from './PrivateRoute';
 
@@ -18,7 +19,11 @@ export const router = createBrowserRouter([
 			{
 				path: '/',
 				element: <Home />,
-			},
+            },
+            {
+                path: '/product/:id',
+                element:<ProductView/>
+            },
 			{
 				path: '/login',
 				element: <Login />,
