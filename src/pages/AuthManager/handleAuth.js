@@ -18,5 +18,14 @@ export const handleUpdateUserProfile = (profileData) => {
 	return updateProfile(auth.currentUser, profileData);
 };
 export const handleLogout = () => {
-    return signOut(auth)
-}
+	return signOut(auth);
+};
+
+export const getJwtToken = (uid) => {
+	fetch(`${process.env.REACT_APP_API_URL}/jwt?uid=${uid}`)
+		.then((res) => res.json())
+		.then((data) => {
+			console.log(data.token);
+			localStorage.setItem('token', JSON.stringify(data.token));
+		});
+};

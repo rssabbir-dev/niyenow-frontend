@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { handleEmailLogin } from './handleAuth';
+import { getJwtToken, handleEmailLogin } from './handleAuth';
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -14,11 +14,16 @@ const Login = () => {
 		formState: { errors },
 	} = useForm();
 	const handleLogin = (formData) => {
-		handleEmailLogin(formData).then((data) => {
-			console.log(data.user);
-			toast.success('Welcome, Login Successfully');
-			navigate(from, { replace: true });
-		});
+		handleEmailLogin(formData)
+			.then((data) => {
+				console.log(data.user);
+				toast.success('Welcome, Login Successfully');
+				navigate(from, { replace: true });
+				getJwtToken(data.uid);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 	return (
 		<section className='relative flex flex-wrap lg:h-screen lg:items-center'>

@@ -16,13 +16,16 @@ const AdminProducts = () => {
 			return data;
 		},
 	});
-	console.log(products);
+    console.log(products);
+    if (isLoading) {
+        return <p className='text-8xl'>Loading...</p>
+    }
 	return (
 		<section>
 			<Link to='/admin/products/new-product'>New Product</Link>
             <div>
                 {
-                    products.map(pd => <p key={pd.id}>{pd.product_info.product_name}</p>)
+                    products.map(pd => <p key={pd._id}>{pd.product_info.product_name}</p>)
                 }
             </div>
 		</section>
