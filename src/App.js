@@ -1,25 +1,41 @@
 import logo from './logo.svg';
 import './App.css';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routes/router';
+import { useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import auth from './firebase/firebase.config';
+import { useDispatch } from 'react-redux';
+import { authActions } from './store/authSlice';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const dispatch = useDispatch();
+	useEffect(() => {
+		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+			dispatch(authActions.login(JSON.stringify(currentUser)));
+			if (currentUser?.uid) {
+				fetch(
+					`${process.env.REACT_APP_API_URL}/admin?uid=${currentUser?.uid}`
+				)
+					.then((res) => res.json())
+					.then((data) => {
+            dispatch(authActions.checkAdmin(data.role));
+            dispatch(authActions.setAdminLoading(false))
+					});
+			}
+			dispatch(authActions.setLoading(false));
+		});
+		return () => {
+			unsubscribe();
+		};
+	}, [dispatch]);
+	return (
+		<div>
+			<Toaster />
+			<RouterProvider router={router} />
+		</div>
+	);
 }
 
 export default App;
