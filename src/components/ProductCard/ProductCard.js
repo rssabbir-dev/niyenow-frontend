@@ -7,7 +7,7 @@ const ProductCard = ({ product }) => {
 		<li>
 			<Link to={`/product/${product._id}`} className='block overflow-hidden group'>
 				<img
-					src={product.product_image}
+					src={product_image}
 					alt=''
 					className='h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]'
 				/>

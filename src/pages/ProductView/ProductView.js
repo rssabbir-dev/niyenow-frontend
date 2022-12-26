@@ -1,15 +1,57 @@
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import React from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
 
 const ProductView = () => {
+	const param = useParams();
+	const { data: product, isLoading } = useQuery({
+		queryKey: ['singleProduct'],
+		queryFn: async () => {
+			const res = await axios.get(
+				`${process.env.REACT_APP_API_URL}/product/${param.id}`
+			);
+			return res.data;
+		},
+	});
+	const location = useLocation();
+	if (isLoading) {
+		return <p className='text-8xl'>Loading....</p>;
+	}
 	return (
 		<section>
 			<div class='relative mx-auto max-w-screen-xl px-4 py-8'>
+				<nav>
+					<Link
+						to='/'
+						className={
+							location.pathname === '/'
+								? 'breadcrumb-active'
+								: 'breadcrumb-not-active'
+						}
+					>
+						Home
+					</Link>
+					<span className='breadcrumb-arrow'>&gt;</span>
+					<Link
+						to={`/product/${param.id}`}
+						className={
+							location.pathname.startsWith('/product')
+								? 'breadcrumb-active'
+								: 'breadcrumb-not-active'
+						}
+					>
+						{product.product_info?.product_name}
+					</Link>
+				</nav>
 				<div>
-					<h1 class='text-2xl font-bold lg:text-3xl'>
-						Simple Clothes Basic Tee
+					<h1 class='text-2xl font-bold lg:text-3xl uppercase'>
+						{product.product_info?.product_name}
 					</h1>
 
-					<p class='mt-1 text-sm text-gray-500'>SKU: #012345</p>
+					<p class='mt-1 text-sm text-gray-500'>
+						SKU: #{product._id}
+					</p>
 				</div>
 
 				<div class='grid gap-8 lg:grid-cols-4 lg:items-start'>
@@ -17,7 +59,7 @@ const ProductView = () => {
 						<div class='relative mt-4'>
 							<img
 								alt='Tee'
-								src='https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+								src={product.product_info?.product_image}
 								class='h-72 w-full rounded-xl object-cover lg:h-[540px]'
 							/>
 
