@@ -45,7 +45,7 @@ const Login = () => {
 					className='mx-auto mt-8 mb-0 max-w-md space-y-4'
 				>
 					<div>
-						<label htmlFor='email' className='sr-only'>
+						<label htmlhtmlFor='email' className='sr-only'>
 							Email
 						</label>
 
@@ -88,7 +88,7 @@ const Login = () => {
 					</div>
 
 					<div>
-						<label htmlFor='password' className='sr-only'>
+						<label htmlhtmlFor='password' className='sr-only'>
 							Password
 						</label>
 						<div className='relative'>

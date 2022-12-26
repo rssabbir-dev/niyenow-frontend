@@ -6,7 +6,6 @@ const authSlice = createSlice({
 	reducers: {
 		login(state, action) {
 			const formData = JSON.parse(action.payload);
-			console.log('payload', formData);
 			state.user = formData;
 		},
 		register() {},

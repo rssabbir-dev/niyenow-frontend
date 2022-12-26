@@ -6,6 +6,7 @@ import AdminProducts from '../pages/AdminDashboard/AdminProducts/AdminProducts';
 import NewProduct from '../pages/AdminDashboard/NewProduct/NewProduct';
 import Login from '../pages/AuthManager/Login';
 import Register from '../pages/AuthManager/Register';
+import Cart from '../pages/Cart/Cart';
 import Home from '../pages/Home/Home/Home';
 import ProductView from '../pages/ProductView/ProductView';
 import AdminRoute from './AdminRoute';
@@ -19,11 +20,19 @@ export const router = createBrowserRouter([
 			{
 				path: '/',
 				element: <Home />,
-            },
-            {
-                path: '/product/:id',
-                element:<ProductView/>
-            },
+			},
+			{
+				path: '/product/:id',
+				element: <ProductView />,
+			},
+			{
+				path: '/cart',
+				element: (
+					<PrivateRoute>
+						<Cart />
+					</PrivateRoute>
+				),
+			},
 			{
 				path: '/login',
 				element: <Login />,
