@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import InnerImageZoom from 'react-inner-image-zoom';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css';
@@ -8,21 +8,32 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { cartActions } from '../../store/cartSlice';
 import { toast } from 'react-hot-toast';
+import SpinnerMain from '../../components/SpinnerMain/SpinnerMain';
 
 const ProductView = () => {
 	const { user } = useSelector((state) => state.auth);
 	const {cartProducts} = useSelector(state => state.cart)
 	const dispatch = useDispatch();
 	const param = useParams();
-	const { data: product, isLoading } = useQuery({
-		queryKey: ['singleProduct'],
-		queryFn: async () => {
-			const res = await axios.get(
-				`${process.env.REACT_APP_API_URL}/product/${param.id}`
-			);
-			return res.data;
-		},
-	});
+	const [isLoading, setIsLoading] = useState(true)
+	const [product,setProduct] = useState({})
+	// const { data: product, isLoading } = useQuery({
+	// 	queryKey: ['singleProduct'],
+	// 	queryFn: async () => {
+	// 		const res = await axios.get(
+	// 			`${process.env.REACT_APP_API_URL}/product/${param.id}`
+	// 		);
+	// 		return res.data;
+	// 	},
+	// });
+	useEffect(() => {
+		setIsLoading(true)
+		axios.get(`${process.env.REACT_APP_API_URL}/product/${param.id}`)
+			.then(res => {
+				setProduct(res.data)
+				setIsLoading(false)
+		})
+	},[param.id])
 	const location = useLocation();
 	const {
 		register,
@@ -73,7 +84,7 @@ const ProductView = () => {
 		console.log('bottom add to cart');
 	};
 	if (isLoading) {
-		return <p className='text-8xl'>Loading....</p>;
+		return <SpinnerMain/>;
 	}
 	return (
 		<section>

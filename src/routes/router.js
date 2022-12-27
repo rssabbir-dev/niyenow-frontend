@@ -3,6 +3,9 @@ import Admin from '../layout/Admin/Admin';
 import Main from '../layout/Main/Main';
 import AdminHome from '../pages/AdminDashboard/AdminHome/AdminHome';
 import AdminProducts from '../pages/AdminDashboard/AdminProducts/AdminProducts';
+import AllCustomer from '../pages/AdminDashboard/AllCustomer/AllCustomer';
+import Categories from '../pages/AdminDashboard/Categories/Categories';
+import NewCategory from '../pages/AdminDashboard/NewCategory/NewCategory';
 import NewProduct from '../pages/AdminDashboard/NewProduct/NewProduct';
 import Login from '../pages/AuthManager/Login';
 import Register from '../pages/AuthManager/Register';
@@ -32,14 +35,6 @@ export const router = createBrowserRouter([
 						<Cart />
 					</PrivateRoute>
 				),
-			},
-			{
-				path: '/login',
-				element: <Login />,
-			},
-			{
-				path: '/register',
-				element: <Register />,
 			},
 		],
 	},
@@ -75,6 +70,38 @@ export const router = createBrowserRouter([
 					</AdminRoute>
 				),
 			},
+			{
+				path: '/admin/categories',
+				element: (
+					<AdminRoute>
+						<Categories />
+					</AdminRoute>
+				),
+			},
+			{
+				path: '/admin/categories/new-category',
+				element: (
+					<AdminRoute>
+						<NewCategory />
+					</AdminRoute>
+				),
+			},
+			{
+				path: '/admin/customers',
+				element: (
+					<AdminRoute>
+						<AllCustomer />
+					</AdminRoute>
+				),
+			},
 		],
+	},
+	{
+		path: '/login',
+		element: <Login />,
+	},
+	{
+		path: '/register',
+		element: <Register />,
 	},
 ]);

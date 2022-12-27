@@ -5,13 +5,13 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import SpinnerMain from '../../../components/SpinnerMain/SpinnerMain';
 
-const AdminProducts = () => {
+const AllCustomer = () => {
 	const { user } = useSelector((state) => state.auth);
-	const { data: products, isLoading } = useQuery({
-		queryKey: ['adminProducts', user?.uid],
+	const { data: customers, isLoading } = useQuery({
+		queryKey: ['allCustomer', user?.uid],
 		queryFn: async () => {
-            const res = await fetch(
-				`${process.env.REACT_APP_API_URL}/admin-products/${user?.uid}`,
+			const res = await fetch(
+				`${process.env.REACT_APP_API_URL}/customers/${user?.uid}`,
 				{
 					headers: {
 						authorization: `Bearer ${JSON.parse(
@@ -20,24 +20,18 @@ const AdminProducts = () => {
 					},
 				}
 			);
-            const data = await res.json();
+			const data = await res.json();
 			return data;
 		},
 	});
-    console.log(products);
-    if (isLoading) {
-        return <SpinnerMain/>
-    }
+	console.log(AllCustomer);
+	if (isLoading) {
+		return <SpinnerMain />;
+	}
 	return (
 		<section>
-			<div className='flex justify-between items-center mb-4'>
-				<p className='font-bold text-lg'>Products List</p>
-				<Link
-					className='btn btn-sm text-xs'
-					to='/admin/products/new-product'
-				>
-					New Product
-				</Link>
+			<div className=' mb-4'>
+				<p className='font-bold text-lg'>Customer List</p>
 			</div>
 
 			<div class='overflow-hidden overflow-x-auto rounded-lg border border-gray-200'>
@@ -63,7 +57,7 @@ const AdminProducts = () => {
 							</th>
 							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
 								<div class='flex items-center gap-2'>
-									Category
+									Name
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
 										class='h-4 w-4 text-gray-700'
@@ -80,7 +74,7 @@ const AdminProducts = () => {
 							</th>
 							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
 								<div class='flex items-center gap-2'>
-									Amount
+									Total Order
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
 										class='h-4 w-4 text-gray-700'
@@ -96,33 +90,22 @@ const AdminProducts = () => {
 								</div>
 							</th>
 							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
-								Stock
-							</th>
-							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
 								Status
 							</th>
 						</tr>
 					</thead>
 
 					<tbody class='divide-y divide-gray-200'>
-						{products.map((pd) => (
+						{customers.map((pd) => (
 							<tr>
 								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
-									{`${pd.product_info?.product_name.slice(
-										0,
-										20
-									)}...`}
+									{pd.displayName}
 								</td>
 								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
-									{pd.product_info?.product_category}
+									{pd.email}
 								</td>
 								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
-									$128.99
-								</td>
-								<td class='whitespace-nowrap px-4 py-2'>
-									<strong class='rounded bg-green-100 px-3 py-1.5 text-xs font-medium text-green-700'>
-										{pd.product_info?.product_quantity} Left
-									</strong>
+									7
 								</td>
 								<td class='whitespace-nowrap px-4 py-2'>
 									<div className='dropdown dropdown-left dropdown-end'>
@@ -151,4 +134,4 @@ const AdminProducts = () => {
 	);
 };
 
-export default AdminProducts;
+export default AllCustomer;

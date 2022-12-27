@@ -28,16 +28,15 @@ const Register = () => {
 				handleUpdateUserProfile(profileData)
 					.then((res) => {
 						console.log(res);
-						handleLogout()
-							.then((res) => {
-								toast.success(
-									'Registration Success, Please Login Now'
-								);
-								navigate('/login');
-							})
-							.catch((err) => {
-								console.log(err);
-							});
+						toast.success('Registration Success, Please Login Now');
+						navigate('/');
+						// setTimeout(() => {
+						// 	handleLogout()
+						// 		.then((res) => {})
+						// 		.catch((err) => {
+						// 			console.log(err);
+						// 		});
+						// }, 3000);
 					})
 					.catch((err) => {
 						console.log(err);
@@ -50,7 +49,7 @@ const Register = () => {
 	const saveUser = (userData, formData) => {
 		console.log('inside saveUser');
 		const user = {
-			displayName: formData.displayName,
+			displayName: formData.name,
 			email: userData.email,
 			photoURL: userData.photoURL,
 			uid: userData.uid,

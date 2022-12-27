@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import FeaturedProducts from '../../../components/FeaturedProducts/FeaturedProducts';
 import Products from '../../../components/Products/Products';
+import SpinnerMain from '../../../components/SpinnerMain/SpinnerMain';
 import HomeBanner from '../HomeBanner/HomeBanner';
 
 const Home = () => {
@@ -15,7 +16,7 @@ const Home = () => {
         }
     })
     if (isLoading) {
-        return <p className='text-8xl'>Loading....</p>
+        return <SpinnerMain/>
     }
     return (
 		<div>
