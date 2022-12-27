@@ -1,13 +1,36 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { toast } from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { cartActions } from '../../store/cartSlice';
 import CartItem from './CartItem';
 
 const Cart = () => {
-    const { cartProducts } = useSelector(state => state.cart);
-    const subTotal = cartProducts.reduce(
+	const { cartProducts } = useSelector((state) => state.cart);
+	const { user } = useSelector((state) => state.auth);
+	const dispatch = useDispatch()
+	const subTotal = cartProducts.reduce(
 		(prev, curr) => prev + parseInt(curr.product_info.price),
 		0
 	);
+
+	const handleDeleteCartItem = (id) => {
+		fetch(
+			`${process.env.REACT_APP_API_URL}/delete-cart/${user?.uid}?id=${id}`,
+			{
+				method: 'DELETE',
+				headers: {
+					authorization: `Bearer ${JSON.parse(
+						localStorage.getItem('token')
+					)}`,
+				},
+			}
+		)
+			.then((res) => res.json())
+			.then((data) => {
+				toast.success('Item Delete');
+				dispatch(cartActions.refetch())
+			});
+	};
 	return (
 		<section>
 			<div class='max-w-screen-xl px-4 py-8 mx-auto sm:px-6 sm:py-12 lg:px-8'>
@@ -20,9 +43,13 @@ const Cart = () => {
 
 					<div class='mt-8'>
 						<ul class='space-y-4'>
-                            {
-                                cartProducts.map(cart => <CartItem key={cart._id} cart={cart} />)
-                            }
+							{cartProducts.map((cart) => (
+								<CartItem
+									handleDeleteCartItem={handleDeleteCartItem}
+									key={cart._id}
+									cart={cart}
+								/>
+							))}
 						</ul>
 
 						<div class='flex justify-end pt-8 mt-8 border-t border-gray-100'>
@@ -30,7 +57,7 @@ const Cart = () => {
 								<dl class='space-y-0.5 text-sm text-gray-700'>
 									<div class='flex justify-between'>
 										<dt>Subtotal</dt>
-                                        <dd>${subTotal}</dd>
+										<dd>${subTotal}</dd>
 									</div>
 
 									<div class='flex justify-between'>

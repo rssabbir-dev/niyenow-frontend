@@ -61,11 +61,12 @@ const ProductView = () => {
 				name: product.seller_info.seller_name,
 				uid: product.seller_info.seller_uid,
 			},
+			uid:user.uid,
 			cartAddedTime: new Date(),
 		};
 
 		fetch(`${process.env.REACT_APP_API_URL}/add-to-cart/${user.uid}`, {
-			method: 'PATCH',
+			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
 				authorization: `Bearer ${JSON.parse(
@@ -79,7 +80,7 @@ const ProductView = () => {
 				console.log(data);
 				console.log('inside ad to cart');
 				toast.success('Product added to cart')
-				dispatch(cartActions.addToCart());
+				dispatch(cartActions.refetch());
 			});
 		console.log('bottom add to cart');
 	};

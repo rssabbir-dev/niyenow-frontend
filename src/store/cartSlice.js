@@ -10,7 +10,7 @@ const cartSlice = createSlice({
             state.cartProducts.push(...cartItems)
 		},
 
-		addToCart(state) {
+		refetch(state) {
             state.refetch++
 		},
 	},

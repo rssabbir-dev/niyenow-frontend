@@ -1,7 +1,7 @@
 import React from 'react';
 
-const CartItem = ({ cart }) => {
-    return (
+const CartItem = ({ cart, handleDeleteCartItem }) => {
+	return (
 		<li class='flex items-center'>
 			<img
 				src={cart.product_info?.image}
@@ -10,17 +10,17 @@ const CartItem = ({ cart }) => {
 			/>
 
 			<div class='ml-4'>
-                <h3 class='text-sm text-gray-900'>{cart.product_info?.name}</h3>
+				<h3 class='text-sm text-gray-900'>{cart.product_info?.name}</h3>
 
 				<dl class='mt-0.5 space-y-px text-[10px] text-gray-600'>
 					<div>
 						<dt class='inline'>Price:</dt>
-                        <dd class='inline'>{cart.product_info?.price}</dd>
+						<dd class='inline'>{cart.product_info?.price}</dd>
 					</div>
 
 					<div>
 						<dt class='inline'>Category:</dt>
-                        <dd class='inline'>{cart.product_info?.category}</dd>
+						<dd class='inline'>{cart.product_info?.category}</dd>
 					</div>
 				</dl>
 			</div>
@@ -35,13 +35,16 @@ const CartItem = ({ cart }) => {
 					<input
 						type='number'
 						min='1'
-                        value={cart.product_info?.quantity}
+						value={cart.product_info?.quantity}
 						id='Line1Qty'
 						class='h-8 w-12 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 [-moz-appearance:_textfield] focus:outline-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none'
 					/>
 				</form>
 
-				<button class='text-gray-600 transition hover:text-red-600'>
+				<button
+					onClick={()=>handleDeleteCartItem(cart._id)}
+					class='text-gray-600 transition hover:text-red-600'
+				>
 					<span class='sr-only'>Remove item</span>
 
 					<svg

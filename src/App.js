@@ -45,7 +45,7 @@ function App() {
 				})
 				.then((res) => res.json())
 				.then(data => {
-					dispatch(cartActions.loadCart(data.cart))
+					dispatch(cartActions.loadCart(data))
 			})
 		}
 	}, [user?.uid,dispatch,refetch]);
