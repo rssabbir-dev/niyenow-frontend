@@ -1,4 +1,3 @@
-import { async } from '@firebase/util';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -10,7 +9,7 @@ const AdminProducts = () => {
 	const { data: products, isLoading } = useQuery({
 		queryKey: ['adminProducts', user?.uid],
 		queryFn: async () => {
-            const res = await fetch(
+			const res = await fetch(
 				`${process.env.REACT_APP_API_URL}/admin-products/${user?.uid}`,
 				{
 					headers: {
@@ -20,14 +19,14 @@ const AdminProducts = () => {
 					},
 				}
 			);
-            const data = await res.json();
+			const data = await res.json();
 			return data;
 		},
 	});
-    console.log(products);
-    if (isLoading) {
-        return <SpinnerMain/>
-    }
+	console.log(products);
+	if (isLoading) {
+		return <SpinnerMain />;
+	}
 	return (
 		<section>
 			<div className='flex justify-between items-center mb-4'>

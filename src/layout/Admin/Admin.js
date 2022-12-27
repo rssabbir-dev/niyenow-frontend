@@ -1,17 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Link, Outlet } from 'react-router-dom';
+import useAdmin from '../../hooks/useAdmin';
 import Navbar from '../../pages/shared/Navbar/Navbar';
 
 const Admin = () => {
-    const { adminLoading } = useSelector(state => state.auth)
+	const [isAdminLoading] = useAdmin();
 	return (
-        <>
-            {
-                !adminLoading && <div>
-			<Navbar />
-			<section className='grid grid-cols-6 gap-10'>
-				<aside className='col-span-1  sticky bg-gray-300'>
+		<>
+			<Navbar bg={'bg-gray-300'} />
+			<section className='grid grid-cols-6 gap-10 bg-gray-50'>
+				<aside className='col-span-1  sticky bg-gray-300 h-screen overflow-hidden'>
 					<nav aria-label='Main Nav' className='flex flex-col'>
 						<a
 							href=''
@@ -196,9 +194,7 @@ const Admin = () => {
 					<Outlet />
 				</div>
 			</section>
-		</div>
-            }
-        </>
+		</>
 	);
 };
 

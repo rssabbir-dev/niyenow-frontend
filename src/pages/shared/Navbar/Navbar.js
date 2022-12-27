@@ -3,25 +3,29 @@ import React from 'react';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import useAdmin from '../../../hooks/useAdmin';
 import { handleLogout } from '../../AuthManager/handleAuth';
 
-const Navbar = () => {
-	const { user, isAdmin } = useSelector(state => state.auth)
-	const {cartProducts} = useSelector(state => state.cart)
-    const logout = () => {
-        handleLogout()
-            .then(res => {
-            toast.success('Logout Successfully')
-        })
-	}
+const Navbar = ({bg}) => {
+	const { user } = useSelector((state) => state.auth);
+	const [isAdmin, isAdminLoading] = useAdmin();
+	console.log(isAdmin);
+	const { cartProducts } = useSelector((state) => state.cart);
+	const logout = () => {
+		handleLogout().then((res) => {
+			toast.success('Logout Successfully');
+		});
+	};
 	const subTotal = cartProducts.reduce(
 		(prev, curr) => prev + parseInt(curr.product_info.price),
 		0
 	);
-    return (
-		<div className='navbar bg-base-100'>
+	return (
+		<div className={`navbar ${bg}`}>
 			<div className='flex-1'>
-				<Link to='/' className='btn btn-ghost normal-case text-xl'>daisyUI</Link>
+				<Link to='/' className='btn btn-ghost normal-case text-xl'>
+					daisyUI
+				</Link>
 			</div>
 			<div className='flex-none'>
 				<div className='dropdown dropdown-end'>
@@ -51,10 +55,17 @@ const Navbar = () => {
 						className='mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow'
 					>
 						<div className='card-body'>
-							<span className='font-bold text-lg'>{cartProducts.length} Items</span>
-							<span className='text-info'>Subtotal: ${subTotal}</span>
+							<span className='font-bold text-lg'>
+								{cartProducts.length} Items
+							</span>
+							<span className='text-info'>
+								Subtotal: ${subTotal}
+							</span>
 							<div className='card-actions'>
-								<Link to='/cart' className='btn btn-primary btn-block'>
+								<Link
+									to='/cart'
+									className='btn btn-primary btn-block'
+								>
 									View cart
 								</Link>
 							</div>
@@ -75,10 +86,12 @@ const Navbar = () => {
 							tabIndex={0}
 							className='menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52'
 						>
-							{isAdmin && (
+							{isAdmin && !isAdminLoading ? (
 								<li>
 									<Link to='/admin'>Admin Dashboard</Link>
 								</li>
+							) : (
+								<li>Loading...</li>
 							)}
 							{!isAdmin && (
 								<li>
@@ -94,7 +107,11 @@ const Navbar = () => {
 						</ul>
 					</div>
 				)}
-				{!user?.uid && <Link to='/login' className='btn'>Login</Link>}
+				{!user?.uid && (
+					<Link to='/login' className='btn'>
+						Login
+					</Link>
+				)}
 			</div>
 		</div>
 	);
