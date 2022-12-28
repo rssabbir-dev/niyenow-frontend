@@ -12,7 +12,8 @@ import Login from '../pages/AuthManager/Login';
 import Register from '../pages/AuthManager/Register';
 import Cart from '../pages/Cart/Cart';
 import Checkout from '../pages/Checkout/Checkout';
-import MyOrder from '../pages/CustomerDashboard/MyOrder/MyOrder';
+import MyOrder from '../pages/CustomerDashboard/MyOrder/MyOrder/MyOrder/MyOrder';
+import OrderDetails from '../pages/CustomerDashboard/OrderDetails/OrderDetails';
 import Home from '../pages/Home/Home/Home';
 import PaymentPage from '../pages/Payment/PaymentPage/PaymentPage';
 import ProductView from '../pages/ProductView/ProductView';
@@ -40,16 +41,16 @@ export const router = createBrowserRouter([
 					</PrivateRoute>
 				),
 			},
+			// {
+			// 	path: '/checkout',
+			// 	element: (
+			// 		<PrivateRoute>
+			// 			<Checkout />
+			// 		</PrivateRoute>
+			// 	),
+			// },
 			{
-				path: '/checkout',
-				element: (
-					<PrivateRoute>
-						<Checkout />
-					</PrivateRoute>
-				),
-			},
-			{
-				path: '/payment',
+				path: '/payment/:id',
 				element: (
 					<PrivateRoute>
 						<PaymentPage />
@@ -128,6 +129,10 @@ export const router = createBrowserRouter([
 				path: '/customer',
 				element: <MyOrder />,
 			},
+			{
+				path: "/customer/my-order/details/:id",
+				element:<OrderDetails/>
+			}
 		],
 	},
 	{

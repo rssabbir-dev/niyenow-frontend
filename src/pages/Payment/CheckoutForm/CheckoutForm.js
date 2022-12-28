@@ -32,6 +32,7 @@ const CheckoutForm = ({ order, subTotal }) => {
 		}
 	}, [order._id, user?.uid]);
 	const handlePayment = async (event) => {
+		const form = event.target;
 		event.preventDefault();
 		if (!stripe || !elements) {
 			return;
@@ -71,10 +72,13 @@ const CheckoutForm = ({ order, subTotal }) => {
 		}
 		if (paymentIntent.status === 'succeeded') {
 			const payment = {
+				name:user.displayName,
 				price: subTotal,
 				transactionId: paymentIntent.id,
 				email: user.email,
 				orderId: order._id,
+				address: form.address1.value,
+				phone:form.phone_number.value
 			};
 			fetch(`${process.env.REACT_APP_API_URL}/payments/${user?.uid}`, {
 				method: 'POST',
@@ -101,39 +105,113 @@ const CheckoutForm = ({ order, subTotal }) => {
 		setProcessing(false);
 	};
 	return (
-		<div className='h-[500px]'>
-			<div className='w-96 mx-auto p-10 my-20 shadow-md'>
-				<div className='mb-5'>
-					<p className='text-2xl'>Product Info</p>
-					<h1 className='text-lg'>
-						Payment for {order._id}
-					</h1>
-					<p>Price: ${subTotal}</p>
-				</div>
-				<form onSubmit={handlePayment}>
-					<CardElement
-						options={{
-							style: {
-								base: {
-									fontSize: '16px',
-									color: '#424770',
-									'::placeholder': {
-										color: '#aab7c4',
+		<div className=''>
+			<div className='mx-auto p-10 shadow-md'>
+				<h1 className='text-2xl mb-5'>Payment</h1>
+				<form
+					onSubmit={handlePayment}
+					className='space-y-10 grid grid-cols-3 gap-10 '
+				>
+					<div className='col-span-2 space-y-10'>
+						<div className='grid grid-cols-2 gap-5'>
+							<div className='flex flex-col gap-2'>
+								<label htmlFor='address'>First Name</label>
+								<input
+									type='text'
+									placeholder='Type here'
+									className='input input-bordered w-full max-w-xs'
+									name='first_name'
+									defaultValue={
+										user?.displayName.split(' ')[0]
+									}
+								/>
+							</div>
+							<div className='flex flex-col gap-2'>
+								<label htmlFor='address'>Last Name</label>
+								<input
+									type='text'
+									placeholder='Type here'
+									className='input input-bordered w-full max-w-xs'
+									name='last_name'
+									defaultValue={
+										user?.displayName.split(' ')[1]
+									}
+								/>
+							</div>
+						</div>
+						<div className='grid grid-cols-2 gap-5'>
+							<div className='flex flex-col gap-2'>
+								<label htmlFor='address'>Address</label>
+								<input
+									type='text'
+									placeholder='Type here'
+									className='input input-bordered w-full max-w-xs'
+									name='address1'
+								/>
+							</div>
+							<div className='flex flex-col gap-2'>
+								<label htmlFor='address'>Address 2</label>
+								<input
+									type='text'
+									placeholder='Type here'
+									className='input input-bordered w-full max-w-xs'
+									name='address2'
+								/>
+							</div>
+						</div>
+						<div className='grid grid-cols-2 gap-5'>
+							<div className='flex flex-col gap-2'>
+								<label htmlFor='address'>Phone Number</label>
+								<input
+									type='text'
+									placeholder='Type here'
+									className='input input-bordered w-full max-w-xs'
+									name='phone_number'
+								/>
+							</div>
+							<div className='flex flex-col gap-2'>
+								<label htmlFor='address'>Email</label>
+								<input
+									type='text'
+									placeholder='Type here'
+									className='input input-bordered w-full max-w-xs'
+									name='email'
+									defaultValue={user?.email}
+								/>
+							</div>
+						</div>
+					</div>
+
+					<div>
+						<div className='mb-5'>
+							<p className='text-2xl'>Order Info</p>
+							<h1 className='text-lg'>Payment for {order._id}</h1>
+							<p>Price: ${subTotal}</p>
+						</div>
+						<CardElement
+							options={{
+								style: {
+									base: {
+										fontSize: '16px',
+										color: '#424770',
+										'::placeholder': {
+											color: '#aab7c4',
+										},
+									},
+									invalid: {
+										color: '#9e2146',
 									},
 								},
-								invalid: {
-									color: '#9e2146',
-								},
-							},
-						}}
-					/>
-					<button
-						className='btn btn-sm mt-9 btn-primary btn-block '
-						type='submit'
-						disabled={!stripe || !clientSecret || processing}
-					>
-						Pay
-					</button>
+							}}
+						/>
+						<button
+							className='btn btn-sm mt-9 btn-primary btn-block '
+							type='submit'
+							disabled={!stripe || !clientSecret || processing}
+						>
+							Pay
+						</button>
+					</div>
 				</form>
 				<p className='text-red-500'>{cardError}</p>
 			</div>

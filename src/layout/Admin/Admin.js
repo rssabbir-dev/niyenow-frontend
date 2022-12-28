@@ -10,7 +10,7 @@ const Admin = () => {
 			<Navbar bg={'bg-gray-300'} />
 			<section className='grid grid-cols-6 gap-10 bg-gray-50'>
 				<aside className='col-span-1  sticky bg-gray-300 h-screen overflow-hidden'>
-					<nav aria-label='Main Nav' className='flex flex-col'>
+					<nav aria-label='Main Nav' className='flex flex-col sticky top-0'>
 						<a
 							href=''
 							className='flex items-center border-l-[3px] border-blue-500 bg-blue-50 px-4 py-3 text-blue-700'
@@ -190,7 +190,7 @@ const Admin = () => {
 						</Link>
 					</nav>
 				</aside>
-				<div className='col-span-5 mx-10'>
+				<div className='col-span-5 mx-10 my-5'>
 					<Outlet />
 				</div>
 			</section>

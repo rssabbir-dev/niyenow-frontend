@@ -43,6 +43,7 @@ const Cart = () => {
 			ordered_products: cartProducts,
 			subTotal: subTotal,
 			payment_status: false,
+			createAt: new Date(),
 		};
 		Swal.fire({
 			title: 'Want to order?',
@@ -69,15 +70,11 @@ const Cart = () => {
 				)
 					.then((res) => res.json())
 					.then((data) => {
-						navigate('/checkout');
+						navigate('/customer');
 						dispatch(cartActions.refetch());
 						console.log(data);
 						console.log(order);
-						Swal.fire(
-							'Order Placed!',
-							'Payment Now',
-							'success'
-						);
+						Swal.fire('Order Placed!', 'Payment Now', 'success');
 					});
 			}
 		});

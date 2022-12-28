@@ -36,7 +36,7 @@ const NewCategory = () => {
 		)
 			.then((res) => res.json())
 			.then((imgData) => {
-				category.category_image = imgData.data.url;
+				category.image = imgData.data.url;
 				console.log('Img Saved');
 				handleSaveCategory(category);
 			});

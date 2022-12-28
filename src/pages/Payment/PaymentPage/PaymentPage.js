@@ -3,6 +3,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
 import React, {  useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import CheckoutForm from '../CheckoutForm/CheckoutForm';
 
 const PaymentPage = () => {
@@ -10,9 +11,10 @@ const PaymentPage = () => {
 	const { user } = useSelector((state) => state.auth);
 	const [order, setOrder] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const [subTotal, setSubTotal] = useState(0);
+    const [subTotal, setSubTotal] = useState(0);
+    const param = useParams()
 	useEffect(() => {
-		fetch(`${process.env.REACT_APP_API_URL}/get-orders/${user?.uid}`, {
+		fetch(`${process.env.REACT_APP_API_URL}/order/${user?.uid}?id=${param.id}`, {
 			headers: {
 				authorization: `Bearer ${JSON.parse(
 					localStorage.getItem('token')
@@ -29,7 +31,7 @@ const PaymentPage = () => {
 				);
 				setSubTotal(total);
 			});
-	}, [user?.uid]);
+	}, [param.id, user?.uid]);
 	console.log(order);
 	return (
 		<>

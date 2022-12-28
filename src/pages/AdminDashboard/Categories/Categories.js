@@ -44,6 +44,9 @@ const Categories = () => {
 					<thead class='bg-gray-300'>
 						<tr>
 							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
+								Image
+							</th>
+							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
 								<div class='flex items-center gap-2'>
 									Name
 									<svg
@@ -60,6 +63,10 @@ const Categories = () => {
 									</svg>
 								</div>
 							</th>
+
+							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
+								Slug
+							</th>
 							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
 								Action
 							</th>
@@ -69,9 +76,18 @@ const Categories = () => {
 					<tbody class='divide-y divide-gray-200'>
 						{products.map((pd) => (
 							<tr>
+								<td>
+									<div className='p-2'>
+										<img className='w-14 h-14 object-cover border rounded' src={pd.image} alt='' />
+									</div>
+								</td>
 								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
 									{pd.name}
 								</td>
+								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
+									{pd.slug}
+								</td>
+								
 								<td class='whitespace-nowrap px-4 py-2'>
 									<div className='dropdown dropdown-left dropdown-end'>
 										<label tabIndex={0} className='btn m-1'>
