@@ -11,7 +11,6 @@ const PaymentPage = () => {
 	const { user } = useSelector((state) => state.auth);
 	const [order, setOrder] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-    const [subTotal, setSubTotal] = useState(0);
     const param = useParams()
 	useEffect(() => {
 		fetch(`${process.env.REACT_APP_API_URL}/order/${user?.uid}?id=${param.id}`, {
@@ -25,11 +24,6 @@ const PaymentPage = () => {
 			.then((data) => {
 				setOrder(data);
 				setIsLoading(false);
-				const total = data.ordered_products.reduce(
-					(prev, curr) => prev + parseInt(curr.product_info.price),
-					0
-				);
-				setSubTotal(total);
 			});
 	}, [param.id, user?.uid]);
 	console.log(order);
@@ -38,7 +32,6 @@ const PaymentPage = () => {
 			<Elements stripe={stripePromise}>
 				<CheckoutForm
 					order={order}
-					subTotal={subTotal}
 				/>
 			</Elements>
 

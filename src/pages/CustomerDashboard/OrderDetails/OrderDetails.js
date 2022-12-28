@@ -1,4 +1,7 @@
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { format } from 'date-fns';
+import jsPDF from 'jspdf';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -28,12 +31,18 @@ const OrderDetails = () => {
 	}, [param.id, user?.uid]);
 	if (isLoading) {
 		return <SpinnerMain />;
-    }
-    console.log(order);
+	}
+	console.log(order);
+	const generatePDF = () => {
+		const report = new jsPDF('p', 'pt', 'a4');
+		report.html(document.querySelector('#invoice')).then(() => {
+			report.save('invoice.pdf');
+		});
+	};
 	return (
-		<div>
+		<div id='invoice'>
 			<div className='flex justify-start item-start space-y-2 flex-col '>
-				<h1 className='text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9  text-gray-800'>
+				<h1 className='text-2xl font-semibold leading-7 lg:leading-9  text-gray-800'>
 					Order #{order._id}
 				</h1>
 				<p className='text-base font-medium leading-6 text-gray-600'>
@@ -43,9 +52,7 @@ const OrderDetails = () => {
 			<div className='mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0'>
 				<div className='flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8'>
 					<div className='flex flex-col justify-start items-start bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full'>
-						<p className='text-lg md:text-xl font-semibold leading-6 xl:leading-5 text-gray-800'>
-							Ordered Products
-						</p>
+						
 						{order?.ordered_products.map((pd) => (
 							<div
 								key={pd._id}
@@ -91,17 +98,17 @@ const OrderDetails = () => {
 									</div>
 									<div className='flex justify-between space-x-8 items-start w-full'>
 										<p className='text-base xl:text-lg leading-6'>
-                                            ${pd.product_info.price}{' '}
-											<span className='text-red-300 line-through'>
+											${pd.product_info.price}{' '}
+											{/* <span className='text-red-300 line-through'>
 												{' '}
 												$30.00
-											</span>
+											</span> */}
 										</p>
 										<p className='text-base xl:text-lg leading-6 text-gray-800'>
-											{pd.product_info.quantity}
+											Q:{pd.product_info.quantity}
 										</p>
 										<p className='text-base xl:text-lg font-semibold leading-6 text-gray-800'>
-											${pd.product_info.price}
+											${order.subTotal}
 										</p>
 									</div>
 								</div>
@@ -122,7 +129,7 @@ const OrderDetails = () => {
 										${order.subTotal}
 									</p>
 								</div>
-								<div className='flex justify-between items-center w-full'>
+								{/* <div className='flex justify-between items-center w-full'>
 									<p className='text-base leading-4 text-gray-800'>
 										Discount{' '}
 										<span className='bg-gray-200 p-1 text-xs font-medium leading-3  text-gray-800'>
@@ -132,13 +139,13 @@ const OrderDetails = () => {
 									<p className='text-base leading-4 text-gray-600'>
 										-$28.00 (50%)
 									</p>
-								</div>
+								</div> */}
 								<div className='flex justify-between items-center w-full'>
 									<p className='text-base leading-4 text-gray-800'>
 										Shipping
 									</p>
 									<p className='text-base leading-4 text-gray-600'>
-										$8.00
+										Free
 									</p>
 								</div>
 							</div>
@@ -147,7 +154,7 @@ const OrderDetails = () => {
 									Total
 								</p>
 								<p className='text-base font-semibold leading-4 text-gray-600'>
-									$36.00
+									${order.subTotal}
 								</p>
 							</div>
 						</div>
@@ -175,7 +182,7 @@ const OrderDetails = () => {
 									</div>
 								</div>
 								<p className='text-lg font-semibold leading-6 text-gray-800'>
-									$8.00
+									Free
 								</p>
 							</div>
 							<div className='w-full flex justify-center items-center'>
@@ -240,8 +247,7 @@ const OrderDetails = () => {
 										Shipping Address
 									</p>
 									<p className='w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600'>
-										180 North King Street, Northhampton MA
-										1060
+										{order.address}
 									</p>
 								</div>
 								<div className='flex justify-center md:justify-start  items-center md:items-start flex-col space-y-4 '>
@@ -249,14 +255,17 @@ const OrderDetails = () => {
 										Billing Address
 									</p>
 									<p className='w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600'>
-										180 North King Street, Northhampton MA
-										1060
+										{order.address}
 									</p>
 								</div>
 							</div>
 							<div className='flex w-full justify-center items-center md:justify-start md:items-start'>
-								<button className='mt-6 md:mt-0 py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base leading-4 text-gray-800'>
-									Edit Details
+								<button
+									onClick={generatePDF}
+									className='mt-6 md:mt-0 py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base leading-4 text-gray-800'
+								>
+									Download Invoice{' '}
+									<FontAwesomeIcon icon={faDownload} />
 								</button>
 							</div>
 						</div>

@@ -39,7 +39,7 @@ const Customer = () => {
 							</span>
 						</Link>
 
-						<Link
+						{/* <Link
 							to='/customer'
 							className='flex items-center border-l-[3px] border-transparent px-4 py-3 text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700'
 						>
@@ -62,9 +62,9 @@ const Customer = () => {
 								{' '}
 								Customers{' '}
 							</span>
-						</Link>
+						</Link> */}
 
-						<Link
+						{/* <Link
 							to='/admin/customers'
 							className='flex items-center border-l-[3px] border-transparent px-4 py-3 text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700'
 						>
@@ -87,9 +87,9 @@ const Customer = () => {
 								{' '}
 								Billing{' '}
 							</span>
-						</Link>
+						</Link> */}
 
-						<a
+						{/* <a
 							href=''
 							className='flex items-center border-l-[3px] border-transparent px-4 py-3 text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700'
 						>
@@ -112,9 +112,9 @@ const Customer = () => {
 								{' '}
 								Invoices{' '}
 							</span>
-						</a>
+						</a> */}
 
-						<a
+						{/* <a
 							href=''
 							className='flex items-center border-l-[3px] border-transparent px-4 py-3 text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700'
 						>
@@ -137,8 +137,8 @@ const Customer = () => {
 								{' '}
 								Account{' '}
 							</span>
-						</a>
-						<Link
+						</a> */}
+						{/* <Link
 							to='/admin/products'
 							className='flex items-center border-l-[3px] border-transparent px-4 py-3 text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700'
 						>
@@ -161,8 +161,8 @@ const Customer = () => {
 								{' '}
 								Products{' '}
 							</span>
-						</Link>
-						<Link
+						</Link> */}
+						{/* <Link
 							to='/admin/categories'
 							className='flex items-center border-l-[3px] border-transparent px-4 py-3 text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700'
 						>
@@ -185,7 +185,7 @@ const Customer = () => {
 								{' '}
 								Categories{' '}
 							</span>
-						</Link>
+						</Link> */}
 					</nav>
 				</aside>
 				<div className='col-span-5 mx-10 my-5'>

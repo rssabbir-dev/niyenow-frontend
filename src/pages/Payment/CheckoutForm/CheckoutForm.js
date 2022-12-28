@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 
-const CheckoutForm = ({ order, subTotal }) => {
+const CheckoutForm = ({ order }) => {
 	document.title = 'Make Payment - Admin Dashboard';
 	const stripe = useStripe();
 	const elements = useElements();
@@ -73,7 +73,7 @@ const CheckoutForm = ({ order, subTotal }) => {
 		if (paymentIntent.status === 'succeeded') {
 			const payment = {
 				name: user.displayName,
-				price: subTotal,
+				price: order.subTotal,
 				transactionId: paymentIntent.id,
 				email: user.email,
 				orderId: order._id,
@@ -187,7 +187,7 @@ const CheckoutForm = ({ order, subTotal }) => {
 						<div className='mb-5'>
 							<p className='text-2xl'>Order Info</p>
 							<h1 className='text-lg'>Payment for {order._id}</h1>
-							<p>Price: ${subTotal}</p>
+							<p>Price: ${order.subTotal}</p>
 						</div>
 						<CardElement
 							options={{

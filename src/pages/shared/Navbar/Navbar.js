@@ -306,7 +306,7 @@ const Navbar = ({bg}) => {
 						<button
 							onClick={userRedirect}
 							aria-label='view favourites'
-							className='hidden md:block focus:outline-none text-gray-800 focus:ring-2 focus:ring-gray-800 rounded hover:bg-gray-100 p-0.5'
+							className='hidden md:block focus:outline-none text-gray-800  rounded hover:bg-gray-100 p-0.5'
 						>
 							<svg
 								className='fill-stroke'
@@ -334,7 +334,7 @@ const Navbar = ({bg}) => {
 						</button>
 						<Link
 							aria-label='Shopping bag'
-							className='hidden md:block focus:outline-none text-gray-800  focus:ring-2 focus:ring-gray-800 rounded hover:bg-gray-100 p-0.5 relative'
+							className='hidden md:block focus:outline-none text-gray-800  rounded hover:bg-gray-100 p-0.5 relative'
 						 	to='/cart'
 						>
 							<span className='absolute bottom-3 left-6'>{cartProducts.length}</span>

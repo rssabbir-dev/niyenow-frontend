@@ -24,10 +24,10 @@ const SalesReport = () => {
 			return data;
 		},
 	});
-	const totalIncome = sales.reduce((prev, curr) => prev + curr.price, 0);
 	if (isLoading) {
 		return <SpinnerMain />;
 	}
+	const totalIncome = sales.reduce((prev, curr) => prev + curr.price, 0);
 	return (
 		<section>
 			<div className=' mb-4'>

@@ -31,13 +31,7 @@ const MyOrder = () => {
 	return (
 		<section>
 			<div className='flex justify-between items-center mb-4'>
-				<p className='font-bold text-lg'>Products List</p>
-				<Link
-					className='btn btn-sm text-xs'
-					to='/admin/products/new-product'
-				>
-					New Product
-				</Link>
+				<p className='font-bold text-lg'>My Orders</p>
 			</div>
 
 			<div class='overflow-hidden overflow-x-auto rounded-lg border border-gray-200'>

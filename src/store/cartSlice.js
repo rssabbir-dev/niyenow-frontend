@@ -10,7 +10,9 @@ const cartSlice = createSlice({
 			state.cartProducts.push(...cartItems);
 			state.subTotal = state.cartProducts.reduce(
 				(prev, curr) =>
-					prev + parseInt(curr.product_info?.price),
+					prev +
+					parseInt(curr.product_info?.price) *
+						parseInt(curr.product_info.quantity),
 				0
 			);
 			console.log(state.subTotal);

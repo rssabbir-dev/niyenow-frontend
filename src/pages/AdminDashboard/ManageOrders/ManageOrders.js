@@ -1,3 +1,5 @@
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import React from 'react';
@@ -23,7 +25,8 @@ const ManageOrders = () => {
 			const data = await res.json();
 			return data;
 		},
-	});
+    });
+  
     const handleUpdateStatus = (id, status) => {
         fetch(
 			`${process.env.REACT_APP_API_URL}/update-status/${user.uid}?id=${id}&status=${status}`,
@@ -43,7 +46,9 @@ const ManageOrders = () => {
     }
 	if (isLoading) {
 		return <SpinnerMain />;
-	}
+    }
+    
+          
 	return (
 		<section>
 			<div className='flex justify-between items-center mb-4'>
@@ -107,9 +112,6 @@ const ManageOrders = () => {
 							</th>
 							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
 								Status
-							</th>
-							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
-								Action
 							</th>
 							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'></th>
 						</tr>
