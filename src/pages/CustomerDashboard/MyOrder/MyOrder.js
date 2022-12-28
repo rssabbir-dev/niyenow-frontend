@@ -1,0 +1,12 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
+
+const MyOrder = () => {
+    return (
+        <div>
+            <h1>My Order</h1>
+        </div>
+    );
+};
+
+export default MyOrder;

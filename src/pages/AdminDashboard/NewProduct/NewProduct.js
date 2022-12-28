@@ -1,3 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
@@ -74,6 +76,15 @@ const NewProduct = () => {
 			});
 		console.log('Hello');
 	};
+	const { data: categories, isLoading } = useQuery({
+		queryKey: ['categories'],
+		queryFn: async () => {
+			const res = await axios.get(
+				`${process.env.REACT_APP_API_URL}/categories`
+			);
+			return res.data;
+		},
+	});
 
 	return (
 		<section>
@@ -115,8 +126,9 @@ const NewProduct = () => {
 								<option disabled selected>
 									Who shot first?
 								</option>
-								<option>Han Solo</option>
-								<option>Greedo</option>
+								{categories.map((category) => {
+									return <option>{category.name}</option>;
+								})}
 							</select>
 						</div>
 						<div>

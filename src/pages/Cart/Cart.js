@@ -1,13 +1,16 @@
 import React from 'react';
 import { toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { cartActions } from '../../store/cartSlice';
 import CartItem from './CartItem';
 
 const Cart = () => {
 	const { cartProducts } = useSelector((state) => state.cart);
 	const { user } = useSelector((state) => state.auth);
-	const dispatch = useDispatch()
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const subTotal = cartProducts.reduce(
 		(prev, curr) => prev + parseInt(curr.product_info.price),
 		0
@@ -28,8 +31,56 @@ const Cart = () => {
 			.then((res) => res.json())
 			.then((data) => {
 				toast.success('Item Delete');
-				dispatch(cartActions.refetch())
+				dispatch(cartActions.refetch());
 			});
+	};
+
+	const confirmOrder = () => {
+		const order = {
+			customer_name: user.displayName,
+			customer_email: user.email,
+			customer_uid: user.uid,
+			ordered_products: cartProducts,
+			subTotal: subTotal,
+			payment_status: false,
+		};
+		Swal.fire({
+			title: 'Want to order?',
+			text: "You won't be able to revert this!",
+			icon: 'info',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Order Now',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				fetch(
+					`${process.env.REACT_APP_API_URL}/confirm-order/${user?.uid}`,
+					{
+						method: 'POST',
+						headers: {
+							'content-type': 'application/json',
+							authorization: `Bearer ${JSON.parse(
+								localStorage.getItem('token')
+							)}`,
+						},
+						body: JSON.stringify(order),
+					}
+				)
+					.then((res) => res.json())
+					.then((data) => {
+						navigate('/checkout');
+						dispatch(cartActions.refetch());
+						console.log(data);
+						console.log(order);
+						Swal.fire(
+							'Order Placed!',
+							'Payment Now',
+							'success'
+						);
+					});
+			}
+		});
 	};
 	return (
 		<section>
@@ -100,12 +151,12 @@ const Cart = () => {
 								</div>
 
 								<div class='flex justify-end'>
-									<a
-										href='#'
+									<button
+										onClick={confirmOrder}
 										class='block px-5 py-3 text-sm text-gray-100 transition bg-gray-700 rounded hover:bg-gray-600'
 									>
-										Checkout
-									</a>
+										Confirm Order
+									</button>
 								</div>
 							</div>
 						</div>

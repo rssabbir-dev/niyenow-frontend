@@ -199,4 +199,3 @@ const Admin = () => {
 };
 
 export default Admin;
-<h1>This is Admin</h1>;
