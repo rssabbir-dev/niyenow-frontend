@@ -20,13 +20,14 @@ const Navbar = ({bg}) => {
 	 const [showMenu, setShowMenu] = useState(false);
     const [showMenuSm, setShowMenuSm] = useState(false);
 	const [search, setSearch] = useState(false);
+
 	const userRedirect = ()=> {
 		if (!user?.uid) {
 			navigate('/login')
 		} else if (user?.uid && !isAdmin) {
 			navigate('/customer')
 		} else if (user?.uid && isAdmin) {
-			navigate('/customer')
+			navigate('/admin')
 		}
 	}
 	return (
@@ -229,7 +230,7 @@ const Navbar = ({bg}) => {
 							role='img'
 							className='cursor-pointer'
 						>
-							<svg
+							{/* <svg
 								className='fill-stroke text-gray-800 '
 								width={146}
 								height={26}
@@ -253,7 +254,8 @@ const Navbar = ({bg}) => {
 									strokeLinecap='round'
 									strokeLinejoin='round'
 								/>
-							</svg>
+							</svg> */}
+							<h3 className='text-2xl font-semibold'>NiyeNow</h3>
 						</div>
 						<div className='hidden lg:block'>
 							<ul className='flex items-center space-x-10'>

@@ -67,7 +67,7 @@ const Admin = () => {
 						</Link>
 
 						<Link
-							to='/admin/customers'
+							to='/admin/sales-report'
 							className='flex items-center border-l-[3px] border-transparent px-4 py-3 text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700'
 						>
 							<svg
@@ -87,12 +87,12 @@ const Admin = () => {
 
 							<span className='ml-3 text-sm font-medium'>
 								{' '}
-								Billing{' '}
+								Sales Report{' '}
 							</span>
 						</Link>
 
-						<a
-							href=''
+						<Link
+							to='/admin/manage-orders'
 							className='flex items-center border-l-[3px] border-transparent px-4 py-3 text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700'
 						>
 							<svg
@@ -112,9 +112,9 @@ const Admin = () => {
 
 							<span className='ml-3 text-sm font-medium'>
 								{' '}
-								Invoices{' '}
+								Manage Orders{' '}
 							</span>
-						</a>
+						</Link>
 
 						<a
 							href=''

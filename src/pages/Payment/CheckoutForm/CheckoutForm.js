@@ -72,13 +72,14 @@ const CheckoutForm = ({ order, subTotal }) => {
 		}
 		if (paymentIntent.status === 'succeeded') {
 			const payment = {
-				name:user.displayName,
+				name: user.displayName,
 				price: subTotal,
 				transactionId: paymentIntent.id,
 				email: user.email,
 				orderId: order._id,
 				address: form.address1.value,
-				phone:form.phone_number.value
+				phone: form.phone_number.value,
+				createAt: new Date(),
 			};
 			fetch(`${process.env.REACT_APP_API_URL}/payments/${user?.uid}`, {
 				method: 'POST',

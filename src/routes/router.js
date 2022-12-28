@@ -6,8 +6,10 @@ import AdminHome from '../pages/AdminDashboard/AdminHome/AdminHome';
 import AdminProducts from '../pages/AdminDashboard/AdminProducts/AdminProducts';
 import AllCustomer from '../pages/AdminDashboard/AllCustomer/AllCustomer';
 import Categories from '../pages/AdminDashboard/Categories/Categories';
+import ManageOrders from '../pages/AdminDashboard/ManageOrders/ManageOrders';
 import NewCategory from '../pages/AdminDashboard/NewCategory/NewCategory';
 import NewProduct from '../pages/AdminDashboard/NewProduct/NewProduct';
+import SalesReport from '../pages/AdminDashboard/SalesReport/SalesReport';
 import Login from '../pages/AuthManager/Login';
 import Register from '../pages/AuthManager/Register';
 import Cart from '../pages/Cart/Cart';
@@ -115,6 +117,22 @@ export const router = createBrowserRouter([
 					</AdminRoute>
 				),
 			},
+			{
+				path: '/admin/manage-orders',
+				element: (
+					<AdminRoute>
+						<ManageOrders />
+					</AdminRoute>
+				),
+			},
+			{
+				path: '/admin/sales-report',
+				element: (
+					<AdminRoute>
+						<SalesReport />
+					</AdminRoute>
+				),
+			},
 		],
 	},
 	{
@@ -130,9 +148,9 @@ export const router = createBrowserRouter([
 				element: <MyOrder />,
 			},
 			{
-				path: "/customer/my-order/details/:id",
-				element:<OrderDetails/>
-			}
+				path: '/customer/my-order/details/:id',
+				element: <OrderDetails />,
+			},
 		],
 	},
 	{

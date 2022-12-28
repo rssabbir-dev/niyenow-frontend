@@ -43,6 +43,7 @@ const Cart = () => {
 			ordered_products: cartProducts,
 			subTotal: subTotal,
 			payment_status: false,
+			order_status:'payment pending',
 			createAt: new Date(),
 		};
 		Swal.fire({
