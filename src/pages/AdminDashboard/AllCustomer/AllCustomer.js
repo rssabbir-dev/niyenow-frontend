@@ -57,7 +57,7 @@ const AllCustomer = () => {
 							</th>
 							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
 								<div class='flex items-center gap-2'>
-									Name
+									Email
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
 										class='h-4 w-4 text-gray-700'
@@ -90,7 +90,7 @@ const AllCustomer = () => {
 								</div>
 							</th>
 							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
-								Status
+								Action
 							</th>
 						</tr>
 					</thead>
@@ -108,22 +108,7 @@ const AllCustomer = () => {
 									7
 								</td>
 								<td class='whitespace-nowrap px-4 py-2'>
-									<div className='dropdown dropdown-left dropdown-end'>
-										<label tabIndex={0} className='btn m-1'>
-											Click
-										</label>
-										<ul
-											tabIndex={0}
-											className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52'
-										>
-											<li>
-												<a>Item 1</a>
-											</li>
-											<li>
-												<a>Item 2</a>
-											</li>
-										</ul>
-									</div>
+									<Link to={`/admin/customers/details/${pd.uid}`} className='text-blue-500'>View Details</Link>
 								</td>
 							</tr>
 						))}

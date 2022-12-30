@@ -1,15 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import SpinnerMain from '../../../components/SpinnerMain/SpinnerMain';
 
 const NewProduct = () => {
 	const [file, setFile] = useState('');
-
+	const location = useLocation();
+	const param = useParams();
 	const { user } = useSelector((state) => state.auth);
-	console.log(user);
+	const [isProductSaveLoading, setIsProductSaveLoading] = useState(false);
+	const [isProductExist, setIsProductExist] = useState({});
+	const [isProductExistLoading, setIsProductExistLoading] = useState(false);
 
 	const handleChange = (e) => {
 		setFile(URL.createObjectURL(e.target.files[0]));
@@ -21,41 +26,69 @@ const NewProduct = () => {
 		formState: { errors },
 	} = useForm();
 	const handleNewProduct = (data) => {
-		const product = {
-			product_info: {
+		setIsProductSaveLoading(true);
+		const formData = new FormData();
+		formData.append('image', data.product_image[0]);
+		if (!location.pathname.startsWith('/admin/products/details')) {
+			const product = {
+				product_info: {
+					product_name: data.product_name,
+					product_description: data.product_description,
+					product_category: data.product_category,
+					product_image: null,
+					product_price: parseInt(data.product_price),
+					product_quantity: parseInt(data.product_quantity),
+					totalSale: 0,
+				},
+				seller_info: {
+					seller_name: user.displayName,
+					seller_email: user.email,
+					seller_uid: user.uid,
+				},
+				createAt: new Date(),
+				visibility: true,
+			};
+			fetch(
+				`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_imgbb_api_key}`,
+				{
+					method: 'POST',
+					body: formData,
+				}
+			)
+				.then((res) => res.json())
+				.then((imgData) => {
+					product.product_info.product_image = imgData.data.url;
+					handleSaveProduct(product);
+				});
+		} else {
+			const updatedProduct = {
 				product_name: data.product_name,
 				product_description: data.product_description,
 				product_category: data.product_category,
-				product_image: null,
-				product_price: data.product_price,
-				product_quantity: data.product_quantity,
-			},
-			seller_info: {
-				seller_name: user.displayName,
-				seller_email: user.email,
-				seller_uid: user.uid,
-			},
-			createAt: new Date(),
-		};
-		const formData = new FormData();
-		formData.append('image', data.product_image[0]);
-		fetch(
-			`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_imgbb_api_key}`,
-			{
-				method: 'POST',
-				body: formData,
+				product_image: isProductExist.product_info.product_image,
+				product_price: parseInt(data.product_price),
+				product_quantity: parseInt(data.product_quantity),
+			};
+			if (data.product_image[0]) {
+				fetch(
+					`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_imgbb_api_key}`,
+					{
+						method: 'POST',
+						body: formData,
+					}
+				)
+					.then((res) => res.json())
+					.then((imgData) => {
+						updatedProduct.product_image = imgData.data.url;
+						handleUpdateProduct(updatedProduct);
+					});
+			} else {
+				handleUpdateProduct(updatedProduct);
 			}
-		)
-			.then((res) => res.json())
-			.then((imgData) => {
-				product.product_info.product_image = imgData.data.url;
-				console.log('Img Saved');
-				handleSaveProduct(product);
-			});
+		}
+		console.log(data.product_image[0]);
 	};
-
 	const handleSaveProduct = (productData) => {
-		console.log('inside save pd');
 		fetch(`${process.env.REACT_APP_API_URL}/product?uid=${user?.uid}`, {
 			method: 'POST',
 			headers: {
@@ -68,14 +101,44 @@ const NewProduct = () => {
 		})
 			.then((res) => res.json())
 			.then((data) => {
-				console.log(data);
-				console.log('pd saved');
-				toast.success('Product Added');
 				reset();
 				setFile('');
+				setIsProductSaveLoading(false);
+				toast.success('Product Added');
 			});
-		console.log('Hello');
 	};
+	const handleUpdateProduct = (productData) => {
+		fetch(
+			`${process.env.REACT_APP_API_URL}/product/${user?.uid}?id=${param.id}`,
+			{
+				method: 'PATCH',
+				headers: {
+					'content-type': 'application/json',
+					authorization: `Bearer ${JSON.parse(
+						localStorage.getItem('token')
+					)}`,
+				},
+				body: JSON.stringify(productData),
+			}
+		)
+			.then((res) => res.json())
+			.then((data) => {
+				setIsProductSaveLoading(false);
+				toast.success('Product Updated');
+			});
+	};
+	useEffect(() => {
+		if (location.pathname.startsWith('/admin/products/details')) {
+			setIsProductExistLoading(true);
+			axios
+				.get(`${process.env.REACT_APP_API_URL}/product/${param.id}`)
+				.then((res) => {
+					setIsProductExist(res.data);
+					setIsProductExistLoading(false);
+					setFile(res.data.product_info.product_image);
+				});
+		}
+	}, [location.pathname, param.id]);
 	const { data: categories, isLoading } = useQuery({
 		queryKey: ['categories'],
 		queryFn: async () => {
@@ -85,10 +148,17 @@ const NewProduct = () => {
 			return res.data;
 		},
 	});
-
+	if (isLoading) {
+		return <SpinnerMain />;
+	}
 	return (
 		<section>
-			<h4 className='text-xl mb-3'>Add New Product</h4>
+			<h4 className='text-xl mb-3'>
+				{location.pathname.startsWith('/admin/products/details')
+					? 'Update Product'
+					: 'Add New Product'}
+			</h4>
+
 			<div>
 				<form
 					onSubmit={handleSubmit(handleNewProduct)}
@@ -102,6 +172,9 @@ const NewProduct = () => {
 							{...register('product_name', {
 								required: 'Product Name Required',
 							})}
+							defaultValue={
+								isProductExist?.product_info?.product_name
+							}
 						/>
 					</div>
 					<div>
@@ -112,6 +185,10 @@ const NewProduct = () => {
 							{...register('product_description', {
 								required: 'Product Description Required',
 							})}
+							defaultValue={
+								isProductExist?.product_info
+									?.product_description
+							}
 						></textarea>
 					</div>
 					<div className='grid grid-cols-3 gap-10'>
@@ -122,11 +199,15 @@ const NewProduct = () => {
 									required: 'Category is Required',
 								})}
 								className='select select-bordered w-full max-w-xs'
+								defaultValue={
+									isProductExist?.product_info
+										?.product_category
+								}
 							>
 								<option disabled selected>
-									Who shot first?
+									Uncategory
 								</option>
-								{categories.map((category) => {
+								{categories?.map((category) => {
 									return <option>{category.name}</option>;
 								})}
 							</select>
@@ -140,17 +221,24 @@ const NewProduct = () => {
 								{...register('product_price', {
 									required: 'Product Price Required',
 								})}
+								defaultValue={
+									isProductExist?.product_info?.product_price
+								}
 							/>
 						</div>
 						<div>
 							<h4 className='text-xl mb-3'>Quantity</h4>
 							<input
-								type='text'
+								type='number'
 								placeholder='Product Quantity'
 								className='input input-bordered w-full max-w-xs'
 								{...register('product_quantity', {
 									required: 'Product Quantity Required',
 								})}
+								defaultValue={
+									isProductExist?.product_info
+										?.product_quantity
+								}
 							/>
 						</div>
 					</div>
@@ -202,9 +290,36 @@ const NewProduct = () => {
 						</div>
 					</div>
 					<div>
-						<button className='btn btn-primary'>
-							Save Product
-						</button>
+						{!isProductSaveLoading && (
+							<button className='ml-3 inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white'>
+								Save Product
+							</button>
+						)}
+						{isProductSaveLoading && (
+							<button
+								disabled
+								type='button'
+								className='ml-3 inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white'
+							>
+								<svg
+									role='status'
+									class='inline mr-3 w-4 h-4 text-white animate-spin'
+									viewBox='0 0 100 101'
+									fill='none'
+									xmlns='http://www.w3.org/2000/svg'
+								>
+									<path
+										d='M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z'
+										fill='#E5E7EB'
+									/>
+									<path
+										d='M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z'
+										fill='currentColor'
+									/>
+								</svg>
+								Loading...
+							</button>
+						)}
 					</div>
 				</form>
 			</div>

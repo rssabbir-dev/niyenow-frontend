@@ -52,7 +52,6 @@ const OrderDetails = () => {
 			<div className='mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0'>
 				<div className='flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8'>
 					<div className='flex flex-col justify-start items-start bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full'>
-						
 						{order?.ordered_products.map((pd) => (
 							<div
 								key={pd._id}
@@ -256,6 +255,25 @@ const OrderDetails = () => {
 									</p>
 									<p className='w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600'>
 										{order.address}
+									</p>
+								</div>
+								<div className='flex justify-center md:justify-start  items-center md:items-start flex-col space-y-4 mb-5'>
+									<p className='text-base font-semibold leading-4 text-center md:text-left text-gray-800 space-x-2'>
+										<span>Payment Status</span>
+										<span
+											className={` text-sm p-2 rounded-xl ${
+												order.payment_status
+													? 'bg-green-100 text-green-700'
+													: 'bg-red-100 text-red-500'
+											}`}
+										>
+											{order.payment_status
+												? 'Paid'
+												: 'Unpaid'}
+										</span>
+									</p>
+									<p className='w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600'>
+										{order?.transactionId}
 									</p>
 								</div>
 							</div>

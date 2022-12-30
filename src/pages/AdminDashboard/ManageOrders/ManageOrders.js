@@ -241,7 +241,7 @@ const ManageOrders = () => {
 								<td class='whitespace-nowrap px-4 py-2'>
 									<Link
 										className='text-blue-500'
-										to={`/customer/my-order/details/${pd._id}`}
+										to={`/admin/order/details/${pd._id}`}
 									>
 										View
 									</Link>

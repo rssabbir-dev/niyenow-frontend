@@ -2,11 +2,16 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import SpinnerMain from '../../../components/SpinnerMain/SpinnerMain';
 
 const AdminProducts = () => {
 	const { user } = useSelector((state) => state.auth);
-	const { data: products, isLoading } = useQuery({
+	const {
+		data: products,
+		isLoading,
+		refetch,
+	} = useQuery({
 		queryKey: ['adminProducts', user?.uid],
 		queryFn: async () => {
 			const res = await fetch(
@@ -23,7 +28,84 @@ const AdminProducts = () => {
 			return data;
 		},
 	});
-	console.log(products);
+	const handleDeleteProduct = (id) => {
+		Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				fetch(
+					`${process.env.REACT_APP_API_URL}/product/${user?.uid}?id=${id}`,
+					{
+						method: 'DELETE',
+						headers: {
+							authorization: `Bearer ${JSON.parse(
+								localStorage.getItem('token')
+							)}`,
+						},
+					}
+				)
+					.then((res) => res.json())
+					.then((data) => {
+						if (data.acknowledged) {
+							Swal.fire(
+								'Deleted!',
+								'Your Product has been deleted.',
+								'success'
+							);
+							console.log(data);
+							refetch();
+						}
+					});
+			}
+		});
+	};
+	const handleVisibility = (visibility, id) => {
+		const updatedDoc = {
+			visibility: !visibility,
+		};
+		Swal.fire({
+			title: 'Are you sure?',
+			text: 'Change Product Visibility?',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, Change!',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				fetch(
+					`${process.env.REACT_APP_API_URL}/product-visibility/${user?.uid}?id=${id}`,
+					{
+						method: 'PATCH',
+						headers: {
+							'content-type': 'application/json',
+							authorization: `Bearer ${JSON.parse(
+								localStorage.getItem('token')
+							)}`,
+						},
+						body: JSON.stringify(updatedDoc),
+					}
+				)
+					.then((res) => res.json())
+					.then((data) => {
+						if (data.acknowledged) {
+							Swal.fire(
+								'Visibility Updated!',
+								'Your Product has been Updated.',
+								'success'
+							);
+							refetch();
+						}
+					});
+			}
+		});
+	};
 	if (isLoading) {
 		return <SpinnerMain />;
 	}
@@ -97,9 +179,7 @@ const AdminProducts = () => {
 							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
 								Stock
 							</th>
-							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
-								Status
-							</th>
+							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'></th>
 						</tr>
 					</thead>
 
@@ -119,27 +199,63 @@ const AdminProducts = () => {
 									$128.99
 								</td>
 								<td class='whitespace-nowrap px-4 py-2'>
-									<strong class='rounded bg-green-100 px-3 py-1.5 text-xs font-medium text-green-700'>
+									<strong
+										class={`rounded bg-green-100 px-3 py-1.5 text-xs font-medium text-green-700 ${
+											pd.product_info?.product_quantity <
+												20 && 'bg-red-100 text-red-700'
+} ${
+											pd.product_info?.product_quantity <
+												50 &&
+											'bg-yellow-100 text-yellow-700'
+										}`}
+									>
 										{pd.product_info?.product_quantity} Left
 									</strong>
 								</td>
-								<td class='whitespace-nowrap px-4 py-2'>
-									<div className='dropdown dropdown-left dropdown-end'>
-										<label tabIndex={0} className='btn m-1'>
-											Click
-										</label>
-										<ul
-											tabIndex={0}
-											className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52'
+								<td class='whitespace-nowrap px-4 py-2 space-x-1 flex justify-end'>
+									<Link
+										to={`/admin/products/details/${pd._id}`}
+										className='text-blue-500'
+									>
+										Edit
+									</Link>
+									<span>|</span>
+									<button
+										onClick={() =>
+											handleDeleteProduct(pd._id)
+										}
+										className='text-red-500'
+									>
+										Delete
+									</button>
+
+									<span>|</span>
+									{pd.visibility && (
+										<button
+											onClick={() =>
+												handleVisibility(
+													pd.visibility,
+													pd._id
+												)
+											}
+											className='text-yellow-500'
 										>
-											<li>
-												<a>Item 1</a>
-											</li>
-											<li>
-												<a>Item 2</a>
-											</li>
-										</ul>
-									</div>
+											Unpublish
+										</button>
+									)}
+									{!pd.visibility && (
+										<button
+											onClick={() =>
+												handleVisibility(
+													pd.visibility,
+													pd._id
+												)
+											}
+											className='text-green-500'
+										>
+											Publish
+										</button>
+									)}
 								</td>
 							</tr>
 						))}

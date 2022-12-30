@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import InnerImageZoom from 'react-inner-image-zoom';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css';
 import { useForm } from 'react-hook-form';
@@ -32,6 +31,10 @@ const ProductView = () => {
 			.then(res => {
 				setProduct(res.data)
 				setIsLoading(false)
+			})
+			.catch(err => {
+			console.log(err);
+			setIsLoading(false)
 		})
 	},[param.id])
 	const location = useLocation();
@@ -41,7 +44,6 @@ const ProductView = () => {
 		formState: { errors },
 	} = useForm();
 	const exist = cartProducts.find(pd => pd.product_info.id === param.id)
-	console.log(exist);
 	const handleAddToCart = (formData) => {
 		const order = {
 			product_info: {
@@ -263,10 +265,13 @@ const ProductView = () => {
 						>
 							<fieldset>
 								<legend className='mb-1 text-sm font-medium'>
-									Color
+									Stock
 								</legend>
-
-								<div className='flow-root'>
+								<p>
+									Only {product.product_info.product_quantity}{' '}
+									Stock Left
+								</p>
+								{/* <div className='flow-root'>
 									<div className='-m-0.5 flex flex-wrap'>
 										<label
 											htmlFor='color_tt'
@@ -316,7 +321,7 @@ const ProductView = () => {
 											</span>
 										</label>
 									</div>
-								</div>
+								</div> */}
 							</fieldset>
 
 							<fieldset className='mt-4'>
@@ -430,17 +435,38 @@ const ProductView = () => {
 									/>
 								</div>
 
-								<button
-									type='submit'
-									className='block px-5 py-3 ml-3 text-xs font-medium text-white bg-green-600 rounded hover:bg-green-500 disabled:bg-gray-500'
-									disabled={
-										exist?.product_info?.id === param.id
-									}
-								>
-									{exist?.product_info.id === param.id
-										? 'Already Added'
-										: 'Add to Cart'}
-								</button>
+								{user?.uid && (
+									<>
+										{product.product_info.product_quantity >
+										0 ? (
+											<button
+												type='submit'
+												className='block px-5 py-3 ml-3 text-xs font-medium text-white bg-green-600 rounded hover:bg-green-500 disabled:bg-gray-500'
+												disabled={
+													exist?.product_info?.id ===
+													param.id
+												}
+											>
+												{exist?.product_info.id ===
+												param.id
+													? 'Already Added'
+													: 'Add to Cart'}
+											</button>
+										) : (
+											<p className='italic font-bold text-red-500 py-3 px-5 ml-3'>
+												Stock Out
+											</p>
+										)}
+									</>
+								)}
+								{!user?.uid && (
+									<Link
+										to='/login'
+										className='block px-5 py-3 ml-3 text-xs font-medium text-white bg-green-600 rounded hover:bg-green-500 disabled:bg-gray-500'
+									>
+										Login First
+									</Link>
+								)}
 							</div>
 						</form>
 					</div>

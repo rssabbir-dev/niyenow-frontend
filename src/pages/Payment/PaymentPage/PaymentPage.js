@@ -5,12 +5,14 @@ import React, {  useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import CheckoutForm from '../CheckoutForm/CheckoutForm';
+import OrderSuccess from '../OrderSuccess/OrderSuccess';
 
 const PaymentPage = () => {
 	const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_SECRET);
 	const { user } = useSelector((state) => state.auth);
 	const [order, setOrder] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
+	const [refetch,setRefetch] = useState(0)
     const param = useParams()
 	useEffect(() => {
 		fetch(`${process.env.REACT_APP_API_URL}/order/${user?.uid}?id=${param.id}`, {
@@ -25,17 +27,19 @@ const PaymentPage = () => {
 				setOrder(data);
 				setIsLoading(false);
 			});
-	}, [param.id, user?.uid]);
+	}, [param.id, user?.uid,refetch]);
 	console.log(order);
 	return (
 		<>
-			<Elements stripe={stripePromise}>
-				<CheckoutForm
-					order={order}
-				/>
-			</Elements>
+			{!order.payment_status && (
+				<Elements stripe={stripePromise}>
+					<CheckoutForm setRefetch={setRefetch} order={order} />
+				</Elements>
+			)}
 
-			{/* {order.order_status && <OrderSuccess />} */}
+			{order.payment_status && (
+				<OrderSuccess transactionId={order.transactionId} />
+			)}
 		</>
 	);
 };

@@ -31,7 +31,7 @@ const SalesReport = () => {
 	return (
 		<section>
 			<div className=' mb-4'>
-				<p className='font-bold text-lg'>Customer List</p>
+				<p className='font-bold text-lg'>Payment Report</p>
 			</div>
 
 			<div class='overflow-hidden overflow-x-auto rounded-lg border border-gray-200'>
