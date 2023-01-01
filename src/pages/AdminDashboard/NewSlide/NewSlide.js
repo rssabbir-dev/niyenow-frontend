@@ -126,13 +126,13 @@ const NewSlide = () => {
 							</span>
 						)}
 					</div>
-					<div className='grid grid-cols-3 gap-10'>
+					<div className='grid grid-cols-2 gap-10'>
 						<div>
 							<h4 className='text-xl mb-3'>Button Name</h4>
 							<input
 								type='text'
 								placeholder='Button Name'
-								className={`input input-bordered w-full max-w-xs ${
+								className={`input input-bordered w-full ${
 									errors.button_name &&
 									'focus:outline-red-500 border-red-500'
 								}`}
@@ -151,7 +151,7 @@ const NewSlide = () => {
 							<input
 								type='text'
 								placeholder='Button Link'
-								className={`input input-bordered w-full max-w-xs ${
+								className={`input input-bordered w-full  ${
 									errors.button_link &&
 									'focus:outline-red-500 border-red-500'
 								}`}

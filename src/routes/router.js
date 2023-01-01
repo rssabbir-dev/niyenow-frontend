@@ -15,6 +15,7 @@ import SliderEditor from '../pages/AdminDashboard/SliderEditor/SliderEditor';
 import Login from '../pages/AuthManager/Login';
 import Register from '../pages/AuthManager/Register';
 import Cart from '../pages/Cart/Cart';
+import CategoryProducts from '../pages/CategoryProducts/CategoryProducts';
 import Checkout from '../pages/Checkout/Checkout';
 import MyOrder from '../pages/CustomerDashboard/MyOrder/MyOrder/MyOrder/MyOrder';
 import OrderDetails from '../pages/CustomerDashboard/OrderDetails/OrderDetails';
@@ -40,9 +41,13 @@ export const router = createBrowserRouter([
 				element: <Shop />,
 			},
 			{
+				path: '/category/:slug',
+				element: <CategoryProducts />,
+			},
+			{
 				path: '/product/:id',
 				element: <ProductView />,
-				errorElement: <ErrorPage/>
+				errorElement: <ErrorPage />,
 			},
 			{
 				path: '/cart',

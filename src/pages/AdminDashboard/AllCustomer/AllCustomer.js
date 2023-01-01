@@ -2,7 +2,7 @@ import { async } from '@firebase/util';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import SpinnerMain from '../../../components/SpinnerMain/SpinnerMain';
 
 const AllCustomer = () => {
@@ -24,14 +24,36 @@ const AllCustomer = () => {
 			return data;
 		},
 	});
-	console.log(AllCustomer);
+	const location = useLocation()
 	if (isLoading) {
 		return <SpinnerMain />;
 	}
 	return (
 		<section>
 			<div className=' mb-4'>
-				<p className='font-bold text-lg'>Customer List</p>
+				<nav className='mb-3 text-xl font-bold'>
+					<Link
+						to='/admin'
+						className={
+							location.pathname === '/admin'
+								? 'breadcrumb-active'
+								: 'breadcrumb-not-active'
+						}
+					>
+						Dashboard
+					</Link>
+					<span className='breadcrumb-arrow'>&gt;</span>
+					<Link
+						to={`/admin/customers`}
+						className={
+							location.pathname.startsWith('/admin/customers')
+								? 'breadcrumb-active'
+								: 'breadcrumb-not-active'
+						}
+					>
+						Customers List
+					</Link>
+				</nav>
 			</div>
 
 			<div class='overflow-hidden overflow-x-auto rounded-lg border border-gray-200'>
@@ -108,7 +130,12 @@ const AllCustomer = () => {
 									7
 								</td>
 								<td class='whitespace-nowrap px-4 py-2'>
-									<Link to={`/admin/customers/details/${pd.uid}`} className='text-blue-500'>View Details</Link>
+									<Link
+										to={`/admin/customers/details/${pd.uid}`}
+										className='text-blue-500'
+									>
+										View Details
+									</Link>
 								</td>
 							</tr>
 						))}

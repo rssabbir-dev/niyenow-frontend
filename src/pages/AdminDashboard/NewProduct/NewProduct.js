@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import SpinnerMain from '../../../components/SpinnerMain/SpinnerMain';
 
 const NewProduct = () => {
@@ -26,15 +26,19 @@ const NewProduct = () => {
 		formState: { errors },
 	} = useForm();
 	const handleNewProduct = (data) => {
+		const optionCategoryName = data.product_category.split('^^')[1];
+		const optionCategorySlug = data.product_category.split('^^')[0];
 		setIsProductSaveLoading(true);
 		const formData = new FormData();
 		formData.append('image', data.product_image[0]);
 		if (!location.pathname.startsWith('/admin/products/details')) {
+			
 			const product = {
 				product_info: {
 					product_name: data.product_name,
 					product_description: data.product_description,
-					product_category: data.product_category,
+					product_category: optionCategoryName,
+					category_slug:optionCategorySlug,
 					product_image: null,
 					product_price: parseInt(data.product_price),
 					product_quantity: parseInt(data.product_quantity),
@@ -64,7 +68,8 @@ const NewProduct = () => {
 			const updatedProduct = {
 				product_name: data.product_name,
 				product_description: data.product_description,
-				product_category: data.product_category,
+				product_category: optionCategoryName,
+				category_slug: optionCategorySlug,
 				product_image: isProductExist.product_info.product_image,
 				product_price: parseInt(data.product_price),
 				product_quantity: parseInt(data.product_quantity),
@@ -154,9 +159,61 @@ const NewProduct = () => {
 	return (
 		<section>
 			<h4 className='text-xl mb-3'>
-				{location.pathname.startsWith('/admin/products/details')
+				{/* {location.pathname.startsWith('/admin/products/details')
 					? 'Update Product'
-					: 'Add New Product'}
+					: 'Add New Product'} */}
+				<nav className='mb-3 text-xl font-bold'>
+					<Link
+						to='/admin'
+						className={
+							location.pathname === '/admin'
+								? 'breadcrumb-active'
+								: 'breadcrumb-not-active'
+						}
+					>
+						Dashboard
+					</Link>
+					<span className='breadcrumb-arrow'>&gt;</span>
+					<Link
+						to={`/admin/products`}
+						className={
+							location.pathname === '/admin/products'
+								? 'breadcrumb-active'
+								: 'breadcrumb-not-active'
+						}
+					>
+						Product List
+					</Link>
+					<span className='breadcrumb-arrow'>&gt;</span>
+					{!isProductExist._id && (
+						<Link
+							to={`/admin/products/new-product`}
+							className={
+								location.pathname.startsWith(
+									'/admin/products/new-product'
+								)
+									? 'breadcrumb-active'
+									: 'breadcrumb-not-active'
+							}
+						>
+							Add New
+						</Link>
+					)}
+					{isProductExist._id && (
+						<Link
+							to={`/admin/products/details/${isProductExist._id}`}
+							className={
+								location.pathname.startsWith(
+									'/admin/products/details'
+								)
+									? 'breadcrumb-active'
+									: 'breadcrumb-not-active'
+							}
+						>
+							Edit Product
+						</Link>
+					)}
+				</nav>
 			</h4>
 
 			<div>
@@ -191,14 +248,14 @@ const NewProduct = () => {
 							}
 						></textarea>
 					</div>
-					<div className='grid grid-cols-3 gap-10'>
+					<div className='grid sm:grid-cols-3 gap-10'>
 						<div>
 							<h4 className='text-xl mb-3'>Category</h4>
 							<select
 								{...register('product_category', {
 									required: 'Category is Required',
 								})}
-								className='select select-bordered w-full max-w-xs'
+								className='select select-bordered w-full '
 								defaultValue={
 									isProductExist?.product_info
 										?.product_category
@@ -208,7 +265,13 @@ const NewProduct = () => {
 									Uncategory
 								</option>
 								{categories?.map((category) => {
-									return <option>{category.name}</option>;
+									return (
+										<option
+											value={`${category.slug}^^${category.name}`}
+										>
+											{category.name}
+										</option>
+									);
 								})}
 							</select>
 						</div>
@@ -217,7 +280,7 @@ const NewProduct = () => {
 							<input
 								type='number'
 								placeholder='Product Price'
-								className='input input-bordered w-full max-w-xs'
+								className='input input-bordered w-full '
 								{...register('product_price', {
 									required: 'Product Price Required',
 								})}
@@ -231,7 +294,7 @@ const NewProduct = () => {
 							<input
 								type='number'
 								placeholder='Product Quantity'
-								className='input input-bordered w-full max-w-xs'
+								className='input input-bordered w-full '
 								{...register('product_quantity', {
 									required: 'Product Quantity Required',
 								})}

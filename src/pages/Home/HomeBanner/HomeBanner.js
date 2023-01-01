@@ -3,8 +3,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 // Import Swiper styles
 import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 import { Link } from 'react-router-dom';
 const HomeBanner = ({sliderData}) => {
 	
@@ -21,7 +19,7 @@ const HomeBanner = ({sliderData}) => {
 					clickable: true,
 				}}
 				navigation={false}
-				modules={[Autoplay, Pagination, Navigation]}
+				modules={[Autoplay]}
 				className='mySwiper'
 			>
 				{sliderData?.map((slide) => (
@@ -37,8 +35,8 @@ const HomeBanner = ({sliderData}) => {
 export const Slide = ({ slide }) => {
 	return (
 		<div className='bg-slate-100'>
-			<div className='container mx-auto py-9 md:py-12 lg:py-24'>
-				<div className='relative mx-4'>
+			<div className=''>
+				<div className='relative'>
 					<div class='absolute inset-0 bg-white/75 sm:bg-transparent sm:bg-gradient-to-r sm:from-white/95 sm:to-white/25'></div>
 					<img
 						src={slide?.slide_image}

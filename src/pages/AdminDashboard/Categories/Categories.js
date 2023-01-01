@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import SpinnerMain from '../../../components/SpinnerMain/SpinnerMain';
 
 const Categories = () => {
@@ -23,6 +23,7 @@ const Categories = () => {
 			return data;
 		},
 	});
+	const location = useLocation()
 	console.log(products);
 	if (isLoading) {
 		return <SpinnerMain />;
@@ -30,7 +31,29 @@ const Categories = () => {
 	return (
 		<section>
 			<div className='flex justify-between items-center mb-4'>
-				<p className='font-bold text-lg'>Categories List</p>
+				<nav className='mb-3 text-xl font-bold'>
+					<Link
+						to='/admin'
+						className={
+							location.pathname === '/admin'
+								? 'breadcrumb-active'
+								: 'breadcrumb-not-active'
+						}
+					>
+						Dashboard
+					</Link>
+					<span className='breadcrumb-arrow'>&gt;</span>
+					<Link
+						to={`/admin/categories`}
+						className={
+							location.pathname.startsWith('/admin/categories')
+								? 'breadcrumb-active'
+								: 'breadcrumb-not-active'
+						}
+					>
+						Categories List
+					</Link>
+				</nav>
 				<Link
 					className='btn btn-sm text-xs'
 					to='/admin/categories/new-category'
@@ -67,9 +90,6 @@ const Categories = () => {
 							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
 								Slug
 							</th>
-							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
-								Action
-							</th>
 						</tr>
 					</thead>
 
@@ -78,7 +98,11 @@ const Categories = () => {
 							<tr>
 								<td>
 									<div className='p-2'>
-										<img className='w-14 h-14 object-cover border rounded' src={pd.image} alt='' />
+										<img
+											className='w-14 h-14 object-cover border rounded'
+											src={pd.image}
+											alt=''
+										/>
 									</div>
 								</td>
 								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
@@ -86,25 +110,6 @@ const Categories = () => {
 								</td>
 								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
 									{pd.slug}
-								</td>
-								
-								<td class='whitespace-nowrap px-4 py-2'>
-									<div className='dropdown dropdown-left dropdown-end'>
-										<label tabIndex={0} className='btn m-1'>
-											Click
-										</label>
-										<ul
-											tabIndex={0}
-											className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52'
-										>
-											<li>
-												<a>Item 1</a>
-											</li>
-											<li>
-												<a>Item 2</a>
-											</li>
-										</ul>
-									</div>
 								</td>
 							</tr>
 						))}

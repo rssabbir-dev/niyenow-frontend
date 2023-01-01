@@ -30,6 +30,7 @@ const Navbar = ({ bg }) => {
 		} else if (user?.uid && isAdmin) {
 			navigate('/admin');
 		}
+		setShowMenuSm(false)
 	};
 	return (
 		<div className=''>
@@ -135,10 +136,7 @@ const Navbar = ({ bg }) => {
 						</button>
 					</div>
 					<div className='lg:w-6/12 flex flex-col justify-center items-center space-y-3.5'>
-						<Link to='/'
-							role='img'
-							className='cursor-pointer'
-						>
+						<Link to='/' role='img' className='cursor-pointer'>
 							<h3 className='text-2xl font-semibold'>NiyeNow</h3>
 						</Link>
 						<div className='hidden lg:block'>
@@ -347,12 +345,12 @@ const Navbar = ({ bg }) => {
 							<div className='mt-8'>
 								<ul className='flex flex-col space-y-8'>
 									<li className='flex items-center justify-between'>
-										<a
-											href='#'
+										<Link
+											to='/'
 											className=' text-base text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-800 hover:underline'
 										>
 											Home
-										</a>
+										</Link>
 										<button
 											className='fill-stroke text-black '
 											aria-label='show options'
@@ -526,6 +524,7 @@ const Navbar = ({ bg }) => {
 						<ul className='flex flex-col space-y-8'>
 							<li className='flex items-center justify-between'>
 								<Link
+									onClick={() => setShowMenuSm(false)}
 									to='/'
 									className='text-base text-gray-800 focus:outline-none  focus:ring-2 focus:ring-gray-800 hover:underline'
 								>
@@ -552,6 +551,7 @@ const Navbar = ({ bg }) => {
 							</li>
 							<li className='flex items-center justify-between'>
 								<Link
+									onClick={() => setShowMenuSm(false)}
 									to='/shop'
 									className='text-base text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-800 hover:underline'
 								>
@@ -581,9 +581,10 @@ const Navbar = ({ bg }) => {
 					<div className='w-full h-full flex items-end'>
 						<ul className='bg-gray-50  py-10 px-4 flex flex-col space-y-8 w-full'>
 							<li>
-								<a
+								<Link
+									onClick={() => setShowMenuSm(false)}
 									className='flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-gray-800 hover:underline'
-									href='#'
+									to='/cart'
 								>
 									<div>
 										<svg
@@ -619,7 +620,7 @@ const Navbar = ({ bg }) => {
 									<p className='text-base text-gray-800'>
 										Cart ({cartProducts.length})
 									</p>
-								</a>
+								</Link>
 							</li>
 							<li>
 								<button
@@ -656,22 +657,24 @@ const Navbar = ({ bg }) => {
 									</p>
 								</button>
 							</li>
-							<li>
-								<button
-									className='flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-gray-800 hover:underline'
-									onClick={handleLogout}
-								>
-									<div>
-										<FontAwesomeIcon
-											className='text-xl'
-											icon={faSignOut}
-										/>
-									</div>
-									<p className='text-base text-gray-800'>
-										Logout
-									</p>
-								</button>
-							</li>
+							{user?.uid && (
+								<li>
+									<button
+										className='flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-gray-800 hover:underline'
+										onClick={handleLogout}
+									>
+										<div>
+											<FontAwesomeIcon
+												className='text-xl'
+												icon={faSignOut}
+											/>
+										</div>
+										<p className='text-base text-gray-800'>
+											Logout
+										</p>
+									</button>
+								</li>
+							)}
 						</ul>
 					</div>
 				</div>

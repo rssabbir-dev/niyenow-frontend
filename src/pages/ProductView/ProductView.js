@@ -43,7 +43,7 @@ const ProductView = () => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
-	const exist = cartProducts.find(pd => pd.product_info.id === param.id)
+	const exist = cartProducts.find(pd => pd.product_info.id === param.c)
 	const handleAddToCart = (formData) => {
 		const order = {
 			product_info: {

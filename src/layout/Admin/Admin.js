@@ -19,24 +19,33 @@ const items = (
 				</Link>
 			</div>
 			<ul className='mt-12'>
-				<Link to='/admin'>
-					<li className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'>
+				<Link
+					className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'
+					to='/admin'
+				>
+					<li>
 						<div className='flex items-center'>
 							<FontAwesomeIcon icon={faCubesStacked} />
 							<span className='text-sm  ml-2'>Dashboard</span>
 						</div>
 					</li>
 				</Link>
-				<li className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'>
-					<Link to='/admin/manage-orders'>
+				<li>
+					<Link
+						className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'
+						to='/admin/manage-orders'
+					>
 						<div className='flex items-center'>
 							<FontAwesomeIcon icon={faLayerGroup} />
 							<span className='text-sm  ml-2'>Manage Order</span>
 						</div>
 					</Link>
 				</li>
-				<li className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'>
-					<Link to='/admin/sales-report'>
+				<li>
+					<Link
+						className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'
+						to='/admin/sales-report'
+					>
 						<div className='flex items-center'>
 							<FontAwesomeIcon icon={faMoneyBillTrendUp} />
 							<span className='text-sm  ml-2'>Sales Report</span>
@@ -92,32 +101,44 @@ const items = (
 									25
 								</div>
 							</li> */}
-				<li className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'>
-					<Link to='/admin/products'>
+				<li>
+					<Link
+						className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'
+						to='/admin/products'
+					>
 						<div className='flex items-center'>
 							<FontAwesomeIcon icon={faCubes} />
 							<span className='text-sm  ml-2'>Inventory</span>
 						</div>
 					</Link>
 				</li>
-				<li className='flex mb-6 w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center'>
-					<Link to='/admin/categories'>
+				<li>
+					<Link
+						className='flex mb-6 w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center'
+						to='/admin/categories'
+					>
 						<div className='flex items-center'>
 							<FontAwesomeIcon icon={faSitemap} />
 							<span className='text-sm  ml-2'>Categories</span>
 						</div>
 					</Link>
 				</li>
-				<li className='flex mb-6 w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center'>
-					<Link to='/admin/customers'>
+				<li>
+					<Link
+						className='flex mb-6 w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center'
+						to='/admin/customers'
+					>
 						<div className='flex items-center'>
 							<FontAwesomeIcon icon={faUsers} />
 							<span className='text-sm  ml-2'>Customers</span>
 						</div>
 					</Link>
 				</li>
-				<li className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'>
-					<Link to='/admin/slider-editor'>
+				<li>
+					<Link
+						className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'
+						to='/admin/slider-editor'
+					>
 						<div className='flex items-center'>
 							<FontAwesomeIcon icon={faSlidersH} />
 							<span className='text-sm  ml-2'>Slider Editor</span>

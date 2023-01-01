@@ -1,7 +1,7 @@
 import { async } from '@firebase/util';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import FeaturedProducts from '../../../components/FeaturedProducts/FeaturedProducts';
+import FeaturedCategories from '../../../components/FeaturedCategories/FeaturedCategories';
 import Products from '../../../components/Products/Products';
 import SpinnerMain from '../../../components/SpinnerMain/SpinnerMain';
 import HomeBanner from '../HomeBanner/HomeBanner';
@@ -112,7 +112,7 @@ const Home = () => {
 					</div>
 				</div>
 			</div>
-			<FeaturedProducts />
+			<FeaturedCategories />
 			<Products products={products} />
 		</div>
 	);

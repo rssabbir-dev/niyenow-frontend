@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import SpinnerMain from '../../../components/SpinnerMain/SpinnerMain';
 
@@ -106,13 +106,36 @@ const AdminProducts = () => {
 			}
 		});
 	};
+	const location = useLocation()
 	if (isLoading) {
 		return <SpinnerMain />;
 	}
 	return (
 		<section>
 			<div className='flex justify-between items-center mb-4'>
-				<p className='font-bold text-lg'>Products List</p>
+				<nav className='mb-3 text-xl font-bold'>
+					<Link
+						to='/admin'
+						className={
+							location.pathname === '/admin'
+								? 'breadcrumb-active'
+								: 'breadcrumb-not-active'
+						}
+					>
+						Dashboard
+					</Link>
+					<span className='breadcrumb-arrow'>&gt;</span>
+					<Link
+						to={`/admin/manage-orders`}
+						className={
+							location.pathname.startsWith('/admin/products')
+								? 'breadcrumb-active'
+								: 'breadcrumb-not-active'
+						}
+					>
+						Product List
+					</Link>
+				</nav>
 				<Link
 					className='btn btn-sm text-xs'
 					to='/admin/products/new-product'
@@ -203,7 +226,7 @@ const AdminProducts = () => {
 										class={`rounded bg-green-100 px-3 py-1.5 text-xs font-medium text-green-700 ${
 											pd.product_info?.product_quantity <
 												20 && 'bg-red-100 text-red-700'
-} ${
+										} ${
 											pd.product_info?.product_quantity <
 												50 &&
 											'bg-yellow-100 text-yellow-700'

@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import SpinnerMain from '../../../components/SpinnerMain/SpinnerMain';
 
 const SalesReport = () => {
@@ -24,6 +24,7 @@ const SalesReport = () => {
 			return data;
 		},
 	});
+	const location = useLocation()
 	if (isLoading) {
 		return <SpinnerMain />;
 	}
@@ -31,7 +32,29 @@ const SalesReport = () => {
 	return (
 		<section>
 			<div className=' mb-4'>
-				<p className='font-bold text-lg'>Payment Report</p>
+				<nav className='mb-3 text-xl font-bold'>
+					<Link
+						to='/admin'
+						className={
+							location.pathname === '/admin'
+								? 'breadcrumb-active'
+								: 'breadcrumb-not-active'
+						}
+					>
+						Dashboard
+					</Link>
+					<span className='breadcrumb-arrow'>&gt;</span>
+					<Link
+						to={`/admin/sales-report`}
+						className={
+							location.pathname.startsWith('/admin/sales-report')
+								? 'breadcrumb-active'
+								: 'breadcrumb-not-active'
+						}
+					>
+						Sales Report
+					</Link>
+				</nav>
 			</div>
 
 			<div class='overflow-hidden overflow-x-auto rounded-lg border border-gray-200'>

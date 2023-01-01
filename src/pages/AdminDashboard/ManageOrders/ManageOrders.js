@@ -1,19 +1,23 @@
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faCreditCard, faDownload, faGear, faTruckFast } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import SpinnerMain from '../../../components/SpinnerMain/SpinnerMain';
 
 const ManageOrders = () => {
 	const { user } = useSelector((state) => state.auth);
-	const { data: orders, isLoading,refetch } = useQuery({
-		queryKey: ['myOrder', user?.uid],
+	const {
+		data: manageOrder,
+		isLoading,
+		refetch,
+	} = useQuery({
+		queryKey: ['customerOrders', user?.uid],
 		queryFn: async () => {
 			const res = await fetch(
-				`${process.env.REACT_APP_API_URL}/my-order/${user?.uid}`,
+				`${process.env.REACT_APP_API_URL}/customers-order/${user?.uid}`,
 				{
 					headers: {
 						authorization: `Bearer ${JSON.parse(
@@ -25,10 +29,11 @@ const ManageOrders = () => {
 			const data = await res.json();
 			return data;
 		},
-    });
-  
-    const handleUpdateStatus = (id, status) => {
-        fetch(
+	});
+
+	console.log(manageOrder);
+	const handleUpdateStatus = (id, status) => {
+		fetch(
 			`${process.env.REACT_APP_API_URL}/update-status/${user.uid}?id=${id}&status=${status}`,
 			{
 				method: 'PATCH',
@@ -38,23 +43,85 @@ const ManageOrders = () => {
 					)}`,
 				},
 			}
-        )
-        .then(res => res.json())
-            .then(data => {
-            refetch()
-        })
-    }
+		)
+			.then((res) => res.json())
+			.then((data) => {
+				refetch();
+			});
+	};
+	const location = useLocation();
 	if (isLoading) {
 		return <SpinnerMain />;
-    }
-    
-          
+	}
+
 	return (
 		<section>
-			<div className='flex justify-between items-center mb-4'>
-				<p className='font-bold text-lg'>Orders List</p>
+			<div className='flex gap-10 items-center'>
+				<nav className='mb-3 text-xl font-bold'>
+					<Link
+						to='/admin'
+						className={
+							location.pathname === '/admin'
+								? 'breadcrumb-active'
+								: 'breadcrumb-not-active'
+						}
+					>
+						Dashboard
+					</Link>
+					<span className='breadcrumb-arrow'>&gt;</span>
+					<Link
+						to={`/admin/manage-orders`}
+						className={
+							location.pathname.startsWith('/admin/manage-orders')
+								? 'breadcrumb-active'
+								: 'breadcrumb-not-active'
+						}
+					>
+						Manage Order
+					</Link>
+				</nav>
 			</div>
-
+			<div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 mb-20'>
+				<div className='bg-blue-500 text-white p-5 rounded-lg flex gap-10 justify-center items-center'>
+					<div className=''>
+						<FontAwesomeIcon className='text-5xl' icon={faGear} />
+					</div>
+					<div>
+						<h1 className='text-2xl uppercase'>Processing</h1>
+						<p className='text-xl font-bold'>
+							{manageOrder.count.processingCount}
+						</p>
+					</div>
+				</div>
+				<div className='bg-yellow-500 text-white p-5 rounded-lg flex gap-10 justify-center items-center'>
+					<div className=''>
+						<FontAwesomeIcon
+							className='text-5xl'
+							icon={faTruckFast}
+						/>
+					</div>
+					<div>
+						<h1 className='text-2xl uppercase'>Total Shipped</h1>
+						<p className='text-xl font-bold'>
+							{manageOrder.count.shippedCount}
+						</p>
+					</div>
+				</div>
+				<div className='bg-red-500 text-white p-5 rounded-lg flex gap-10 justify-center items-center'>
+					<div className=''>
+						<FontAwesomeIcon
+							className='text-5xl'
+							icon={faCreditCard}
+						/>
+					</div>
+					<div>
+						<h1 className='text-2xl uppercase'>Pay Pending</h1>
+						<p className='text-xl font-bold'>
+							{manageOrder.count.paymentPendingCount}
+						</p>
+					</div>
+				</div>
+			</div>
 			<div class='overflow-hidden overflow-x-auto rounded-lg border border-gray-200'>
 				<table class='min-w-full divide-y divide-gray-200 text-sm mb-36'>
 					<thead class='bg-gray-300'>
@@ -118,7 +185,7 @@ const ManageOrders = () => {
 					</thead>
 
 					<tbody class='divide-y divide-gray-200'>
-						{orders.map((pd) => (
+						{manageOrder?.orders?.map((pd) => (
 							<tr>
 								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
 									#{pd._id}

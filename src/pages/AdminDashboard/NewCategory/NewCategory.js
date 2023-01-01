@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 
 const NewCategory = () => {
 	const [file, setFile] = useState('');
+	const location = useLocation()
 
 	const { user } = useSelector((state) => state.auth);
 	console.log(user);
@@ -67,7 +69,42 @@ const NewCategory = () => {
 
 	return (
 		<section>
-			<h4 className='text-xl mb-3'>Add New Product</h4>
+			<nav className='mb-3 text-xl font-bold'>
+				<Link
+					to='/admin'
+					className={
+						location.pathname === '/admin'
+							? 'breadcrumb-active'
+							: 'breadcrumb-not-active'
+					}
+				>
+					Dashboard
+				</Link>
+				<span className='breadcrumb-arrow'>&gt;</span>
+				<Link
+					to={`/admin/categories`}
+					className={
+						location.pathname === '/admin/categories'
+							? 'breadcrumb-active'
+							: 'breadcrumb-not-active'
+					}
+				>
+					Categories List
+				</Link>
+				<span className='breadcrumb-arrow'>&gt;</span>
+				<Link
+					to={`/admin/categories/new-category`}
+					className={
+						location.pathname.startsWith(
+							'/admin/categories/new-category'
+						)
+							? 'breadcrumb-active'
+							: 'breadcrumb-not-active'
+					}
+				>
+					Add New
+				</Link>
+			</nav>
 			<div>
 				<form
 					onSubmit={handleSubmit(handleNewProduct)}
