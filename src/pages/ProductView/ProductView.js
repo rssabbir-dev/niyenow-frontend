@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
@@ -8,42 +8,59 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cartActions } from '../../store/cartSlice';
 import { toast } from 'react-hot-toast';
 import SpinnerMain from '../../components/SpinnerMain/SpinnerMain';
+import CustomersReviews from './CustomerReviews/CustomersReviews';
+import ReviewModal from './CustomerReviews/ReviewModal';
+import { ThreeDots } from 'react-loader-spinner';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ProductView = () => {
 	const { user } = useSelector((state) => state.auth);
-	const {cartProducts} = useSelector(state => state.cart)
 	const dispatch = useDispatch();
 	const param = useParams();
-	const [isLoading, setIsLoading] = useState(true)
-	const [product,setProduct] = useState({})
-	// const { data: product, isLoading } = useQuery({
-	// 	queryKey: ['singleProduct'],
-	// 	queryFn: async () => {
-	// 		const res = await axios.get(
-	// 			`${process.env.REACT_APP_API_URL}/product/${param.id}`
-	// 		);
-	// 		return res.data;
-	// 	},
-	// });
-	useEffect(() => {
-		setIsLoading(true)
-		axios.get(`${process.env.REACT_APP_API_URL}/product/${param.id}`)
-			.then(res => {
-				setProduct(res.data)
-				setIsLoading(false)
-			})
-			.catch(err => {
-			console.log(err);
-			setIsLoading(false)
-		})
-	},[param.id])
+	const [isLoading, setIsLoading] = useState(true);
+	const [isReviewLoading, setIsReviewLoading] = useState(true);
+	const [product, setProduct] = useState({});
+	const [reviews, setReviews] = useState([]);
+	const [reviewsCount, setReviewsCount] = useState(0);
+	const [averageSumOfReview, setAverageSumOfReview] = useState(0);
 	const location = useLocation();
+	const [refetch, setRefetch] = useState(0);
+	useEffect(() => {
+		setIsLoading(true);
+		axios
+			.get(`${process.env.REACT_APP_API_URL}/product/${param.id}`)
+			.then((res) => {
+				setProduct(res.data.product);
+				// setReviews(res.data.reviews)
+				setIsLoading(false);
+			})
+			.catch((err) => {
+				console.log(err);
+				setIsLoading(false);
+			});
+	}, [param.id]);
+	useEffect(() => {
+		setIsReviewLoading(true);
+		axios
+			.get(`${process.env.REACT_APP_API_URL}/reviews/${param.id}`)
+			.then((res) => {
+				setReviews(res.data.reviews);
+				setReviewsCount(res.data.reviewsCount)
+				setAverageSumOfReview(res.data.averageSumOfReview);
+				setIsReviewLoading(false);
+			})
+			.catch((err) => {
+				console.log(err);
+				setIsReviewLoading(false);
+			});
+	}, [param.id, refetch]);
+
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
-	const exist = cartProducts.find(pd => pd.product_info.id === param.c)
 	const handleAddToCart = (formData) => {
 		const order = {
 			product_info: {
@@ -63,7 +80,7 @@ const ProductView = () => {
 				name: product.seller_info.seller_name,
 				uid: product.seller_info.seller_uid,
 			},
-			uid:user.uid,
+			uid: user.uid,
 			cartAddedTime: new Date(),
 		};
 
@@ -81,13 +98,15 @@ const ProductView = () => {
 			.then((data) => {
 				console.log(data);
 				console.log('inside ad to cart');
-				toast.success('Product added to cart')
+				toast.success('Product added to cart');
 				dispatch(cartActions.refetch());
 			});
 		console.log('bottom add to cart');
 	};
+
+	console.log(reviews);
 	if (isLoading) {
-		return <SpinnerMain/>;
+		return <SpinnerMain />;
 	}
 	return (
 		<section>
@@ -166,50 +185,17 @@ const ProductView = () => {
 								</p>
 
 								<div className='mt-2 -ml-0.5 flex'>
-									<svg
-										className='w-5 h-5 text-yellow-400'
-										xmlns='http://www.w3.org/2000/svg'
-										viewBox='0 0 20 20'
-										fill='currentColor'
-									>
-										<path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-									</svg>
-
-									<svg
-										className='w-5 h-5 text-yellow-400'
-										xmlns='http://www.w3.org/2000/svg'
-										viewBox='0 0 20 20'
-										fill='currentColor'
-									>
-										<path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-									</svg>
-
-									<svg
-										className='w-5 h-5 text-yellow-400'
-										xmlns='http://www.w3.org/2000/svg'
-										viewBox='0 0 20 20'
-										fill='currentColor'
-									>
-										<path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-									</svg>
-
-									<svg
-										className='w-5 h-5 text-yellow-400'
-										xmlns='http://www.w3.org/2000/svg'
-										viewBox='0 0 20 20'
-										fill='currentColor'
-									>
-										<path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-									</svg>
-
-									<svg
-										className='w-5 h-5 text-gray-200'
-										xmlns='http://www.w3.org/2000/svg'
-										viewBox='0 0 20 20'
-										fill='currentColor'
-									>
-										<path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-									</svg>
+									{[...Array(5).keys()].map((rate) => (
+										<FontAwesomeIcon
+											key={rate}
+											className={
+												rate <= averageSumOfReview - 1
+													? 'text-yellow-400 h-3 w-3'
+													: 'text-gray-300 h-3 w-3'
+											}
+											icon={faStar}
+										/>
+									))}
 								</div>
 							</div>
 
@@ -441,16 +427,10 @@ const ProductView = () => {
 										0 ? (
 											<button
 												type='submit'
-												className='block px-5 py-3 ml-3 text-xs font-medium text-white bg-green-600 rounded hover:bg-green-500 disabled:bg-gray-500'
-												disabled={
-													exist?.product_info?.id ===
-													param.id
-												}
+												className='ml-3 inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white cursor-pointer active:bg-black'
+												
 											>
-												{exist?.product_info.id ===
-												param.id
-													? 'Already Added'
-													: 'Add to Cart'}
+												Add to Cart
 											</button>
 										) : (
 											<p className='italic font-bold text-red-500 py-3 px-5 ml-3'>
@@ -472,6 +452,15 @@ const ProductView = () => {
 					</div>
 				</div>
 			</div>
+			{isReviewLoading && <ThreeDots />}
+			{!isReviewLoading && (
+				<CustomersReviews
+					reviews={reviews}
+					reviewsCount={reviewsCount}
+					averageSumOfReview={averageSumOfReview}
+				/>
+			)}
+			<ReviewModal product={product} setRefetch={setRefetch} />
 		</section>
 	);
 };

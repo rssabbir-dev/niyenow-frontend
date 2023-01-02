@@ -1,21 +1,40 @@
 import { async } from '@firebase/util';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { ThreeDots } from 'react-loader-spinner';
 import FeaturedCategories from '../../../components/FeaturedCategories/FeaturedCategories';
+import Pagination from '../../../components/Pagination/Pagination';
 import Products from '../../../components/Products/Products';
 import SpinnerMain from '../../../components/SpinnerMain/SpinnerMain';
 import HomeBanner from '../HomeBanner/HomeBanner';
 
 const Home = () => {
-    const { data: products, isLoading } = useQuery({
-        queryKey: ['homeProducts'],
-        queryFn: async () => {
-            const res = await fetch(`${process.env.REACT_APP_API_URL}/products`)
-            const data = await res.json()
-            return data
-        }
-	})
-	const { data: sliderData = [] } = useQuery({
+	const [products,setProducts] = useState([])
+	const [productsCount,setProductsCount] = useState(0)
+	const [currentPage, setCurrentPage] = useState(0);
+	const [perPageView, setPerPageView] = useState(8);
+	const [isLoading, setIsLoading] = useState(true);
+	const pageCount = Math.ceil(productsCount / perPageView) || 0;
+	const paginationAction = {
+		currentPage,
+		setCurrentPage,
+		perPageView,
+		setPerPageView,
+		pageCount,
+	};
+	useEffect(() => { 
+		setIsLoading(true)
+		fetch(
+			`${process.env.REACT_APP_API_URL}/products?perPageView=${perPageView}&currentPage=${currentPage}`
+		).then(res =>res.json())
+			.then(data => {
+			setProducts(data.products)
+			setProductsCount(data.productsCount)
+			setIsLoading(false)
+		})
+	},[currentPage, perPageView])
+    
+	const { data: sliderData, isLoading:isSlideLoading } = useQuery({
 		queryKey: ['sliderData'],
 		queryFn: async () => {
 			const res = await fetch(`${process.env.REACT_APP_API_URL}/sliders`);
@@ -23,9 +42,11 @@ const Home = () => {
 			return data;
 		},
 	}); 
-    if (isLoading) {
-        return <SpinnerMain/>
-    }
+	
+    if (isSlideLoading) {
+		return <SpinnerMain />;
+	}
+	
     return (
 		<div>
 			<HomeBanner sliderData={sliderData} />
@@ -113,7 +134,22 @@ const Home = () => {
 				</div>
 			</div>
 			<FeaturedCategories />
-			<Products products={products} />
+			{isLoading && (
+				<div className='flex justify-center items-center h-[700px]'>
+					<ThreeDots />
+				</div>
+			)}
+			{!isLoading && (
+				<Products
+					productsCount={productsCount}
+					currentPage={currentPage}
+					products={products}
+					perPageView={perPageView}
+				/>
+			)}
+			<div className='my-10'>
+				<Pagination paginationAction={paginationAction} />
+			</div>
 		</div>
 	);
 };
