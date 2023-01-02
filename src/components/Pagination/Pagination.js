@@ -12,7 +12,11 @@ const Pagination = ({ paginationAction }) => {
 		<ol className='flex justify-center gap-1 mt-8 text-xs font-medium'>
 			<li>
 				<button
-					onClick={() => setCurrentPage((state) => state - 1)}
+					onClick={() => {
+						if (currentPage > 0) {
+							setCurrentPage(currentPage - 1);
+						}
+					}}
 					className='inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded'
 				>
 					<span className='sr-only'>Prev Page</span>
@@ -49,7 +53,12 @@ const Pagination = ({ paginationAction }) => {
 
 			<li>
 				<button
-					onClick={() => setCurrentPage((state) => state + 1)}
+                    onClick={() => {
+                        console.log(!currentPage<pageCount+1);
+						if (currentPage < pageCount ) {
+							setCurrentPage(currentPage + 1);
+						}
+					}}
 					className='inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded'
 				>
 					<span className='sr-only'>Next Page</span>

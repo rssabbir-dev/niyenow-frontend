@@ -1,19 +1,39 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { ThreeDots } from 'react-loader-spinner';
+import Pagination from '../../components/Pagination/Pagination';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import SpinnerMain from '../../components/SpinnerMain/SpinnerMain';
 
 const Shop = () => {
-	const { data: products, isLoading } = useQuery({
-		queryKey: ['shopProducts'],
-		queryFn: async () => {
-			const res = await fetch(
-				`${process.env.REACT_APP_API_URL}/products`
-			);
-			const data = await res.json();
-			return data;
-		},
-	});
+	const [products, setProducts] = useState([]);
+	const [productsCount, setProductsCount] = useState(0);
+	const [currentPage, setCurrentPage] = useState(0);
+	const [perPageView, setPerPageView] = useState(8);
+	const [isLoading, setIsLoading] = useState(true);
+	const [reloadLoading,setReloadLoading] = useState(false)
+	const pageCount = Math.ceil(productsCount / perPageView) || 0;
+	const paginationAction = {
+		currentPage,
+		setCurrentPage,
+		perPageView,
+		setPerPageView,
+		pageCount,
+	};
+
+	useEffect(() => {
+		setReloadLoading(true)
+		fetch(
+			`${process.env.REACT_APP_API_URL}/products?perPageView=${perPageView}&currentPage=${currentPage}`
+		)
+			.then((res) => res.json())
+			.then((data) => {
+				setProducts(data.products);
+				setProductsCount(data.productsCount);
+				setIsLoading(false);
+				setReloadLoading(false)
+			});
+	}, [currentPage, perPageView]);
 	if (isLoading) {
 		return <SpinnerMain />;
 	}
@@ -406,11 +426,22 @@ const Shop = () => {
 					</div>
 
 					<div class='lg:col-span-3'>
-						<ul class='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-                            {
-                                products.map(product => <ProductCard key={product._id} product={product}/>)
-                            }
-						</ul>
+						{!reloadLoading && (
+							<ul class='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+								{products.map((product) => (
+									<ProductCard
+										key={product._id}
+										product={product}
+									/>
+								))}
+							</ul>
+						)}
+						{reloadLoading && <div className='flex justify-center items-center h-[700px]'>
+						<ThreeDots/>
+						</div>}
+						<div className='mt-10 col-span-3'>
+							<Pagination paginationAction={paginationAction} />
+						</div>
 					</div>
 				</div>
 			</div>
