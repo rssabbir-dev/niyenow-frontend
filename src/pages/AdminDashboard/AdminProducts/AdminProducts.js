@@ -28,6 +28,7 @@ const AdminProducts = () => {
 			return data;
 		},
 	});
+	console.log(products);
 	const handleDeleteProduct = (id) => {
 		Swal.fire({
 			title: 'Are you sure?',

@@ -15,8 +15,6 @@ const cartSlice = createSlice({
 						parseInt(curr.product_info.quantity),
 				0
 			);
-			console.log(state.subTotal);
-			console.log(state.cartProducts);
 		},
 
 		refetch(state) {

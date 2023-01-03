@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 const NewSlide = () => {
 	const [file, setFile] = useState('');
+	const param = useParams()
 
 	const { user } = useSelector((state) => state.auth);
 	const [isProductSaveLoading, setIsProductSaveLoading] = useState(false);
@@ -67,7 +69,8 @@ const NewSlide = () => {
 
 	return (
 		<section>
-			<h4 className='text-xl mb-3'>Add New Slide</h4>
+			{!param.id && <h4 className='text-xl mb-3'>Add New Slide</h4>}
+			{param.id && <h4 className='text-xl mb-3'>Update Slide</h4>}
 			<div>
 				<form
 					onSubmit={handleSubmit(handleNewProduct)}

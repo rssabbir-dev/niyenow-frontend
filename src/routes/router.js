@@ -184,6 +184,14 @@ export const router = createBrowserRouter([
 				),
 			},
 			{
+				path: '/admin/slider-editor/edit/:id',
+				element: (
+					<AdminRoute>
+						<NewSlide/>
+					</AdminRoute>
+				)
+			},
+			{
 				path: '/admin/slider-editor/new-slide',
 				element: (
 					<AdminRoute>

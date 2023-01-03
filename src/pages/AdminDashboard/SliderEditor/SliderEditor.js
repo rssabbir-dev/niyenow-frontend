@@ -50,9 +50,12 @@ const SliderEditor = () => {
 					New Slide
 				</Link>
 			</div>
-			<div>
+			<div className='space-y-5'>
 				{sliderData.map((slide) => (
-					<Slide key={slide._id} slide={slide} />
+					<div key={slide._id} className='border-4 relative'>
+						<Link to={`/admin/slider-editor/edit/${slide._id}`} className='absolute top-5 left-5 btn btn-sm z-20'>Edit</Link>
+						<Slide slide={slide} />
+					</div>
 				))}
 			</div>
 		</section>
