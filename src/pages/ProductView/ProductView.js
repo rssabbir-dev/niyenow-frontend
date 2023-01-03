@@ -13,6 +13,7 @@ import ReviewModal from './CustomerReviews/ReviewModal';
 import { ThreeDots } from 'react-loader-spinner';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Pagination from '../../components/Pagination/Pagination';
 
 const ProductView = () => {
 	const { user } = useSelector((state) => state.auth);
@@ -26,6 +27,17 @@ const ProductView = () => {
 	const [averageSumOfReview, setAverageSumOfReview] = useState(0);
 	const location = useLocation();
 	const [refetch, setRefetch] = useState(0);
+
+		const [currentPage, setCurrentPage] = useState(0);
+		const [perPageView, setPerPageView] = useState(8);
+		const pageCount = Math.ceil(reviewsCount / perPageView) || 0;
+		const paginationAction = {
+			currentPage,
+			setCurrentPage,
+			perPageView,
+			setPerPageView,
+			pageCount,
+		};
 	useEffect(() => {
 		setIsLoading(true);
 		axios
@@ -43,10 +55,12 @@ const ProductView = () => {
 	useEffect(() => {
 		setIsReviewLoading(true);
 		axios
-			.get(`${process.env.REACT_APP_API_URL}/reviews/${param.id}`)
+			.get(
+				`${process.env.REACT_APP_API_URL}/reviews/${param.id}?perPageView=${perPageView}&currentPage=${currentPage}`
+			)
 			.then((res) => {
 				setReviews(res.data.reviews);
-				setReviewsCount(res.data.reviewsCount)
+				setReviewsCount(res.data.reviewsCount);
 				setAverageSumOfReview(res.data.averageSumOfReview);
 				setIsReviewLoading(false);
 			})
@@ -54,7 +68,7 @@ const ProductView = () => {
 				console.log(err);
 				setIsReviewLoading(false);
 			});
-	}, [param.id, refetch]);
+	}, [currentPage, param.id, perPageView, refetch]);
 
 	const {
 		register,
@@ -428,7 +442,6 @@ const ProductView = () => {
 											<button
 												type='submit'
 												className='ml-3 inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white cursor-pointer active:bg-black'
-												
 											>
 												Add to Cart
 											</button>
@@ -452,13 +465,22 @@ const ProductView = () => {
 					</div>
 				</div>
 			</div>
-			{isReviewLoading && <ThreeDots />}
+			{isReviewLoading && (
+				<div className='flex justify-center items-center h-[700px]'>
+					<ThreeDots />
+				</div>
+			)}
 			{!isReviewLoading && (
-				<CustomersReviews
-					reviews={reviews}
-					reviewsCount={reviewsCount}
-					averageSumOfReview={averageSumOfReview}
-				/>
+				<>
+					<CustomersReviews
+						reviews={reviews}
+						reviewsCount={reviewsCount}
+						averageSumOfReview={averageSumOfReview}
+					/>
+					<div className='my-10'>
+						<Pagination paginationAction={paginationAction} />
+					</div>
+				</>
 			)}
 			<ReviewModal product={product} setRefetch={setRefetch} />
 		</section>

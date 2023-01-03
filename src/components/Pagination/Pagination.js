@@ -53,9 +53,8 @@ const Pagination = ({ paginationAction }) => {
 
 			<li>
 				<button
-                    onClick={() => {
-                        console.log(!currentPage<pageCount+1);
-						if (currentPage < pageCount ) {
+					onClick={() => {
+						if (currentPage < pageCount) {
 							setCurrentPage(currentPage + 1);
 						}
 					}}
