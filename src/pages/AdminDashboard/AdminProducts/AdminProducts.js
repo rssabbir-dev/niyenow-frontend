@@ -211,13 +211,20 @@ const AdminProducts = () => {
 						{products.map((pd) => (
 							<tr>
 								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
-									{`${pd.product_info?.product_name.slice(
-										0,
-										20
-									)}...`}
+									<Link
+										className='link link-hover'
+										to={`/product/${pd._id}`}
+									>
+										{`${pd.product_info?.product_name.slice(
+											0,
+											20
+										)}...`}
+									</Link>
 								</td>
 								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
-									{pd.product_info?.product_category}
+									<Link className='link link-hover' to={`/category/${pd.product_info.category_slug}`}>
+										{pd.product_info?.product_category}
+									</Link>
 								</td>
 								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
 									$128.99

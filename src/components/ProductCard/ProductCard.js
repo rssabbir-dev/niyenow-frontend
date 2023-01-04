@@ -9,7 +9,7 @@ const ProductCard = ({ product }) => {
 				<img
 					src={product_image}
 					alt=''
-					className='h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]'
+					className='h-[350px] w-full object-contain transition duration-500 group-hover:scale-105 sm:h-[450px]'
 				/>
 
 				<div className='relative pt-3 bg-white'>

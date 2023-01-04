@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
@@ -14,6 +13,7 @@ import { ThreeDots } from 'react-loader-spinner';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Pagination from '../../components/Pagination/Pagination';
+import InnerImageZoom from 'react-inner-image-zoom';
 
 const ProductView = () => {
 	const { user } = useSelector((state) => state.auth);
@@ -28,16 +28,16 @@ const ProductView = () => {
 	const location = useLocation();
 	const [refetch, setRefetch] = useState(0);
 
-		const [currentPage, setCurrentPage] = useState(0);
-		const [perPageView, setPerPageView] = useState(8);
-		const pageCount = Math.ceil(reviewsCount / perPageView) || 0;
-		const paginationAction = {
-			currentPage,
-			setCurrentPage,
-			perPageView,
-			setPerPageView,
-			pageCount,
-		};
+	const [currentPage, setCurrentPage] = useState(0);
+	const [perPageView, setPerPageView] = useState(8);
+	const pageCount = Math.ceil(reviewsCount / perPageView) || 0;
+	const paginationAction = {
+		currentPage,
+		setCurrentPage,
+		perPageView,
+		setPerPageView,
+		pageCount,
+	};
 	useEffect(() => {
 		setIsLoading(true);
 		axios
@@ -150,12 +150,16 @@ const ProductView = () => {
 				</nav>
 				<div className='grid items-start grid-cols-1 gap-8 md:grid-cols-2'>
 					<div className='grid grid-cols-2 gap-4 md:grid-cols-1'>
-						<img
+						{/* <img
 							alt='Les Paul'
 							src={product.product_info?.product_image}
-							className='object-cover w-full aspect-square rounded-xl'
+							className='object-contain w-full aspect-square rounded-xl'
+						/> */}
+						<InnerImageZoom
+							src={product.product_info?.product_image}
+							zoomSrc={product.product?.product_image}
+							className='object-contain w-full aspect-square rounded-xl h-full'
 						/>
-
 						{/* <div className='grid grid-cols-2 gap-4 lg:mt-4'>
 							<img
 								alt='Les Paul'

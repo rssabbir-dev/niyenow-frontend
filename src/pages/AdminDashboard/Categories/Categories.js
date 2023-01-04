@@ -106,7 +106,7 @@ const Categories = () => {
 									</div>
 								</td>
 								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
-									{pd.name}
+									<Link className='link link-hover' to={`/category/${pd.slug}`}>{pd.name}</Link>
 								</td>
 								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
 									{pd.slug}

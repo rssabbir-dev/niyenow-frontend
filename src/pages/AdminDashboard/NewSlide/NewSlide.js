@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
@@ -6,7 +6,8 @@ import { useParams } from 'react-router-dom';
 
 const NewSlide = () => {
 	const [file, setFile] = useState('');
-	const param = useParams()
+	const [existingSlide, setExistingSlide] = useState({});
+	const param = useParams();
 
 	const { user } = useSelector((state) => state.auth);
 	const [isProductSaveLoading, setIsProductSaveLoading] = useState(false);
@@ -20,30 +21,57 @@ const NewSlide = () => {
 		reset,
 		formState: { errors },
 	} = useForm();
-	const handleNewProduct = (data) => {
+	const handleNewSlide = (data) => {
 		setIsProductSaveLoading(true);
-		const slide = {
-			slide_title: data.slide_title,
-			slide_description: data.slide_description,
-			button_name: data.button_name,
-			button_link: data.button_link,
-			slide_image: null,
-			createAt: new Date(),
-		};
 		const formData = new FormData();
 		formData.append('image', data.slide_image[0]);
-		fetch(
-			`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_imgbb_api_key}`,
-			{
-				method: 'POST',
-				body: formData,
+		if (!existingSlide._id) {
+			const slide = {
+				slide_title: data.slide_title,
+				slide_description: data.slide_description,
+				button_name: data.button_name,
+				button_link: data.button_link,
+				slide_image: null,
+				createAt: new Date(),
+			};
+			
+			fetch(
+				`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_imgbb_api_key}`,
+				{
+					method: 'POST',
+					body: formData,
+				}
+			)
+				.then((res) => res.json())
+				.then((imgData) => {
+					slide.slide_image = imgData.data.url;
+					handleSaveSlide(slide);
+				});
+		} else {
+			const slide = {
+				slide_title: data.slide_title,
+				slide_description: data.slide_description,
+				button_name: data.button_name,
+				button_link: data.button_link,
+				slide_image: existingSlide.slide_image,
+			};
+			if (!data.slide_image[0]) {
+				handleUpdateSlide(slide)
+			} else {
+				fetch(
+					`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_imgbb_api_key}`,
+					{
+						method: 'POST',
+						body: formData,
+					}
+				)
+					.then((res) => res.json())
+					.then((imgData) => {
+						slide.slide_image = imgData.data.url;
+						handleUpdateSlide(slide);
+					});
 			}
-		)
-			.then((res) => res.json())
-			.then((imgData) => {
-				slide.slide_image = imgData.data.url;
-				handleSaveSlide(slide);
-			});
+		}
 	};
 
 	const handleSaveSlide = (slideData) => {
@@ -66,14 +94,45 @@ const NewSlide = () => {
 				setIsProductSaveLoading(false);
 			});
 	};
+	const handleUpdateSlide = (slideData) => {
+		fetch(
+			`${process.env.REACT_APP_API_URL}/slide/${user?.uid}?id=${param.id}`,
+			{
+				method: 'PUT',
+				headers: {
+					'content-type': 'application/json',
+					authorization: `Bearer ${JSON.parse(
+						localStorage.getItem('token')
+					)}`,
+				},
+				body: JSON.stringify(slideData),
+			}
+		)
+			.then((res) => res.json())
+			.then((data) => {
+				toast.success('Slide Updated');
+				setIsProductSaveLoading(false);
+				console.log(data);
+			});
+	};
 
+	useEffect(() => {
+		if (param.id) {
+			fetch(`${process.env.REACT_APP_API_URL}/slide/${param.id}`)
+				.then((res) => res.json())
+				.then((data) => {
+					setExistingSlide(data);
+					setFile(data.slide_image);
+				});
+		}
+	}, [param.id]);
 	return (
 		<section>
 			{!param.id && <h4 className='text-xl mb-3'>Add New Slide</h4>}
 			{param.id && <h4 className='text-xl mb-3'>Update Slide</h4>}
 			<div>
 				<form
-					onSubmit={handleSubmit(handleNewProduct)}
+					onSubmit={handleSubmit(handleNewSlide)}
 					className='space-y-10'
 				>
 					<div>
@@ -95,6 +154,7 @@ const NewSlide = () => {
 									message: 'Maximums 20 character',
 								},
 							})}
+							defaultValue={existingSlide?.slide_title}
 						/>
 						{errors.slide_title && (
 							<span className='text-red-500 text-sm'>
@@ -122,6 +182,7 @@ const NewSlide = () => {
 									message: 'Maximums 150 character',
 								},
 							})}
+							defaultValue={existingSlide?.slide_description}
 						></textarea>
 						{errors.slide_description && (
 							<span className='text-red-500 text-sm'>
@@ -142,6 +203,7 @@ const NewSlide = () => {
 								{...register('button_name', {
 									required: 'Button Name Required',
 								})}
+								defaultValue={existingSlide?.button_name}
 							/>
 							{errors.button_name && (
 								<span className='text-red-500 text-sm'>
@@ -161,6 +223,7 @@ const NewSlide = () => {
 								{...register('button_link', {
 									required: 'Button Link Required',
 								})}
+								defaultValue={existingSlide?.button_link}
 							/>
 							{errors.button_link && (
 								<span className='text-red-500 text-sm'>
@@ -211,7 +274,7 @@ const NewSlide = () => {
 											type='file'
 											className='opacity-0'
 											onChange={handleChange}
-											required
+											required={!existingSlide._id}
 										/>
 									</label>
 								</div>

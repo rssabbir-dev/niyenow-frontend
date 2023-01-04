@@ -1,11 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
+import { toast } from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import SpinnerMain from '../../../components/SpinnerMain/SpinnerMain';
 import { Slide } from '../../Home/HomeBanner/HomeBanner';
 
 const SliderEditor = () => {
-	const { data: sliderData, isLoading } = useQuery({
+	const { user } = useSelector((state) => state.auth);
+	const {
+		data: sliderData,
+		isLoading,
+		refetch,
+	} = useQuery({
 		queryKey: ['sliderData'],
 		queryFn: async () => {
 			const res = await fetch(`${process.env.REACT_APP_API_URL}/sliders`);
@@ -13,7 +20,22 @@ const SliderEditor = () => {
 			return data;
 		},
 	});
-	const location = useLocation()
+	const location = useLocation();
+	const handleSlideDelete = (id) => {
+		fetch(`${process.env.REACT_APP_API_URL}/slide/${user?.uid}?id=${id}`, {
+			method: 'DELETE',
+			headers: {
+				authorization: `Bearer ${JSON.parse(
+					localStorage.getItem('token')
+				)}`,
+			},
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				toast.success('Slide Deleted');
+				refetch();
+			});
+	};
 	if (isLoading) {
 		return <SpinnerMain />;
 	}
@@ -53,7 +75,18 @@ const SliderEditor = () => {
 			<div className='space-y-5'>
 				{sliderData.map((slide) => (
 					<div key={slide._id} className='border-4 relative'>
-						<Link to={`/admin/slider-editor/edit/${slide._id}`} className='absolute top-5 left-5 btn btn-sm z-20'>Edit</Link>
+						<Link
+							to={`/admin/slider-editor/edit/${slide._id}`}
+							className='absolute top-5 left-5 btn btn-sm z-20'
+						>
+							Edit
+						</Link>
+						<button
+							className='absolute top-5 right-5 btn btn-sm z-20'
+							onClick={() => handleSlideDelete(slide._id)}
+						>
+							Delete
+						</button>
 						<Slide slide={slide} />
 					</div>
 				))}

@@ -254,12 +254,11 @@ const items = (
 	</>
 );
 
-
 const Admin = () => {
-	const [showMenu,setShowMenu] = useState(false)
+	const [showMenu, setShowMenu] = useState(false);
 	const sidebarHandler = () => {
-		setShowMenu(!showMenu)
-	}
+		setShowMenu(!showMenu);
+	};
 	const location = useLocation();
 	useEffect(() => {
 		window.scrollTo(0, 0);

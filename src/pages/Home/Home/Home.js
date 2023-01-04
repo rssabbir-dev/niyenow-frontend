@@ -101,7 +101,7 @@ const Home = () => {
 									Support 24/7
 								</p>
 								<p className=' text-base leading-6 font-normal text-gray-600 mt-3'>
-									Contact us 24 hours a day at care@supprt.com
+									Contact us 24 hours a day at help@niyenow.com
 								</p>
 							</div>
 						</div>
