@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const MonthlyReport = ({ report }) => {
-    console.log(report)
     const total = report?.reduce((prev,curr)=>prev + curr.income,0)
     // const result = report?.map(p => {
     //     const data = [];

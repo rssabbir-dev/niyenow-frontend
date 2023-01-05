@@ -34,7 +34,7 @@ const NewSlide = () => {
 				slide_image: null,
 				createAt: new Date(),
 			};
-			
+
 			fetch(
 				`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_imgbb_api_key}`,
 				{
@@ -56,7 +56,7 @@ const NewSlide = () => {
 				slide_image: existingSlide.slide_image,
 			};
 			if (!data.slide_image[0]) {
-				handleUpdateSlide(slide)
+				handleUpdateSlide(slide);
 			} else {
 				fetch(
 					`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_imgbb_api_key}`,
@@ -300,7 +300,7 @@ const NewSlide = () => {
 							>
 								<svg
 									role='status'
-									class='inline mr-3 w-4 h-4 text-white animate-spin'
+									className='inline mr-3 w-4 h-4 text-white animate-spin'
 									viewBox='0 0 100 101'
 									fill='none'
 									xmlns='http://www.w3.org/2000/svg'

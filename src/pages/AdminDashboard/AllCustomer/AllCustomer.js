@@ -24,7 +24,7 @@ const AllCustomer = () => {
 			return data;
 		},
 	});
-	const location = useLocation()
+	const location = useLocation();
 	if (isLoading) {
 		return <SpinnerMain />;
 	}
@@ -56,80 +56,80 @@ const AllCustomer = () => {
 				</nav>
 			</div>
 
-			<div class='overflow-hidden overflow-x-auto rounded-lg border border-gray-200'>
-				<table class='min-w-full divide-y divide-gray-200 text-sm'>
-					<thead class='bg-gray-300'>
+			<div className='overflow-hidden overflow-x-auto rounded-lg border border-gray-200'>
+				<table className='min-w-full divide-y divide-gray-200 text-sm'>
+					<thead className='bg-gray-300'>
 						<tr>
-							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
-								<div class='flex items-center gap-2'>
+							<th className='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
+								<div className='flex items-center gap-2'>
 									Name
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
-										class='h-4 w-4 text-gray-700'
+										className='h-4 w-4 text-gray-700'
 										viewBox='0 0 20 20'
 										fill='currentColor'
 									>
 										<path
-											fill-rule='evenodd'
+											fillRule='evenodd'
 											d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-											clip-rule='evenodd'
+											clipRule='evenodd'
 										/>
 									</svg>
 								</div>
 							</th>
-							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
-								<div class='flex items-center gap-2'>
+							<th className='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
+								<div className='flex items-center gap-2'>
 									Email
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
-										class='h-4 w-4 text-gray-700'
+										className='h-4 w-4 text-gray-700'
 										viewBox='0 0 20 20'
 										fill='currentColor'
 									>
 										<path
-											fill-rule='evenodd'
+											fillRule='evenodd'
 											d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-											clip-rule='evenodd'
+											clipRule='evenodd'
 										/>
 									</svg>
 								</div>
 							</th>
-							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
-								<div class='flex items-center gap-2'>
+							<th className='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
+								<div className='flex items-center gap-2'>
 									Total Order
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
-										class='h-4 w-4 text-gray-700'
+										className='h-4 w-4 text-gray-700'
 										viewBox='0 0 20 20'
 										fill='currentColor'
 									>
 										<path
-											fill-rule='evenodd'
+											fillRule='evenodd'
 											d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-											clip-rule='evenodd'
+											clipRule='evenodd'
 										/>
 									</svg>
 								</div>
 							</th>
-							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
+							<th className='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
 								Action
 							</th>
 						</tr>
 					</thead>
 
-					<tbody class='divide-y divide-gray-200'>
+					<tbody className='divide-y divide-gray-200'>
 						{customers.map((pd) => (
-							<tr>
-								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
+							<tr key={pd._id}>
+								<td className='whitespace-nowrap px-4 py-2 text-gray-700'>
 									{pd.displayName}
 								</td>
-								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
+								<td className='whitespace-nowrap px-4 py-2 text-gray-700'>
 									{pd.email}
 								</td>
-								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
+								<td className='whitespace-nowrap px-4 py-2 text-gray-700'>
 									7
 								</td>
-								<td class='whitespace-nowrap px-4 py-2'>
+								<td className='whitespace-nowrap px-4 py-2'>
 									<Link
 										to={`/admin/customers/details/${pd.uid}`}
 										className='text-blue-500'

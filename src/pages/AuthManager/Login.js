@@ -8,7 +8,7 @@ const Login = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const from = location.state?.from?.pathname || '/';
-	const [ isLoading, setIsLoading ] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const {
 		register,
 		handleSubmit,
@@ -27,7 +27,7 @@ const Login = () => {
 			})
 			.catch((err) => {
 				console.log(err);
-				toast.error(err.message)
+				toast.error(err.message);
 				setIsLoading(false);
 				reset();
 			});
@@ -171,7 +171,7 @@ const Login = () => {
 							>
 								<svg
 									role='status'
-									class='inline mr-3 w-4 h-4 text-white animate-spin'
+									className='inline mr-3 w-4 h-4 text-white animate-spin'
 									viewBox='0 0 100 101'
 									fill='none'
 									xmlns='http://www.w3.org/2000/svg'

@@ -10,7 +10,6 @@ import { handleLogout } from '../../AuthManager/handleAuth';
 const Navbar = ({ bg }) => {
 	const { user } = useSelector((state) => state.auth);
 	const [isAdmin, isAdminLoading] = useAdmin();
-	console.log(isAdmin);
 	const { cartProducts } = useSelector((state) => state.cart);
 	const logout = () => {
 		handleLogout().then((res) => {
@@ -30,7 +29,7 @@ const Navbar = ({ bg }) => {
 		} else if (user?.uid && isAdmin) {
 			navigate('/admin');
 		}
-		setShowMenuSm(false)
+		setShowMenuSm(false);
 	};
 	return (
 		<div className=''>

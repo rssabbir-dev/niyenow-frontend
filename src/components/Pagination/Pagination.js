@@ -37,7 +37,7 @@ const Pagination = ({ paginationAction }) => {
 			</li>
 
 			{[...Array(pageCount).keys()].map((page) => (
-				<li>
+				<li key={page}>
 					<button
 						onClick={() => setCurrentPage(page)}
 						className={`block w-8 h-8 leading-8 text-center border rounded ${

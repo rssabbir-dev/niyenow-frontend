@@ -163,9 +163,9 @@ const OrderDetails = () => {
 							</h3>
 							<div className='flex justify-between items-start w-full'>
 								<div className='flex justify-center items-center space-x-4'>
-									<div class='w-8 h-8'>
+									<div className='w-8 h-8'>
 										<img
-											class='w-full h-full'
+											className='w-full h-full'
 											alt='logo'
 											src='https://i.ibb.co/L8KSdNQ/image-3.png'
 										/>

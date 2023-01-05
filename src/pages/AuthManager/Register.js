@@ -12,7 +12,7 @@ import {
 
 const Register = () => {
 	const navigate = useNavigate();
-	const [isLoading,setIsLoading] = useState(false)
+	const [isLoading, setIsLoading] = useState(false);
 	const {
 		register,
 		handleSubmit,
@@ -20,7 +20,7 @@ const Register = () => {
 		formState: { errors },
 	} = useForm();
 	const handleRegister = (formData) => {
-		setIsLoading(true)
+		setIsLoading(true);
 		const profileData = {
 			displayName: formData.name,
 		};
@@ -33,25 +33,24 @@ const Register = () => {
 						console.log(res);
 						toast.success('Registration Success, Please Login Now');
 						navigate('/login');
-							handleLogout()
-								.then((res) => {
-									setIsLoading(false);
-								})
-								.catch((err) => {
-									console.log(err);
-									setIsLoading(false);
-								});
+						handleLogout()
+							.then((res) => {
+								setIsLoading(false);
+							})
+							.catch((err) => {
+								console.log(err);
+								setIsLoading(false);
+							});
 					})
 					.catch((err) => {
 						console.log(err);
 						setIsLoading(false);
 					});
-				
 			})
 			.catch((err) => {
-				toast.error(err.message)
-				reset()
-				setIsLoading(false)
+				toast.error(err.message);
+				reset();
+				setIsLoading(false);
 			});
 	};
 	const saveUser = (userData, formData) => {
@@ -264,7 +263,7 @@ const Register = () => {
 							>
 								<svg
 									role='status'
-									class='inline mr-3 w-4 h-4 text-white animate-spin'
+									className='inline mr-3 w-4 h-4 text-white animate-spin'
 									viewBox='0 0 100 101'
 									fill='none'
 									xmlns='http://www.w3.org/2000/svg'

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 
-const ReviewModal = ({ product,setRefetch }) => {
+const ReviewModal = ({ product, setRefetch }) => {
 	const { user } = useSelector((state) => state.auth);
 	const [rating, setRating] = useState(4);
 	const [reviewPostLoading, setReviewPostLoading] = useState(false);
@@ -46,8 +46,8 @@ const ReviewModal = ({ product,setRefetch }) => {
 			.then((data) => {
 				toast.success('Review Submitted');
 				setReviewPostLoading(false);
-                reset();
-                setRefetch(state => state + 1)
+				reset();
+				setRefetch((state) => state + 1);
 			});
 	};
 	return (
@@ -95,11 +95,12 @@ const ReviewModal = ({ product,setRefetch }) => {
 								className='textarea textarea-bordered'
 								placeholder='Your review'
 								{...register('review', {
-                                    required: 'Please provide your review',
-                                    minLength: {
-                                        value: 100,
-                                        message:'Please write your review minium 100 character'
-                                    }
+									required: 'Please provide your review',
+									minLength: {
+										value: 100,
+										message:
+											'Please write your review minium 100 character',
+									},
 								})}
 							></textarea>
 						</div>
@@ -131,7 +132,7 @@ const ReviewModal = ({ product,setRefetch }) => {
 								>
 									<svg
 										role='status'
-										class='inline mr-3 w-4 h-4 text-white animate-spin'
+										className='inline mr-3 w-4 h-4 text-white animate-spin'
 										viewBox='0 0 100 101'
 										fill='none'
 										xmlns='http://www.w3.org/2000/svg'

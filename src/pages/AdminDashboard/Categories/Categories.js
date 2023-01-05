@@ -23,8 +23,7 @@ const Categories = () => {
 			return data;
 		},
 	});
-	const location = useLocation()
-	console.log(products);
+	const location = useLocation();
 	if (isLoading) {
 		return <SpinnerMain />;
 	}
@@ -62,40 +61,40 @@ const Categories = () => {
 				</Link>
 			</div>
 
-			<div class='overflow-hidden overflow-x-auto rounded-lg border border-gray-200'>
-				<table class='min-w-full divide-y divide-gray-200 text-sm'>
-					<thead class='bg-gray-300'>
+			<div className='overflow-hidden overflow-x-auto rounded-lg border border-gray-200'>
+				<table className='min-w-full divide-y divide-gray-200 text-sm'>
+					<thead className='bg-gray-300'>
 						<tr>
-							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
+							<th className='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
 								Image
 							</th>
-							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
-								<div class='flex items-center gap-2'>
+							<th className='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
+								<div className='flex items-center gap-2'>
 									Name
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
-										class='h-4 w-4 text-gray-700'
+										className='h-4 w-4 text-gray-700'
 										viewBox='0 0 20 20'
 										fill='currentColor'
 									>
 										<path
-											fill-rule='evenodd'
+											fillRule='evenodd'
 											d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-											clip-rule='evenodd'
+											clipRule='evenodd'
 										/>
 									</svg>
 								</div>
 							</th>
 
-							<th class='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
+							<th className='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
 								Slug
 							</th>
 						</tr>
 					</thead>
 
-					<tbody class='divide-y divide-gray-200'>
+					<tbody className='divide-y divide-gray-200'>
 						{products.map((pd) => (
-							<tr>
+							<tr key={pd._id}>
 								<td>
 									<div className='p-2'>
 										<img
@@ -105,10 +104,15 @@ const Categories = () => {
 										/>
 									</div>
 								</td>
-								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
-									<Link className='link link-hover' to={`/category/${pd.slug}`}>{pd.name}</Link>
+								<td className='whitespace-nowrap px-4 py-2 text-gray-700'>
+									<Link
+										className='link link-hover'
+										to={`/category/${pd.slug}`}
+									>
+										{pd.name}
+									</Link>
 								</td>
-								<td class='whitespace-nowrap px-4 py-2 text-gray-700'>
+								<td className='whitespace-nowrap px-4 py-2 text-gray-700'>
 									{pd.slug}
 								</td>
 							</tr>

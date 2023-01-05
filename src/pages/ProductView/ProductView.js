@@ -118,7 +118,28 @@ const ProductView = () => {
 		console.log('bottom add to cart');
 	};
 
-	console.log(reviews);
+	//Check is He/she order this product before
+	// const [isOrder, setIsOrder] = useState(false);
+	// useEffect(() => {
+	// 	if (user?.uid) {
+	// 		fetch(
+	// 			`${process.env.REACT_APP_API_URL}/check-is-order/${user?.uid}?id=${product._id}`,
+	// 			{
+	// 				headers: {
+	// 					authorization: `Bearer ${JSON.parse(
+	// 						localStorage.getItem('token')
+	// 					)}`,
+	// 				},
+	// 			}
+	// 		)
+	// 			.then((res) => res.json())
+	// 			.then((data) => {
+	// 				console.log(data);
+	// 				setIsOrder(data);
+	// 			});
+	// 	}
+	// }, [product._id, user?.uid]);
+
 	if (isLoading) {
 		return <SpinnerMain />;
 	}
@@ -149,7 +170,7 @@ const ProductView = () => {
 					</Link>
 				</nav>
 				<div className='grid items-start grid-cols-1 gap-8 md:grid-cols-2'>
-					<div className='grid grid-cols-2 gap-4 md:grid-cols-1'>
+					<div className='grid'>
 						{/* <img
 							alt='Les Paul'
 							src={product.product_info?.product_image}
@@ -158,7 +179,7 @@ const ProductView = () => {
 						<InnerImageZoom
 							src={product.product_info?.product_image}
 							zoomSrc={product.product?.product_image}
-							className='object-contain w-full aspect-square rounded-xl h-full'
+							className='md:object-contain w-full aspect-square rounded-xl h-full'
 						/>
 						{/* <div className='grid grid-cols-2 gap-4 lg:mt-4'>
 							<img

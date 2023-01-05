@@ -18,53 +18,53 @@ const CategoryProducts = () => {
 	});
 	if (isLoading) {
 		return <SpinnerMain />;
-    }
+	}
 	return (
 		<section>
-			<div class='max-w-screen-xl px-4 py-8 mx-auto sm:px-6 sm:py-12 lg:px-8'>
+			<div className='max-w-screen-xl px-4 py-8 mx-auto sm:px-6 sm:py-12 lg:px-8'>
 				<header>
-					<h2 class='text-xl font-bold text-gray-900 sm:text-3xl'>
+					<h2 className='text-xl font-bold text-gray-900 sm:text-3xl'>
 						Product Collection of {productsData.category_name}
 					</h2>
 
-					<p class='max-w-md mt-4 text-gray-500'>
+					<p className='max-w-md mt-4 text-gray-500'>
 						Lorem ipsum, dolor sit amet consectetur adipisicing
 						elit. Itaque praesentium cumque iure dicta incidunt est
 						ipsam, officia dolor fugit natus?
 					</p>
 				</header>
 
-				<div class='flex items-center justify-between mt-8'>
-					<div class='flex border border-gray-100 divide-x divide-gray-100 rounded'>
-						<button class='inline-flex items-center justify-center w-10 h-10 text-gray-600 transition hover:bg-gray-50 hover:text-gray-700'>
+				<div className='flex items-center justify-between mt-8'>
+					<div className='flex border border-gray-100 divide-x divide-gray-100 rounded'>
+						<button className='inline-flex items-center justify-center w-10 h-10 text-gray-600 transition hover:bg-gray-50 hover:text-gray-700'>
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
 								fill='none'
 								viewBox='0 0 24 24'
-								stroke-width='1.5'
+								strokeWidth='1.5'
 								stroke='currentColor'
-								class='w-5 h-5'
+								className='w-5 h-5'
 							>
 								<path
-									stroke-linecap='round'
-									stroke-linejoin='round'
+									strokeLinecap='round'
+									strokeLinejoin='round'
 									d='M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z'
 								/>
 							</svg>
 						</button>
 
-						<button class='inline-flex items-center justify-center w-10 h-10 text-gray-600 transition hover:bg-gray-50 hover:text-gray-700'>
+						<button className='inline-flex items-center justify-center w-10 h-10 text-gray-600 transition hover:bg-gray-50 hover:text-gray-700'>
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
 								fill='none'
 								viewBox='0 0 24 24'
-								stroke-width='1.5'
+								strokeWidth='1.5'
 								stroke='currentColor'
-								class='w-5 h-5'
+								className='w-5 h-5'
 							>
 								<path
-									stroke-linecap='round'
-									stroke-linejoin='round'
+									strokeLinecap='round'
+									strokeLinejoin='round'
 									d='M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5'
 								/>
 							</svg>
@@ -72,13 +72,13 @@ const CategoryProducts = () => {
 					</div>
 
 					<div>
-						<label for='SortBy' class='sr-only'>
+						<label htmlFor='SortBy' className='sr-only'>
 							SortBy
 						</label>
 
 						<select
 							id='SortBy'
-							class='h-10 text-sm border-gray-300 rounded'
+							className='h-10 text-sm border-gray-300 rounded'
 						>
 							<option>Sort By</option>
 							<option value='Title, DESC'>Title, DESC</option>
@@ -89,8 +89,10 @@ const CategoryProducts = () => {
 					</div>
 				</div>
 
-				<ul class='grid gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-4'>
-                    {productsData?.products.map(product => <ProductCard key={product._id} product={product} />)}
+				<ul className='grid gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-4'>
+					{productsData?.products.map((product) => (
+						<ProductCard key={product._id} product={product} />
+					))}
 				</ul>
 			</div>
 		</section>

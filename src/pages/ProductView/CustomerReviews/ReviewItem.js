@@ -7,9 +7,9 @@ const ReviewItem = ({ review }) => {
 	return (
 		<blockquote>
 			<header className='flex justify-between italic text-sm'>
-				<div class='space-y-3'>
-					<p class='font-semibold'>{review?.customer_name}</p>
-					<div class='-ml-1 flex'>
+				<div className='space-y-3'>
+					<p className='font-semibold'>{review?.customer_name}</p>
+					<div className='-ml-1 flex'>
 						{[...Array(5).keys()].map((rate) => (
 							<FontAwesomeIcon
 								key={rate}
@@ -26,10 +26,10 @@ const ReviewItem = ({ review }) => {
 				<div>Out of {review.customer_rating} / 5</div>
 			</header>
 
-			<p class='mt-2 text-gray-700'>{review.customer_review}</p>
+			<p className='mt-2 text-gray-700'>{review.customer_review}</p>
 
-			<footer class='mt-4 text-right'>
-				<p class='text-xs text-gray-500'>
+			<footer className='mt-4 text-right'>
+				<p className='text-xs text-gray-500'>
 					{format(new Date(review.createAt), 'PPPPpppp')}
 				</p>
 			</footer>

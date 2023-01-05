@@ -6,6 +6,7 @@ import AdminHome from '../pages/AdminDashboard/AdminHome/AdminHome';
 import AdminProducts from '../pages/AdminDashboard/AdminProducts/AdminProducts';
 import AllCustomer from '../pages/AdminDashboard/AllCustomer/AllCustomer';
 import Categories from '../pages/AdminDashboard/Categories/Categories';
+import CustomerDetails from '../pages/AdminDashboard/CustomerDetails/CustomerDetails';
 import ManageOrders from '../pages/AdminDashboard/ManageOrders/ManageOrders';
 import NewCategory from '../pages/AdminDashboard/NewCategory/NewCategory';
 import NewProduct from '../pages/AdminDashboard/NewProduct/NewProduct';
@@ -187,15 +188,23 @@ export const router = createBrowserRouter([
 				path: '/admin/slider-editor/edit/:id',
 				element: (
 					<AdminRoute>
-						<NewSlide/>
+						<NewSlide />
 					</AdminRoute>
-				)
+				),
 			},
 			{
 				path: '/admin/slider-editor/new-slide',
 				element: (
 					<AdminRoute>
 						<NewSlide />
+					</AdminRoute>
+				),
+			},
+			{
+				path: '/admin/customers/details/:customerUid',
+				element: (
+					<AdminRoute>
+						<CustomerDetails />
 					</AdminRoute>
 				),
 			},

@@ -32,13 +32,12 @@ const NewProduct = () => {
 		const formData = new FormData();
 		formData.append('image', data.product_image[0]);
 		if (!location.pathname.startsWith('/admin/products/details')) {
-			
 			const product = {
 				product_info: {
 					product_name: data.product_name,
 					product_description: data.product_description,
 					product_category: optionCategoryName,
-					category_slug:optionCategorySlug,
+					category_slug: optionCategorySlug,
 					product_image: null,
 					product_price: parseInt(data.product_price),
 					product_quantity: parseInt(data.product_quantity),
@@ -366,7 +365,7 @@ const NewProduct = () => {
 							>
 								<svg
 									role='status'
-									class='inline mr-3 w-4 h-4 text-white animate-spin'
+									className='inline mr-3 w-4 h-4 text-white animate-spin'
 									viewBox='0 0 100 101'
 									fill='none'
 									xmlns='http://www.w3.org/2000/svg'

@@ -5,21 +5,27 @@ import { useSelector } from 'react-redux';
 import ReviewItem from './ReviewItem';
 
 const CustomersReviews = ({ reviews, reviewsCount, averageSumOfReview }) => {
-	const {user} = useSelector(state => state.auth)
+	const { user } = useSelector((state) => state.auth);
 	return (
 		<section>
-			<div class='mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8'>
-				<h2 class='text-xl font-bold sm:text-2xl'>Customer Reviews</h2>
+			<div className='mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8'>
+				<h2 className='text-xl font-bold sm:text-2xl'>
+					Customer Reviews
+				</h2>
 
-				<div class='mt-4 flex items-center justify-between'>
+				<div className='mt-4 flex items-center justify-between'>
 					<div>
-						<p class='text-3xl font-medium'>
-							{averageSumOfReview}
-							<span class='sr-only'> Average review score </span>
+						<p className='text-3xl font-medium'>
+							{averageSumOfReview &&
+								averageSumOfReview.toFixed(1)}
+							<span className='sr-only'>
+								{' '}
+								Average review score{' '}
+							</span>
 						</p>
 
-						<div class='ml-4'>
-							<div class='-ml-1 flex'>
+						<div className='ml-4'>
+							<div className='-ml-1 flex'>
 								{[...Array(5).keys()].map((rate) => (
 									<FontAwesomeIcon
 										key={rate}
@@ -33,7 +39,7 @@ const CustomersReviews = ({ reviews, reviewsCount, averageSumOfReview }) => {
 								))}
 							</div>
 
-							<p class='mt-0.5 text-xs text-gray-500'>
+							<p className='mt-0.5 text-xs text-gray-500'>
 								Based on {reviewsCount} reviews
 							</p>
 						</div>
@@ -51,7 +57,7 @@ const CustomersReviews = ({ reviews, reviewsCount, averageSumOfReview }) => {
 				</div>
 
 				{reviews.length > 0 ? (
-					<div class='mt-8 grid gap-x-16 gap-y-12 grid-cols-1'>
+					<div className='mt-8 grid gap-x-16 gap-y-12 grid-cols-1'>
 						{reviews.map((review) => (
 							<ReviewItem key={review._id} review={review} />
 						))}

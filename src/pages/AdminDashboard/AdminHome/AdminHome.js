@@ -26,7 +26,6 @@ const AdminHome = () => {
 			return data;
 		},
 	});
-	console.log(dashboardData);
 	if (isLoading) {
 		return <SpinnerMain />;
 	}

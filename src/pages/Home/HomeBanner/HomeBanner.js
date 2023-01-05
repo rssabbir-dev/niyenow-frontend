@@ -4,8 +4,7 @@ import { Autoplay, Navigation, Pagination } from 'swiper';
 // Import Swiper styles
 import 'swiper/css';
 import { Link } from 'react-router-dom';
-const HomeBanner = ({sliderData}) => {
-	
+const HomeBanner = ({ sliderData }) => {
 	return (
 		<>
 			<Swiper
@@ -37,7 +36,7 @@ export const Slide = ({ slide }) => {
 		<div className='bg-slate-100'>
 			<div className=''>
 				<div className='relative'>
-					<div class='absolute inset-0 bg-white/75 sm:bg-transparent sm:bg-gradient-to-r sm:from-white/95 sm:to-white/25'></div>
+					<div className='absolute inset-0 bg-white/75 sm:bg-transparent sm:bg-gradient-to-r sm:from-white/95 sm:to-white/25'></div>
 					<img
 						src={slide?.slide_image}
 						alt='A work table with house plants'
