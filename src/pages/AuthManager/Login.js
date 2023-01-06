@@ -7,7 +7,8 @@ import { getJwtToken, handleEmailLogin } from './handleAuth';
 const Login = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const from = location.state?.from?.pathname || '/';
+	// const from = location.state?.from?.pathname || '/';
+	const from = localStorage.getItem('location') || '/'
 	const [isLoading, setIsLoading] = useState(false);
 	const {
 		register,
@@ -22,6 +23,7 @@ const Login = () => {
 				console.log(data.user);
 				toast.success('Welcome, Login Successfully');
 				navigate(from, { replace: true });
+				localStorage.removeItem('location')
 				getJwtToken(data.user?.uid);
 				setIsLoading(false);
 			})

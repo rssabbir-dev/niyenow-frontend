@@ -137,9 +137,10 @@ const NewProduct = () => {
 			axios
 				.get(`${process.env.REACT_APP_API_URL}/product/${param.id}`)
 				.then((res) => {
-					setIsProductExist(res.data);
+					setIsProductExist(res.data.product);
 					setIsProductExistLoading(false);
-					setFile(res.data.product_info.product_image);
+					setFile(res.data.product?.product_info?.product_image);
+					console.log(res.data.product);
 				});
 		}
 	}, [location.pathname, param.id]);
@@ -152,7 +153,7 @@ const NewProduct = () => {
 			return res.data;
 		},
 	});
-	if (isLoading) {
+	if (isLoading === true || isProductExistLoading === true) {
 		return <SpinnerMain />;
 	}
 	return (
@@ -232,6 +233,11 @@ const NewProduct = () => {
 								isProductExist?.product_info?.product_name
 							}
 						/>
+						{errors.product_name && (
+							<span className='text-red-500 text-sm'>
+								{errors.product_name?.message}
+							</span>
+						)}
 					</div>
 					<div>
 						<h4 className='text-xl mb-2'>Description</h4>
@@ -240,12 +246,22 @@ const NewProduct = () => {
 							placeholder='Bio'
 							{...register('product_description', {
 								required: 'Product Description Required',
+								minLength: {
+									value: 100,
+									message:
+										'Describe product minimus with 100 character',
+								},
 							})}
 							defaultValue={
 								isProductExist?.product_info
 									?.product_description
 							}
 						></textarea>
+						{errors.product_description && (
+							<span className='text-red-500 text-sm'>
+								{errors.product_description?.message}
+							</span>
+						)}
 					</div>
 					<div className='grid sm:grid-cols-3 gap-10'>
 						<div>
@@ -273,6 +289,11 @@ const NewProduct = () => {
 									);
 								})}
 							</select>
+							{errors.product_category && (
+								<span className='text-red-500 text-sm'>
+									{errors.product_category?.message}
+								</span>
+							)}
 						</div>
 						<div>
 							<h4 className='text-xl mb-3'>Price</h4>
@@ -282,11 +303,20 @@ const NewProduct = () => {
 								className='input input-bordered w-full '
 								{...register('product_price', {
 									required: 'Product Price Required',
+									min: {
+										value: 1,
+										message: 'Minimus price is $1',
+									},
 								})}
 								defaultValue={
 									isProductExist?.product_info?.product_price
 								}
 							/>
+							{errors.product_price && (
+								<span className='text-red-500 text-sm'>
+									{errors.product_price?.message}
+								</span>
+							)}
 						</div>
 						<div>
 							<h4 className='text-xl mb-3'>Quantity</h4>
@@ -296,12 +326,21 @@ const NewProduct = () => {
 								className='input input-bordered w-full '
 								{...register('product_quantity', {
 									required: 'Product Quantity Required',
+									min: {
+										value: 1,
+										message: 'Minimus 1 Quantity Required',
+									},
 								})}
 								defaultValue={
 									isProductExist?.product_info
 										?.product_quantity
 								}
 							/>
+							{errors.product_quantity && (
+								<span className='text-red-500 text-sm'>
+									{errors.product_quantity?.message}
+								</span>
+							)}
 						</div>
 					</div>
 					<div>

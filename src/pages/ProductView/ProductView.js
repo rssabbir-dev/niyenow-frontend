@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -119,27 +119,32 @@ const ProductView = () => {
 	};
 
 	//Check is He/she order this product before
-	// const [isOrder, setIsOrder] = useState(false);
-	// useEffect(() => {
-	// 	if (user?.uid) {
-	// 		fetch(
-	// 			`${process.env.REACT_APP_API_URL}/check-is-order/${user?.uid}?id=${product._id}`,
-	// 			{
-	// 				headers: {
-	// 					authorization: `Bearer ${JSON.parse(
-	// 						localStorage.getItem('token')
-	// 					)}`,
-	// 				},
-	// 			}
-	// 		)
-	// 			.then((res) => res.json())
-	// 			.then((data) => {
-	// 				console.log(data);
-	// 				setIsOrder(data);
-	// 			});
-	// 	}
-	// }, [product._id, user?.uid]);
+	const [isOrder, setIsOrder] = useState(false);
+	useEffect(() => {
+		if (user?.uid) {
+			fetch(
+				`${process.env.REACT_APP_API_URL}/check-is-order/${user?.uid}?id=${param?.id}`,
+				{
+					headers: {
+						authorization: `Bearer ${JSON.parse(
+							localStorage.getItem('token')
+						)}`,
+					},
+				}
+			)
+				.then((res) => res.json())
+				.then((data) => {
+					console.log(data);
+					setIsOrder(data);
+				});
+		}
+	}, [param?.id, user?.uid]);
 
+	const navigate = useNavigate();
+	const redirectToLogin = () => {
+		localStorage.setItem('location',location.pathname)
+		navigate('/login');
+	};
 	if (isLoading) {
 		return <SpinnerMain />;
 	}
@@ -452,6 +457,7 @@ const ProductView = () => {
 										type='number'
 										id='quantity'
 										min='1'
+										max={product.product_info.product_quantity}
 										defaultValue={1}
 										{...register('quantity', {
 											required: true,
@@ -478,12 +484,12 @@ const ProductView = () => {
 									</>
 								)}
 								{!user?.uid && (
-									<Link
-										to='/login'
-										className='block px-5 py-3 ml-3 text-xs font-medium text-white bg-green-600 rounded hover:bg-green-500 disabled:bg-gray-500'
+									<button
+										onClick={redirectToLogin}
+										className='ml-3 inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white cursor-pointer active:bg-black'
 									>
 										Login First
-									</Link>
+									</button>
 								)}
 							</div>
 						</form>
@@ -498,6 +504,7 @@ const ProductView = () => {
 			{!isReviewLoading && (
 				<>
 					<CustomersReviews
+						isOrder={isOrder}
 						reviews={reviews}
 						reviewsCount={reviewsCount}
 						averageSumOfReview={averageSumOfReview}

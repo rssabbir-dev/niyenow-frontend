@@ -4,7 +4,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import ReviewItem from './ReviewItem';
 
-const CustomersReviews = ({ reviews, reviewsCount, averageSumOfReview }) => {
+const CustomersReviews = ({ reviews, reviewsCount, averageSumOfReview,isOrder }) => {
 	const { user } = useSelector((state) => state.auth);
 	return (
 		<section>
@@ -45,14 +45,16 @@ const CustomersReviews = ({ reviews, reviewsCount, averageSumOfReview }) => {
 						</div>
 					</div>
 					<div>
-						{user?.uid && (
+						{isOrder ? (
 							<label
 								htmlFor='my-modal'
 								className='ml-3 inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white cursor-pointer active:bg-black'
 							>
 								Post Review
 							</label>
-						)}
+						) : <p className='italic text-red-500'>
+						Without order you can't post a review
+						</p>}
 					</div>
 				</div>
 
