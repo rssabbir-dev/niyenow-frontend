@@ -35,7 +35,15 @@
 - date-fns
 
 ## Featured
+#### A realistic admin dashboard where admin can
+- Manage all products
+- See top five selling product list
+- See five recent product list
+- See monthly sales report
+- See total orders, total products and today income also
+
+![App Screenshot](https://ibb.co/Hp7LwDB)
 
 ### Access
-adminEmail: admin@niyenow.com
-adminPass: 123456
+#### adminEmail: admin@niyenow.com
+#### adminPass: 123456
