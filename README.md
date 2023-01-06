@@ -36,13 +36,23 @@
 
 ## Featured
 #### A realistic admin dashboard where admin can
-- Manage all products
 - See top five selling product list
 - See five recent product list
 - See monthly sales report
 - See total orders, total products and today income also
 
 ![App Screenshot](https://i.ibb.co/qFBLqM7/Screenshot-51.png)
+
+- Manage all orders, can see full details of order, and can update order status
+![App Screenshot](https://i.ibb.co/28TDjRN/Screenshot-52.png)
+![App Screenshot](https://i.ibb.co/YBDyRTP/Screenshot-53.png)
+
+- Manage all product, like add new product, edit product info with img, delete product and unpublish and publish product
+![App Screenshot](https://i.ibb.co/9b09bYW/Screenshot-54.png)
+
+- Slider Editor, like add new slider, edit old slider, delete slider also
+![App Screenshot](https://i.ibb.co/J2XK0D4/Screenshot-55.png)
+
 
 ### Access
 #### adminEmail: admin@niyenow.com
