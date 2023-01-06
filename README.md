@@ -42,7 +42,7 @@
 - See monthly sales report
 - See total orders, total products and today income also
 
-![App Screenshot](https://ibb.co/Hp7LwDB)
+![App Screenshot](https://i.ibb.co/qFBLqM7/Screenshot-51.png)
 
 ### Access
 #### adminEmail: admin@niyenow.com
