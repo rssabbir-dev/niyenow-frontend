@@ -6,11 +6,13 @@ import FeaturedCategories from '../../../components/FeaturedCategories/FeaturedC
 import Pagination from '../../../components/Pagination/Pagination';
 import Products from '../../../components/Products/Products';
 import SpinnerMain from '../../../components/SpinnerMain/SpinnerMain';
+import TopProducts from '../../../components/TopProducts/TopProducts';
 import HomeBanner from '../HomeBanner/HomeBanner';
 
 const Home = () => {
-	const [products,setProducts] = useState([])
-	const [productsCount,setProductsCount] = useState(0)
+	const [products, setProducts] = useState([]);
+	const [topProducts,setTopProducts] = useState([])
+	const [productsCount, setProductsCount] = useState(0);
 	const [currentPage, setCurrentPage] = useState(0);
 	const [perPageView, setPerPageView] = useState(8);
 	const [isLoading, setIsLoading] = useState(true);
@@ -22,32 +24,41 @@ const Home = () => {
 		setPerPageView,
 		pageCount,
 	};
-	useEffect(() => { 
-		setIsLoading(true)
+	useEffect(() => {
+		setIsLoading(true);
 		fetch(
 			`${process.env.REACT_APP_API_URL}/products?perPageView=${perPageView}&currentPage=${currentPage}`
-		).then(res =>res.json())
+		)
+			.then((res) => res.json())
+			.then((data) => {
+				setProducts(data.products);
+				setProductsCount(data.productsCount);
+				setIsLoading(false);
+			});
+	}, [currentPage, perPageView]);
+
+	useEffect(() => {
+		fetch(`${process.env.REACT_APP_API_URL}/top-sales`)
+		.then(res => res.json())
 			.then(data => {
-			setProducts(data.products)
-			setProductsCount(data.productsCount)
-			setIsLoading(false)
+			setTopProducts(data)
 		})
-	},[currentPage, perPageView])
-    
-	const { data: sliderData, isLoading:isSlideLoading } = useQuery({
+	},[])
+
+	const { data: sliderData, isLoading: isSlideLoading } = useQuery({
 		queryKey: ['sliderData'],
 		queryFn: async () => {
 			const res = await fetch(`${process.env.REACT_APP_API_URL}/sliders`);
 			const data = await res.json();
 			return data;
 		},
-	}); 
-	
-    if (isSlideLoading) {
+	});
+
+	if (isSlideLoading) {
 		return <SpinnerMain />;
 	}
-	
-    return (
+
+	return (
 		<div>
 			<HomeBanner sliderData={sliderData} />
 			<div>
@@ -101,7 +112,8 @@ const Home = () => {
 									Support 24/7
 								</p>
 								<p className=' text-base leading-6 font-normal text-gray-600 mt-3'>
-									Contact us 24 hours a day at help@niyenow.com
+									Contact us 24 hours a day at
+									help@niyenow.com
 								</p>
 							</div>
 						</div>
@@ -150,6 +162,7 @@ const Home = () => {
 			<div className='my-10'>
 				<Pagination paginationAction={paginationAction} />
 			</div>
+			<div>{<TopProducts products={topProducts} />}</div>
 		</div>
 	);
 };
