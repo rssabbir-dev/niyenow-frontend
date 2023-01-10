@@ -76,8 +76,8 @@ const Shop = () => {
 					</button>
 				</div>
 
-				<div className='mt-4 lg:mt-8 lg:grid lg:grid-cols-4 lg:items-start lg:gap-8 relative'>
-					<div className='hidden space-y-4 lg:block sticky top-20'>
+				<div className='mt-4 lg:mt-8 lg:grid lg:grid-cols-4 lg:items-start lg:gap-8'>
+					<div className='hidden space-y-4 lg:block'>
 						<div className=''>
 							<label
 								htmlFor='SortBy'

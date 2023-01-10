@@ -28,7 +28,6 @@ const PaymentPage = () => {
 				setIsLoading(false);
 			});
 	}, [param.id, user?.uid,refetch]);
-	console.log(order);
 	return (
 		<>
 			{!order.payment_status && (

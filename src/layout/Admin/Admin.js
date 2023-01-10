@@ -108,7 +108,7 @@ const items = (
 					>
 						<div className='flex items-center'>
 							<FontAwesomeIcon icon={faCubes} />
-							<span className='text-sm  ml-2'>Inventory</span>
+							<span className='text-sm  ml-2'>Products</span>
 						</div>
 					</Link>
 				</li>
