@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import SpinnerMain from '../../components/SpinnerMain/SpinnerMain';
 
 const CategoryProducts = () => {
+	const [cardDisplayWay,setCardDisplayWay] = useState('grid')
 	const param = useParams();
 	const { data: productsData, isLoading } = useQuery({
 		queryKey: ['categoryProducts'],
@@ -89,9 +90,18 @@ const CategoryProducts = () => {
 					</div>
 				</div>
 
-				<ul className='grid gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-4'>
+				<ul
+					className={`${
+						cardDisplayWay === 'grid' &&
+						'grid gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-4'
+					} ${cardDisplayWay === 'column' && ''}`}
+				>
 					{productsData?.products.map((product) => (
-						<ProductCard key={product._id} product={product} />
+						<ProductCard
+							cardDisplayWay={cardDisplayWay}
+							key={product._id}
+							product={product}
+						/>
 					))}
 				</ul>
 			</div>

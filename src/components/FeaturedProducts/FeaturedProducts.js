@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../ProductCard/ProductCard';
 
-const TopProducts = ({ products }) => {
+const FeaturedProducts = ({ products,title,toSlug }) => {
 	return (
 		<section>
 			<div className='max-w-screen-xl px-4 py-8 mx-auto sm:px-6 sm:py-12 lg:px-8'>
 				<header>
 					<h2 className='text-xl font-bold text-gray-900 sm:text-3xl'>
-						Top Selling Products
+						{title}
 					</h2>
 
 					<p className='max-w-md mt-4 text-gray-500'>
@@ -19,7 +19,7 @@ const TopProducts = ({ products }) => {
 
 				<div className='mt-8'>
 					<div className='text-sm text-right text-gray-500'>
-						<Link to='/shop' className=' link link-hover link-primary'>
+						<Link to={toSlug} className=' link link-hover underline'>
 							See All
 						</Link>
 					</div>
@@ -35,4 +35,4 @@ const TopProducts = ({ products }) => {
 	);
 };
 
-export default TopProducts;
+export default FeaturedProducts;

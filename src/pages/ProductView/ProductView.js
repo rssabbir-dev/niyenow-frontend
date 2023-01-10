@@ -9,11 +9,11 @@ import { toast } from 'react-hot-toast';
 import SpinnerMain from '../../components/SpinnerMain/SpinnerMain';
 import CustomersReviews from './CustomerReviews/CustomersReviews';
 import ReviewModal from './CustomerReviews/ReviewModal';
-import { ThreeDots } from 'react-loader-spinner';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Pagination from '../../components/Pagination/Pagination';
 import InnerImageZoom from 'react-inner-image-zoom';
+import SpinnerSecond from '../../components/SpinnerSecond/SpinnerSecond';
 
 const ProductView = () => {
 	const { user } = useSelector((state) => state.auth);
@@ -224,9 +224,9 @@ const ProductView = () => {
 									{product.product_info?.product_name}
 								</h1>
 
-								<p className='mt-0.5 text-sm'>
+								{/* <p className='mt-0.5 text-sm'>
 									Highest Rated Product
-								</p>
+								</p> */}
 
 								<div className='mt-2 -ml-0.5 flex'>
 									{[...Array(5).keys()].map((rate) => (
@@ -248,28 +248,22 @@ const ProductView = () => {
 							</p>
 						</div>
 
-						<details className='group relative mt-4 [&_summary::-webkit-details-marker]:hidden'>
+						<details className='group relative mt-4'>
 							<summary className='block'>
 								<div>
-									<div className='prose max-w-none group-open:hidden'>
+									<div>
 										<p>
-											Lorem ipsum dolor sit amet
-											consectetur adipisicing elit. Ipsa
-											veniam dicta beatae eos ex error
-											culpa delectus rem tenetur,
-											architecto quam nesciunt, dolor
-											veritatis nisi minus inventore,
-											rerum at recusandae?
+											{product.product_info.product_description}
 										</p>
 									</div>
 
-									<span className='mt-4 text-sm font-medium underline cursor-pointer group-open:absolute group-open:bottom-0 group-open:left-0 group-open:mt-0'>
+									{/* <span className='mt-4 text-sm font-medium underline cursor-pointer group-open:absolute group-open:bottom-0 group-open:left-0 group-open:mt-0'>
 										Read More
-									</span>
+									</span> */}
 								</div>
 							</summary>
 
-							<div className='pb-6 prose max-w-none'>
+							{/* <div className='pb-6 prose max-w-none'>
 								<p>
 									Lorem ipsum dolor sit amet consectetur
 									adipisicing elit. Ipsa veniam dicta beatae
@@ -286,7 +280,7 @@ const ProductView = () => {
 									temporibus non! Maxime et quisquam amet. A,
 									deserunt!
 								</p>
-							</div>
+							</div> */}
 						</details>
 
 						<form
@@ -498,7 +492,7 @@ const ProductView = () => {
 			</div>
 			{isReviewLoading && (
 				<div className='flex justify-center items-center h-[700px]'>
-					<ThreeDots />
+					<SpinnerSecond/>
 				</div>
 			)}
 			{!isReviewLoading && (

@@ -1,5 +1,5 @@
-import { async } from '@firebase/util';
 import { useQuery } from '@tanstack/react-query';
+import { format } from 'date-fns';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
@@ -96,7 +96,7 @@ const AllCustomer = () => {
 							</th>
 							<th className='whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900'>
 								<div className='flex items-center gap-2'>
-									Total Order
+									Register Date
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
 										className='h-4 w-4 text-gray-700'
@@ -127,7 +127,7 @@ const AllCustomer = () => {
 									{pd.email}
 								</td>
 								<td className='whitespace-nowrap px-4 py-2 text-gray-700'>
-									7
+									{format(new Date(pd.registerAt),'Pp')}
 								</td>
 								<td className='whitespace-nowrap px-4 py-2'>
 									<Link

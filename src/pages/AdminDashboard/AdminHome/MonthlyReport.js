@@ -27,26 +27,32 @@ const MonthlyReport = ({ report }) => {
 						see all
 					</Link>
 				</p>
-				<ComposedChart
-					width={500}
-					height={400}
-					data={report}
-					margin={{
-						top: 20,
-						right: 20,
-						bottom: 20,
-						left: 20,
-					}}
-				>
-					<CartesianGrid stroke='#f5f5f5' />
-					<XAxis dataKey='date' scale='band' />
-					<YAxis />
-					<Tooltip />
-					<Legend />
-					<Bar dataKey='income' barSize={20} fill='#413ea0' />
-					<Line type='monotone' dataKey='income' stroke='#ff7300' />
-				</ComposedChart>
-				<p className='uppercase'>Total Income: ${total}</p>
+				<ResponsiveContainer width='100%' height={400}>
+					<ComposedChart
+						data={report}
+						margin={{
+							top: 20,
+							right: 20,
+							bottom: 20,
+							left: 20,
+						}}
+					>
+						<CartesianGrid stroke='#f5f5f5' />
+						<XAxis dataKey='date' scale='band' />
+						<YAxis />
+						<Tooltip />
+						<Legend />
+						<Bar dataKey='income' barSize={20} fill='#3B82F6' />
+						<Line
+							type='monotone'
+							dataKey='income'
+							stroke='#EC4899'
+						/>
+					</ComposedChart>
+				</ResponsiveContainer>
+				<p className='uppercase font-semibold italic text-gray-600'>
+					Total Income: ${total}
+				</p>
 			</div>
 		</>
 	);

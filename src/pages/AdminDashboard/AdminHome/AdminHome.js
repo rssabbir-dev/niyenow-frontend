@@ -1,4 +1,8 @@
-import { faCubes, faLayerGroup, faMoneyBillTrendUp } from '@fortawesome/free-solid-svg-icons';
+import {
+	faCubes,
+	faLayerGroup,
+	faMoneyBillTrendUp,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQuery } from '@tanstack/react-query';
 import React, { useEffect } from 'react';
@@ -49,10 +53,7 @@ const AdminHome = () => {
 				</div>
 				<div className='bg-pink-500 text-white p-5 rounded-lg flex gap-10 justify-center items-center'>
 					<div className=''>
-						<FontAwesomeIcon
-							className='text-5xl'
-							icon={faCubes}
-						/>
+						<FontAwesomeIcon className='text-5xl' icon={faCubes} />
 					</div>
 					<div>
 						<h1 className='text-2xl uppercase'>Total Products</h1>
@@ -71,17 +72,22 @@ const AdminHome = () => {
 					<div>
 						<h1 className='text-2xl uppercase'>Today Income</h1>
 						<p className='text-xl font-bold'>
-							{dashboardData?.todaySale ? dashboardData.todaySale : 0	}
+							{dashboardData?.todaySale
+								? dashboardData.todaySale
+								: 0}
 						</p>
 					</div>
 				</div>
 			</div>
 			<div className='grid lg:grid-cols-2 gap-10'>
+				<div className='col-span-2'>
+					<MonthlyReport report={dashboardData?.monthlyChartData} />
+				</div>
+
 				<TopSellingProducts
 					title={'top selling product'}
 					products={dashboardData?.topSellingProducts}
 				/>
-				<MonthlyReport report={dashboardData?.monthlyChartData} />
 				<TopSellingProducts
 					title={'Recent Product Added'}
 					products={dashboardData?.recentProducts}

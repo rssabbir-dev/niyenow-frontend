@@ -1,9 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
+
 import React, { useEffect, useState } from 'react';
-import { ThreeDots } from 'react-loader-spinner';
 import Pagination from '../../components/Pagination/Pagination';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import SpinnerMain from '../../components/SpinnerMain/SpinnerMain';
+import SpinnerSecond from '../../components/SpinnerSecond/SpinnerSecond';
 
 const Shop = () => {
 	const [products, setProducts] = useState([]);
@@ -438,7 +438,7 @@ const Shop = () => {
 						)}
 						{reloadLoading && (
 							<div className='flex justify-center items-center h-[700px]'>
-								<ThreeDots />
+								<SpinnerSecond/>
 							</div>
 						)}
 						<div className='mt-10 col-span-3'>

@@ -4,13 +4,15 @@ import { format } from 'date-fns';
 import jsPDF from 'jspdf';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import SpinnerMain from '../../../components/SpinnerMain/SpinnerMain';
 
 const OrderDetails = () => {
 	const { user } = useSelector((state) => state.auth);
 	const [order, setOrder] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
+	const location = useLocation();
+	const navigate = useNavigate();
 	const param = useParams();
 	useEffect(() => {
 		fetch(
@@ -29,18 +31,32 @@ const OrderDetails = () => {
 				setIsLoading(false);
 			});
 	}, [param.id, user?.uid]);
+	const handleBack = () => {
+		if (window.history.state) {
+			window.history.go(-1);
+			console.log(window.history);
+		} else {
+			navigate('/admin/customers');
+		}
+		return false;
+	};
 	if (isLoading) {
 		return <SpinnerMain />;
 	}
-	console.log(order);
 	const generatePDF = () => {
 		const report = new jsPDF('p', 'pt', 'a4');
 		report.html(document.querySelector('#invoice')).then(() => {
 			report.save('invoice.pdf');
 		});
 	};
+
 	return (
 		<div id='invoice'>
+			<div>
+				<button onClick={handleBack} className='btn btn-sm'>
+					Back
+				</button>
+			</div>
 			<div className='flex justify-start item-start space-y-2 flex-col '>
 				<h1 className='text-2xl font-semibold leading-7 lg:leading-9  text-gray-800'>
 					Order #{order._id}

@@ -1,17 +1,18 @@
 import { async } from '@firebase/util';
 import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
-import { ThreeDots } from 'react-loader-spinner';
+import { Link } from 'react-router-dom';
 import FeaturedCategories from '../../../components/FeaturedCategories/FeaturedCategories';
 import Pagination from '../../../components/Pagination/Pagination';
 import Products from '../../../components/Products/Products';
 import SpinnerMain from '../../../components/SpinnerMain/SpinnerMain';
-import TopProducts from '../../../components/TopProducts/TopProducts';
+import TopProducts from '../../../components/FeaturedProducts/FeaturedProducts';
 import HomeBanner from '../HomeBanner/HomeBanner';
+import FeaturedProducts from '../../../components/FeaturedProducts/FeaturedProducts';
+import SpinnerSecond from '../../../components/SpinnerSecond/SpinnerSecond';
 
 const Home = () => {
 	const [products, setProducts] = useState([]);
-	const [topProducts,setTopProducts] = useState([])
 	const [productsCount, setProductsCount] = useState(0);
 	const [currentPage, setCurrentPage] = useState(0);
 	const [perPageView, setPerPageView] = useState(8);
@@ -37,30 +38,85 @@ const Home = () => {
 			});
 	}, [currentPage, perPageView]);
 
-	useEffect(() => {
-		fetch(`${process.env.REACT_APP_API_URL}/top-sales`)
-		.then(res => res.json())
-			.then(data => {
-			setTopProducts(data)
-		})
-	},[])
-
-	const { data: sliderData, isLoading: isSlideLoading } = useQuery({
-		queryKey: ['sliderData'],
+	const { data: homeData, isLoading: isHomeDataLoading } = useQuery({
+		queryKey: ['homeData'],
 		queryFn: async () => {
-			const res = await fetch(`${process.env.REACT_APP_API_URL}/sliders`);
+			const res = await fetch(
+				`${process.env.REACT_APP_API_URL}/home-data`
+			);
 			const data = await res.json();
+			console.log(data);
 			return data;
 		},
 	});
 
-	if (isSlideLoading) {
+	if (isHomeDataLoading) {
 		return <SpinnerMain />;
 	}
 
 	return (
 		<div>
-			<HomeBanner sliderData={sliderData} />
+			<div className='lg:grid grid-cols-5'>
+				<div className='col-span-1 bg-white/95 hidden lg:block'>
+					<div className=' mt-5'>
+						{homeData?.categories?.map((category, index) => (
+							<Link
+								to={`/category/${category.slug}`}
+								className={`px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b ${
+									index === 0 && 'border-t'
+								}`}
+							>
+								<span class='ml-3 text-sm font-medium truncate'>
+									{category.name}
+								</span>
+							</Link>
+						))}
+						<Link class='px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b'>
+							<span class='ml-3 text-sm font-medium truncate'>
+								Women Cosmetic
+							</span>
+						</Link>
+						<Link class='px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b'>
+							<span class='ml-3 text-sm font-medium truncate'>
+								Kid's Toys
+							</span>
+						</Link>
+						<Link class='px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b'>
+							<span class='ml-3 text-sm font-medium truncate'>
+								Accessories
+							</span>
+						</Link>
+						<Link class='px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b'>
+							<span class='ml-3 text-sm font-medium truncate'>
+								Electronic
+							</span>
+						</Link>
+						<Link class='px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b'>
+							<span class='ml-3 text-sm font-medium truncate'>
+								Gadget
+							</span>
+						</Link>
+						<Link class='px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b'>
+							<span class='ml-3 text-sm font-medium truncate'>
+								Foods
+							</span>
+						</Link>
+						<Link class='px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b'>
+							<span class='ml-3 text-sm font-medium truncate'>
+								Home Application
+							</span>
+						</Link>
+						<Link class='px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b'>
+							<span class='ml-3 text-sm font-medium truncate'>
+								Others
+							</span>
+						</Link>
+					</div>
+				</div>
+				<div className='col-span-4'>
+					<HomeBanner sliderData={homeData.sliders} />
+				</div>
+			</div>
 			<div>
 				<div className='2xl:container 2xl:mx-auto'>
 					<div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:gap-24 md:gap-10 gap-12 lg:px-20 md:py-12 md:px-6 py-9 px-4'>
@@ -145,10 +201,10 @@ const Home = () => {
 					</div>
 				</div>
 			</div>
-			<FeaturedCategories />
+			<FeaturedCategories categories={homeData.topCategories} />
 			{isLoading && (
 				<div className='flex justify-center items-center h-[700px]'>
-					<ThreeDots />
+					<SpinnerSecond/>
 				</div>
 			)}
 			{!isLoading && (
@@ -162,7 +218,42 @@ const Home = () => {
 			<div className='my-10'>
 				<Pagination paginationAction={paginationAction} />
 			</div>
-			<div>{<TopProducts products={topProducts} />}</div>
+			<div>
+				{
+					<FeaturedProducts
+						title={'Top Selling Products'}
+						toSlug={'/shop'}
+						products={homeData.topProducts}
+					/>
+				}
+			</div>
+			<div>
+				{
+					<FeaturedProducts
+						title={"Women's Collection"}
+						toSlug={'/category/woman-collection'}
+						products={homeData.womanCollection}
+					/>
+				}
+			</div>
+			<div>
+				{
+					<FeaturedProducts
+						title={"Kid's Collection"}
+						toSlug={'/category/kids-collection'}
+						products={homeData.kidCollection}
+					/>
+				}
+			</div>
+			<div>
+				{
+					<FeaturedProducts
+						title={"Man's Collection"}
+						toSlug={'/category/mans-collection'}
+						products={homeData.manCollection}
+					/>
+				}
+			</div>
 		</div>
 	);
 };

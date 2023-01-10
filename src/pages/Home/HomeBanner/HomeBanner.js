@@ -1,6 +1,6 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper';
+import { Autoplay } from 'swiper';
 // Import Swiper styles
 import 'swiper/css';
 import { Link } from 'react-router-dom';
@@ -11,11 +11,8 @@ const HomeBanner = ({ sliderData }) => {
 				spaceBetween={30}
 				centeredSlides={true}
 				autoplay={{
-					delay: 2500,
+					delay: 3000,
 					disableOnInteraction: false,
-				}}
-				pagination={{
-					clickable: true,
 				}}
 				navigation={false}
 				modules={[Autoplay]}
@@ -54,7 +51,7 @@ export const Slide = ({ slide }) => {
 					/>
 
 					<div className='absolute z-10 top-0 left-0 mx-4 sm:mx-0 mt-36 sm:mt-0 sm:py-20 md:py-28 lg:py-20 xl:py-28 sm:pl-14 flex flex-col sm:justify-start items-start'>
-						<h1 className='text-3xl sm:text-3xl lg:text-4xl font-semibold text-gray-600 sm:w-8/12 uppercase'>
+						<h1 className='text-3xl sm:text-3xl lg:text-4xl font-semibold sm:text-gray-600 sm:w-8/12 uppercase bg-black/25 sm:bg-transparent p-3 sm:p-0 rounded-md sm:rounded-none text-white'>
 							{slide?.slide_title}
 						</h1>
 						<p className='hidden sm:block text-base leading-normal text-gray-800 mt-4 sm:mt-5 sm:w-5/12'>

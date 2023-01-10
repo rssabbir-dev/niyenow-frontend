@@ -1,18 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const FeaturedCategories = () => {
-	const { data: categories, isLoading } = useQuery({
-		queryKey: ['topCategories'],
-		queryFn: async () => {
-			const res = await fetch(
-				`${process.env.REACT_APP_API_URL}/top-categories`
-			);
-			const data = await res.json();
-			return data;
-		},
-	});
+const FeaturedCategories = ({categories}) => {
 	return (
 		<section>
 			<div className='max-w-screen-xl px-4 py-8 mx-auto sm:px-6 sm:py-12 lg:px-8'>
