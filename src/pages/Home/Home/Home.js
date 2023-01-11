@@ -71,46 +71,6 @@ const Home = () => {
 								</span>
 							</Link>
 						))}
-						<Link class='px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b'>
-							<span class='ml-3 text-sm font-medium truncate'>
-								Women Cosmetic
-							</span>
-						</Link>
-						<Link class='px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b'>
-							<span class='ml-3 text-sm font-medium truncate'>
-								Kid's Toys
-							</span>
-						</Link>
-						<Link class='px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b'>
-							<span class='ml-3 text-sm font-medium truncate'>
-								Accessories
-							</span>
-						</Link>
-						<Link class='px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b'>
-							<span class='ml-3 text-sm font-medium truncate'>
-								Electronic
-							</span>
-						</Link>
-						<Link class='px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b'>
-							<span class='ml-3 text-sm font-medium truncate'>
-								Gadget
-							</span>
-						</Link>
-						<Link class='px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b'>
-							<span class='ml-3 text-sm font-medium truncate'>
-								Foods
-							</span>
-						</Link>
-						<Link class='px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b'>
-							<span class='ml-3 text-sm font-medium truncate'>
-								Home Application
-							</span>
-						</Link>
-						<Link class='px-4 py-2 text-gray-700 hover:bg-stone-100 cursor-pointer block link link-hover border-b'>
-							<span class='ml-3 text-sm font-medium truncate'>
-								Others
-							</span>
-						</Link>
 					</div>
 				</div>
 				<div className='col-span-4'>

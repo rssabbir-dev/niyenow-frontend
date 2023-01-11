@@ -276,12 +276,10 @@ const NewProduct = () => {
 										?.product_category
 								}
 							>
-								<option disabled selected>
-									Uncategory
-								</option>
 								{categories?.map((category) => {
 									return (
 										<option
+											selected={category.slug === 'uncategory'}
 											value={`${category.slug}^^${category.name}`}
 										>
 											{category.name}

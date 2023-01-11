@@ -9,7 +9,7 @@ const Shop = () => {
 	const [products, setProducts] = useState([]);
 	const [productsCount, setProductsCount] = useState(0);
 	const [currentPage, setCurrentPage] = useState(0);
-	const [perPageView, setPerPageView] = useState(12);
+	const [perPageView, setPerPageView] = useState(21);
 	const [isLoading, setIsLoading] = useState(true);
 	const [reloadLoading, setReloadLoading] = useState(false);
 	const pageCount = Math.ceil(productsCount / perPageView) || 0;

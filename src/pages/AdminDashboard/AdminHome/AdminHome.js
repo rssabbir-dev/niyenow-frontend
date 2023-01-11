@@ -35,7 +35,7 @@ const AdminHome = () => {
 	}
 	return (
 		<div>
-			<h2 className='text-xl font-bold mb-3'>Dashboard</h2>
+			<h2 className='text-xl font-bold mb-3'>Dashboard, Hi {user?.displayName}</h2>
 			<div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 mb-20'>
 				<div className='bg-blue-500 text-white p-5 rounded-lg flex gap-10 justify-center items-center'>
 					<div className=''>
@@ -72,7 +72,7 @@ const AdminHome = () => {
 					<div>
 						<h1 className='text-2xl uppercase'>Today Income</h1>
 						<p className='text-xl font-bold'>
-							{dashboardData?.todaySale
+							${dashboardData?.todaySale
 								? dashboardData.todaySale
 								: 0}
 						</p>

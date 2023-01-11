@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const MonthlyReport = ({ report }) => {
     const total = report?.reduce((prev,curr)=>prev + curr.income,0)
@@ -18,9 +18,10 @@ const MonthlyReport = ({ report }) => {
     //     return prev;
     // },{})
     // console.log(result);
+	console.log(report);
     return (
 		<>
-			<div>
+			<div className='bg-white p-3 rounded-md'>
 				<p className='uppercase font-semibold'>
 					Monthly Report -{' '}
 					<Link to='/admin/sales-report' className='text-blue-500'>
@@ -28,27 +29,26 @@ const MonthlyReport = ({ report }) => {
 					</Link>
 				</p>
 				<ResponsiveContainer width='100%' height={400}>
-					<ComposedChart
+					<BarChart
 						data={report}
 						margin={{
-							top: 20,
-							right: 20,
-							bottom: 20,
+							top: 5,
+							right: 30,
 							left: 20,
+							bottom: 5,
 						}}
 					>
-						<CartesianGrid stroke='#f5f5f5' />
-						<XAxis dataKey='date' scale='band' />
+						<CartesianGrid strokeDasharray='3 3' />
+						<XAxis dataKey='date' />
 						<YAxis />
 						<Tooltip />
 						<Legend />
-						<Bar dataKey='income' barSize={20} fill='#3B82F6' />
-						<Line
-							type='monotone'
+						<Bar
 							dataKey='income'
-							stroke='#EC4899'
+							fill='#3B82F6'
+							background={{ fill: '#F1F5F9' }}
 						/>
-					</ComposedChart>
+					</BarChart>
 				</ResponsiveContainer>
 				<p className='uppercase font-semibold italic text-gray-600'>
 					Total Income: ${total}

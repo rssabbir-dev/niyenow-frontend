@@ -9,50 +9,78 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-const items = (
-	<>
-		<div className='px-8'>
-			<div className='h-16 w-full flex items-center'>
-				<Link to='/' className='text-2xl font-bold text-gray-100'>
-					NiyeNow
-				</Link>
-			</div>
-			<ul className='mt-12'>
-				<Link
-					className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'
-					to='/admin'
-				>
+
+const Admin = () => {
+	const [showMenu, setShowMenu] = useState(false);
+	const { user } = useSelector((state) => state.auth);
+	const sidebarHandler = () => {
+		setShowMenu(!showMenu);
+	};
+	console.log(user);
+	const location = useLocation();
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [location.pathname]);
+	const items = (
+		<>
+			<div className='px-8'>
+				<div className='h-16 w-full flex items-center justify-center'>
+					<Link to='/' className='text-2xl font-bold text-gray-100'>
+						NiyeNow
+					</Link>
+				</div>
+				<div className='text-gray-100 text-center'>
+					<div className='avatar'>
+						<div className='w-16 rounded-full'>
+							<img
+								src={`https://avatars.dicebear.com/v2/avataaars/{${user?.displayName}}.svg?style=circle`}
+								alt=''
+							/>
+						</div>
+					</div>
+					<p className='text-lg uppercase'>{user?.displayName}</p>
+				</div>
+				<ul className='mt-12'>
+					<Link
+						className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'
+						to='/admin'
+					>
+						<li>
+							<div className='flex items-center'>
+								<FontAwesomeIcon icon={faCubesStacked} />
+								<span className='text-sm  ml-2'>Dashboard</span>
+							</div>
+						</li>
+					</Link>
 					<li>
-						<div className='flex items-center'>
-							<FontAwesomeIcon icon={faCubesStacked} />
-							<span className='text-sm  ml-2'>Dashboard</span>
-						</div>
+						<Link
+							className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'
+							to='/admin/manage-orders'
+						>
+							<div className='flex items-center'>
+								<FontAwesomeIcon icon={faLayerGroup} />
+								<span className='text-sm  ml-2'>
+									Manage Order
+								</span>
+							</div>
+						</Link>
 					</li>
-				</Link>
-				<li>
-					<Link
-						className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'
-						to='/admin/manage-orders'
-					>
-						<div className='flex items-center'>
-							<FontAwesomeIcon icon={faLayerGroup} />
-							<span className='text-sm  ml-2'>Manage Order</span>
-						</div>
-					</Link>
-				</li>
-				<li>
-					<Link
-						className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'
-						to='/admin/sales-report'
-					>
-						<div className='flex items-center'>
-							<FontAwesomeIcon icon={faMoneyBillTrendUp} />
-							<span className='text-sm  ml-2'>Sales Report</span>
-						</div>
-					</Link>
-				</li>
-				{/* <li className='flex w-full justify-between text-gray-600 hover:text-gray-500 cursor-pointer items-center mb-6'>
+					<li>
+						<Link
+							className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'
+							to='/admin/sales-report'
+						>
+							<div className='flex items-center'>
+								<FontAwesomeIcon icon={faMoneyBillTrendUp} />
+								<span className='text-sm  ml-2'>
+									Sales Report
+								</span>
+							</div>
+						</Link>
+					</li>
+					{/* <li className='flex w-full justify-between text-gray-600 hover:text-gray-500 cursor-pointer items-center mb-6'>
 								<div className='flex items-center'>
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
@@ -76,7 +104,7 @@ const items = (
 									</span>
 								</div>
 							</li> */}
-				{/* <li className='flex w-full justify-between text-gray-600 hover:text-gray-500 cursor-pointer items-center mb-6'>
+					{/* <li className='flex w-full justify-between text-gray-600 hover:text-gray-500 cursor-pointer items-center mb-6'>
 								<div className='flex items-center'>
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
@@ -101,52 +129,56 @@ const items = (
 									25
 								</div>
 							</li> */}
-				<li>
-					<Link
-						className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'
-						to='/admin/products'
-					>
-						<div className='flex items-center'>
-							<FontAwesomeIcon icon={faCubes} />
-							<span className='text-sm  ml-2'>Products</span>
-						</div>
-					</Link>
-				</li>
-				<li>
-					<Link
-						className='flex mb-6 w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center'
-						to='/admin/categories'
-					>
-						<div className='flex items-center'>
-							<FontAwesomeIcon icon={faSitemap} />
-							<span className='text-sm  ml-2'>Categories</span>
-						</div>
-					</Link>
-				</li>
-				<li>
-					<Link
-						className='flex mb-6 w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center'
-						to='/admin/customers'
-					>
-						<div className='flex items-center'>
-							<FontAwesomeIcon icon={faUsers} />
-							<span className='text-sm  ml-2'>Customers</span>
-						</div>
-					</Link>
-				</li>
-				<li>
-					<Link
-						className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'
-						to='/admin/slider-editor'
-					>
-						<div className='flex items-center'>
-							<FontAwesomeIcon icon={faSlidersH} />
-							<span className='text-sm  ml-2'>Slider Editor</span>
-						</div>
-					</Link>
-				</li>
-			</ul>
-			{/* <div className='flex justify-center mt-48 mb-4 w-full'>
+					<li>
+						<Link
+							className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'
+							to='/admin/products'
+						>
+							<div className='flex items-center'>
+								<FontAwesomeIcon icon={faCubes} />
+								<span className='text-sm  ml-2'>Products</span>
+							</div>
+						</Link>
+					</li>
+					<li>
+						<Link
+							className='flex mb-6 w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center'
+							to='/admin/categories'
+						>
+							<div className='flex items-center'>
+								<FontAwesomeIcon icon={faSitemap} />
+								<span className='text-sm  ml-2'>
+									Categories
+								</span>
+							</div>
+						</Link>
+					</li>
+					<li>
+						<Link
+							className='flex mb-6 w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center'
+							to='/admin/customers'
+						>
+							<div className='flex items-center'>
+								<FontAwesomeIcon icon={faUsers} />
+								<span className='text-sm  ml-2'>Customers</span>
+							</div>
+						</Link>
+					</li>
+					<li>
+						<Link
+							className='flex w-full justify-between text-gray-100 hover:text-gray-300 cursor-pointer items-center mb-6'
+							to='/admin/slider-editor'
+						>
+							<div className='flex items-center'>
+								<FontAwesomeIcon icon={faSlidersH} />
+								<span className='text-sm  ml-2'>
+									Slider Editor
+								</span>
+							</div>
+						</Link>
+					</li>
+				</ul>
+				{/* <div className='flex justify-center mt-48 mb-4 w-full'>
 				<div className='relative '>
 					<div className='text-gray-500 absolute ml-4 inset-0 m-auto w-4 h-4'>
 						<svg
@@ -173,96 +205,86 @@ const items = (
 					/>
 				</div>
 			</div> */}
-		</div>
-		<div className='px-8 border-t border-gray-700'>
-			<ul className='w-full flex items-center justify-between bg-gray-800'>
-				<li className='cursor-pointer text-white pt-5 pb-3'>
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						className='icon icon-tabler icon-tabler-bell'
-						width={20}
-						height={20}
-						viewBox='0 0 24 24'
-						strokeWidth='1.5'
-						stroke='currentColor'
-						fill='none'
-						strokeLinecap='round'
-						strokeLinejoin='round'
-					>
-						<path stroke='none' d='M0 0h24v24H0z' />
-						<path d='M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6' />
-						<path d='M9 17v1a3 3 0 0 0 6 0v-1' />
-					</svg>
-				</li>
-				<li className='cursor-pointer text-white pt-5 pb-3'>
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						className='icon icon-tabler icon-tabler-messages'
-						width={20}
-						height={20}
-						viewBox='0 0 24 24'
-						strokeWidth='1.5'
-						stroke='currentColor'
-						fill='none'
-						strokeLinecap='round'
-						strokeLinejoin='round'
-					>
-						<path stroke='none' d='M0 0h24v24H0z' />
-						<path d='M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10' />
-						<path d='M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2' />
-					</svg>
-				</li>
-				<li className='cursor-pointer text-white pt-5 pb-3'>
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						className='icon icon-tabler icon-tabler-settings'
-						width={20}
-						height={20}
-						viewBox='0 0 24 24'
-						strokeWidth='1.5'
-						stroke='currentColor'
-						fill='none'
-						strokeLinecap='round'
-						strokeLinejoin='round'
-					>
-						<path stroke='none' d='M0 0h24v24H0z' />
-						<path d='M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z' />
-						<circle cx={12} cy={12} r={3} />
-					</svg>
-				</li>
-				<li className='cursor-pointer text-white pt-5 pb-3'>
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						className='icon icon-tabler icon-tabler-archive'
-						width={20}
-						height={20}
-						viewBox='0 0 24 24'
-						strokeWidth='1.5'
-						stroke='currentColor'
-						fill='none'
-						strokeLinecap='round'
-						strokeLinejoin='round'
-					>
-						<path stroke='none' d='M0 0h24v24H0z' />
-						<rect x={3} y={4} width={18} height={4} rx={2} />
-						<path d='M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10' />
-						<line x1={10} y1={12} x2={14} y2={12} />
-					</svg>
-				</li>
-			</ul>
-		</div>
-	</>
-);
-
-const Admin = () => {
-	const [showMenu, setShowMenu] = useState(false);
-	const sidebarHandler = () => {
-		setShowMenu(!showMenu);
-	};
-	const location = useLocation();
-	useEffect(() => {
-		window.scrollTo(0, 0);
-	}, [location.pathname]);
+			</div>
+			<div className='px-8 border-t border-gray-700'>
+				<ul className='w-full flex items-center justify-between bg-gray-800'>
+					<li className='cursor-pointer text-white pt-5 pb-3'>
+						<svg
+							xmlns='http://www.w3.org/2000/svg'
+							className='icon icon-tabler icon-tabler-bell'
+							width={20}
+							height={20}
+							viewBox='0 0 24 24'
+							strokeWidth='1.5'
+							stroke='currentColor'
+							fill='none'
+							strokeLinecap='round'
+							strokeLinejoin='round'
+						>
+							<path stroke='none' d='M0 0h24v24H0z' />
+							<path d='M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6' />
+							<path d='M9 17v1a3 3 0 0 0 6 0v-1' />
+						</svg>
+					</li>
+					<li className='cursor-pointer text-white pt-5 pb-3'>
+						<svg
+							xmlns='http://www.w3.org/2000/svg'
+							className='icon icon-tabler icon-tabler-messages'
+							width={20}
+							height={20}
+							viewBox='0 0 24 24'
+							strokeWidth='1.5'
+							stroke='currentColor'
+							fill='none'
+							strokeLinecap='round'
+							strokeLinejoin='round'
+						>
+							<path stroke='none' d='M0 0h24v24H0z' />
+							<path d='M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10' />
+							<path d='M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2' />
+						</svg>
+					</li>
+					<li className='cursor-pointer text-white pt-5 pb-3'>
+						<svg
+							xmlns='http://www.w3.org/2000/svg'
+							className='icon icon-tabler icon-tabler-settings'
+							width={20}
+							height={20}
+							viewBox='0 0 24 24'
+							strokeWidth='1.5'
+							stroke='currentColor'
+							fill='none'
+							strokeLinecap='round'
+							strokeLinejoin='round'
+						>
+							<path stroke='none' d='M0 0h24v24H0z' />
+							<path d='M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z' />
+							<circle cx={12} cy={12} r={3} />
+						</svg>
+					</li>
+					<li className='cursor-pointer text-white pt-5 pb-3'>
+						<svg
+							xmlns='http://www.w3.org/2000/svg'
+							className='icon icon-tabler icon-tabler-archive'
+							width={20}
+							height={20}
+							viewBox='0 0 24 24'
+							strokeWidth='1.5'
+							stroke='currentColor'
+							fill='none'
+							strokeLinecap='round'
+							strokeLinejoin='round'
+						>
+							<path stroke='none' d='M0 0h24v24H0z' />
+							<rect x={3} y={4} width={18} height={4} rx={2} />
+							<path d='M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10' />
+							<line x1={10} y1={12} x2={14} y2={12} />
+						</svg>
+					</li>
+				</ul>
+			</div>
+		</>
+	);
 	return (
 		<>
 			<div className='flex flex-no-wrap relative'>
